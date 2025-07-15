@@ -1,0 +1,14 @@
+.fade-in-section {
+  opacity: 0;
+  transform: translateX(-60px);
+  transition: opacity 0.5s ease-out,
+              transform 2s cubic-bezier(0.22, 1, 0.36, 1); /* nice spring‑out */
+  will-change: opacity, transform;
+}
+.fade-in-section.is-visible {
+ opacity: 1;
+  transform: translateX(0); 
+}
+
+
+
