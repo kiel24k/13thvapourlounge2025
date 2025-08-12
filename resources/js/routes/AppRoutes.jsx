@@ -10,6 +10,7 @@ import Checkout from "../pages/user/Checkout";
 import AdminLayout from "../layouts/AdminLayout";
 import Index from "../pages/admin/Index";
 import ContentManagement from "../pages/admin/ContentManagement";
+import Testing from "../pages/user/testing";
 
 const routes = createBrowserRouter([
     {
@@ -44,6 +45,10 @@ const routes = createBrowserRouter([
                 path: "checkout",
                 element: <Checkout />,
             },
+            {
+                path: "testing",
+                element: <Testing />,
+            },
         ],
     },
     {
@@ -51,7 +56,7 @@ const routes = createBrowserRouter([
         children: [
             {
                 element: <Index />,
-                path: "admin-dashboard"
+                path: "admin-dashboard",
             },
             {
                 element: <ContentManagement />,
