@@ -1,1 +1,4 @@
-create homepage =>
+AUGUST 26 , 2025
+Display the user using table => DONE
+AUGUST 27, 2025
+MULTIPLE SELECT FOR DELETE => DONE

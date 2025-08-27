@@ -111,12 +111,11 @@ const NAVIGATION = [
     },
 
     {
-        segment: "integrations",
         title: "Users",
         icon: <GroupIcon />,
         children: [
             {
-                segment: "traffic",
+                segment: "admin-list",
                 title: "Admin",
                 icon: <AdminPanelSettingsIcon />,
             },
