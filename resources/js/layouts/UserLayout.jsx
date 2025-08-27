@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Link, NavLink, Outlet } from "react-router-dom";
 import SearchIcon from "@mui/icons-material/Search";
 import PersonIcon from "@mui/icons-material/Person";
@@ -18,6 +18,7 @@ import UserSidebar from "../components/UserSidebar";
 import DropdownMenu from "../components/DropdownMenu";
 import CartBox from "../components/CartBox";
 
+
 const RootLayout = () => {
     const [isSidebarOpen, setIsSidebarOpen] = useState(false);
     const [isCartBox, setIsCartBox] = useState(false);
@@ -33,6 +34,8 @@ const RootLayout = () => {
             setIsCartBox(false);
         }
     };
+
+   
 
     return (
         <>
@@ -158,7 +161,7 @@ const RootLayout = () => {
                                 <PersonIcon fontSize="medium" />
                             </NavLink>
                         </span>
-                       <span
+                        <span
                             className="cursor-pointer"
                             onClick={handleCartBox}
                         >

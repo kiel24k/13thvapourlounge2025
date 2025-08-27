@@ -11,10 +11,17 @@ import AdminLayout from "../layouts/AdminLayout";
 import Index from "../pages/admin/Index";
 import ContentManagement from "../pages/admin/ContentManagement";
 import Testing from "../pages/user/testing";
+import ProtectedRoutes from "./ProtectedRoutes";
+import GuestRoutes from "./GuestRoutes";
+import AdminList from "../pages/admin/AdminList";
 
 const routes = createBrowserRouter([
     {
-        element: <UserLayout />,
+        element: (
+            <GuestRoutes>
+                <UserLayout />
+            </GuestRoutes>
+        ),
         path: "/",
         children: [
             {
@@ -23,7 +30,11 @@ const routes = createBrowserRouter([
             },
             {
                 path: "login",
-                element: <Login />,
+                element: (
+                    <GuestRoutes>
+                        <Login />
+                    </GuestRoutes>
+                ),
             },
             {
                 path: "signup",
@@ -39,11 +50,19 @@ const routes = createBrowserRouter([
             },
             {
                 path: "shopping-cart",
-                element: <ShoppingCart />,
+                element: (
+                    <ProtectedRoutes allowedRoles={["customer"]}>
+                        <ShoppingCart />
+                    </ProtectedRoutes>
+                ),
             },
             {
                 path: "checkout",
-                element: <Checkout />,
+                element: (
+                    <ProtectedRoutes allowedRoles={["customer"]}>
+                        <Checkout />
+                    </ProtectedRoutes>
+                ),
             },
             {
                 path: "testing",
@@ -55,12 +74,28 @@ const routes = createBrowserRouter([
         element: <AdminLayout />,
         children: [
             {
-                element: <Index />,
                 path: "admin-dashboard",
+                element: (
+                    <ProtectedRoutes allowedRoles={["admin"]}>
+                        <Index />
+                    </ProtectedRoutes>
+                ),
             },
             {
-                element: <ContentManagement />,
                 path: "content-management",
+                element: (
+                    <ProtectedRoutes allowedRoles={["admin"]}>
+                        <ContentManagement />
+                    </ProtectedRoutes>
+                ),
+            },
+            {
+                path: "admin-list",
+                element: (
+                    <ProtectedRoutes allowedRoles={["admin"]}>
+                       <AdminList/>
+                    </ProtectedRoutes>
+                ),
             },
         ],
     },

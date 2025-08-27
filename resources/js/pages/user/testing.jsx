@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useFetchUsers, useUserSignup } from "../../hooks/useUsers";
+import {  useUserSignup } from "../../hooks/useUsers";
 
 const testing = () => {
     const { data, isLoading, isError } = useFetchUsers();
