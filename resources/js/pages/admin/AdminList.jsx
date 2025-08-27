@@ -19,6 +19,7 @@ import { AiOutlineSortAscending } from "react-icons/ai";
 import PersonAddOutlinedIcon from "@mui/icons-material/PersonAddOutlined";
 import NavigateBeforeOutlinedIcon from "@mui/icons-material/NavigateBeforeOutlined";
 import NavigateNextOutlinedIcon from "@mui/icons-material/NavigateNextOutlined";
+import DeleteDialog from "../../components/Overlays/DeleteDialog";
 
 const AdminList = () => {
     const [page, setPage] = useState(1);
@@ -89,6 +90,7 @@ const AdminList = () => {
 
     return (
         <section>
+        
             <div className="p-2 overflow-x-auto grid gap-2">
                 <div className="flex gap-2 items-center">
                     <span className="font-semibold text-2xl">Admin List</span>
@@ -211,11 +213,7 @@ const AdminList = () => {
                                                     <ModeEditOutlineOutlinedIcon className="text-gray-500" />
                                                 </IconButton>
                                             </Tooltip>
-                                            <Tooltip title="Delete" arrow>
-                                                <IconButton>
-                                                    <DeleteOutlineOutlinedIcon className="text-gray-500" />
-                                                </IconButton>
-                                            </Tooltip>
+                                            <DeleteDialog title={"admin"}/>
                                         </div>
                                     </td>
                                 </tr>
