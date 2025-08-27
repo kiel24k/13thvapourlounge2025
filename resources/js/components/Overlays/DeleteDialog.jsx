@@ -8,7 +8,7 @@ import DialogTitle from "@mui/material/DialogTitle";
 import { IconButton, Tooltip } from "@mui/material";
 import DeleteOutlineOutlinedIcon from "@mui/icons-material/DeleteOutlineOutlined";
 
-export default function DeleteDialog({title}) {
+export default function DeleteDialog({title, children}) {
     const [open, setOpen] = React.useState(false);
 
     const handleClickOpen = () => {
@@ -23,7 +23,7 @@ export default function DeleteDialog({title}) {
         <React.Fragment>
             <Tooltip title="Delete" arrow>
                 <IconButton variant="outlined" onClick={handleClickOpen}>
-                    <DeleteOutlineOutlinedIcon className="text-gray-500" />
+                   {children}
                 </IconButton>
             </Tooltip>
             <Dialog
@@ -41,8 +41,8 @@ export default function DeleteDialog({title}) {
                     </DialogContentText>
                 </DialogContent>
                 <DialogActions>
-                    <Button onClick={handleClose} variant="contained" color="info">Cancel</Button>
-                    <Button onClick={handleClose} variant="contained" color="error">
+                    <Button onClick={handleClose} variant="text" color="info">Cancel</Button>
+                    <Button onClick={handleClose} variant="text" color="error">
                         Confirm
                     </Button>
                 </DialogActions>

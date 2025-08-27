@@ -20,6 +20,11 @@ import PersonAddOutlinedIcon from "@mui/icons-material/PersonAddOutlined";
 import NavigateBeforeOutlinedIcon from "@mui/icons-material/NavigateBeforeOutlined";
 import NavigateNextOutlinedIcon from "@mui/icons-material/NavigateNextOutlined";
 import DeleteDialog from "../../components/Overlays/DeleteDialog";
+import ViewModal from "../../components/Overlays/ViewModal";
+import EmailOutlinedIcon from "@mui/icons-material/EmailOutlined";
+import CallOutlinedIcon from "@mui/icons-material/CallOutlined";
+import CelebrationOutlinedIcon from "@mui/icons-material/CelebrationOutlined";
+import QuestionMarkOutlinedIcon from "@mui/icons-material/QuestionMarkOutlined";
 
 const AdminList = () => {
     const [page, setPage] = useState(1);
@@ -73,7 +78,7 @@ const AdminList = () => {
         let checkBoxes;
         if (allCheckBox === true) {
             setAllCheckbox(false);
-            checkBoxes = []
+            checkBoxes = [];
         } else {
             setAllCheckbox(true);
             checkBoxes = data.data.map((el) => el.id);
@@ -90,7 +95,6 @@ const AdminList = () => {
 
     return (
         <section>
-        
             <div className="p-2 overflow-x-auto grid gap-2">
                 <div className="flex gap-2 items-center">
                     <span className="font-semibold text-2xl">Admin List</span>
@@ -118,7 +122,15 @@ const AdminList = () => {
                     >
                         New admin
                     </Button>
-                    {checkBox.length > 0 && <Button endIcon={<DeleteOutlineOutlinedIcon/>} variant="contained" color="error">Delete selected</Button>}
+                    {checkBox.length > 0 && (
+                        <Button
+                            endIcon={<DeleteOutlineOutlinedIcon />}
+                            variant="contained"
+                            color="error"
+                        >
+                            Delete selected
+                        </Button>
+                    )}
                 </div>
                 {data.total <= 0 ? (
                     <h1 className="text-center font-semibold text-2xl">
@@ -205,15 +217,32 @@ const AdminList = () => {
                                         <div className="flex">
                                             <Tooltip title="View" arrow>
                                                 <IconButton>
-                                                    <VisibilityOutlinedIcon className="text-gray-500" />
-                                                </IconButton>
-                                            </Tooltip>
-                                            <Tooltip title="Edit" arrow>
-                                                <IconButton>
                                                     <ModeEditOutlineOutlinedIcon className="text-gray-500" />
                                                 </IconButton>
                                             </Tooltip>
-                                            <DeleteDialog title={"admin"}/>
+                                            <ViewModal data={users}>
+                                                <ul className="grid gap-3">
+                                                    <li className="flex gap-2">
+                                                        <EmailOutlinedIcon />
+                                                        {users.email}
+                                                    </li>
+                                                    <li className="flex gap-2">
+                                                        <CallOutlinedIcon />
+                                                        {users.phone_number}
+                                                    </li>
+                                                    <li className="flex gap-2">
+                                                        <CelebrationOutlinedIcon />
+                                                        {users.date_of_birth}
+                                                    </li>
+                                                    <li className="flex gap-2">
+                                                        <QuestionMarkOutlinedIcon />
+                                                        {users.role}
+                                                    </li>
+                                                </ul>
+                                            </ViewModal>
+                                            <DeleteDialog title={"admin"}>
+                                                <DeleteOutlineOutlinedIcon className="text-gray-500" />
+                                            </DeleteDialog>
                                         </div>
                                     </td>
                                 </tr>
