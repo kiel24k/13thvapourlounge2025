@@ -1,9 +1,21 @@
-import { useQuery, useMutation, useQueryClient, keepPreviousData } from "@tanstack/react-query";
-import { userSignup, userLogin, getAdminList } from "../api/users.api";
+import {
+    useQuery,
+    useMutation,
+    useQueryClient,
+    keepPreviousData,
+    QueryClient,
+} from "@tanstack/react-query";
+import {
+    userSignup,
+    userLogin,
+    getUsersList,
+    deleteUser,
+} from "../api/users.api";
 import { useNavigate } from "react-router-dom";
+import SuccessAlert from "../components/Alerts/SuccessAlert";
+import Swal from "sweetalert2";
 
 export const useUserSignup = () => {
-    const queryClient = useQueryClient();
     const navigate = useNavigate();
     return useMutation({
         mutationFn: userSignup,
@@ -28,10 +40,35 @@ export const useUserLogin = () => {
     });
 };
 
-export const useGetAdminList = (page, sortOrder, sortName, search) => {
+export const useGetUsersList = (page, sortOrder, sortName, search) => {
     return useQuery({
-        queryFn: () => getAdminList(page,sortOrder, sortName, search),
-        queryKey: ["fetchAdminList", page,sortOrder, sortName, search],
-        placeholderData: keepPreviousData
+        queryFn: () => getUsersList(page, sortOrder, sortName, search),
+        queryKey: ["fetchUsersList", page, sortOrder, sortName, search],
+        placeholderData: keepPreviousData,
+    });
+};
+
+export const useDeleteUser = () => {
+    const queryClient = useQueryClient();
+    return useMutation({
+        mutationFn: deleteUser,
+        onSuccess: () => {
+            queryClient.invalidateQueries(["fetchUsersList"]);
+            const Toast = Swal.mixin({
+                toast: true,
+                position: "top-end",
+                showConfirmButton: false,
+                timer: 5000,
+                timerProgressBar: true,
+                didOpen: (toast) => {
+                    toast.onmouseenter = Swal.stopTimer;
+                    toast.onmouseleave = Swal.resumeTimer;
+                },
+            });
+            Toast.fire({
+                icon: "success",
+                title: "Delete successfully",
+            });
+        },
     });
 };

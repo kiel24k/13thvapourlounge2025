@@ -26,14 +26,21 @@ export const userLogin = async (userData) => {
     }
 };
 
-export const getAdminList = async (page, sortOrder, sortName, search) => {
-    const response = await axios.get(`/api/admin-list?page=${page}`, {
+export const getUsersList = async (page, sortOrder, sortName, search) => {
+    const response = await axios.get(`/api/users-list?page=${page}`, {
         headers: { "content-type": "application/json" },
         params: {
             sortOrder: sortOrder,
             sortName: sortName,
             search: search,
         },
+    });
+    return response.data;
+};
+
+export const deleteUser = async (id) => {
+    const response = await axios.delete(`/api/delete-user/${id}`, {
+        headers: { "content-type": "application/json" },
     });
     return response.data;
 };

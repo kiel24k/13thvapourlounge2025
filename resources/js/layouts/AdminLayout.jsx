@@ -25,6 +25,14 @@ import CreditCardIcon from "@mui/icons-material/CreditCard";
 import Badge from "@mui/material/Badge";
 import ErrorOutlineOutlinedIcon from "@mui/icons-material/ErrorOutlineOutlined";
 import Tooltip from "@mui/material/Tooltip";
+import { createTheme } from "@mui/material";
+
+const theme = createTheme({
+    zIndex: {
+        appBar: 900, // navbar above drawer
+        drawer: 900,
+    },
+});
 
 const NAVIGATION = [
     {
@@ -165,16 +173,20 @@ function AdminLayout(props) {
 
     return (
         <>
-            <div className="absolute top-4 right-16 z-[9999] cursor-pointer">
+            <div className="absolute top-4 right-16 z-[901] cursor-pointer">
                 <h1 className="text-black text-xl">
                     <Tooltip title="Low stocks" arrow>
-                        <Badge badgeContent={10} color="error" max={99} >
-                            <ErrorOutlineOutlinedIcon fontSize="medium" color="primary" />
+                        <Badge badgeContent={10} color="error" max={99}>
+                            <ErrorOutlineOutlinedIcon
+                                fontSize="medium"
+                                color="primary"
+                            />
                         </Badge>
                     </Tooltip>
                 </h1>
             </div>
             <AppProvider
+                theme={theme}
                 navigation={NAVIGATION}
                 router={router}
                 branding={{

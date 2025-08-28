@@ -33,6 +33,8 @@
         "react-intersection-observer": "^9.16.0",
         "react-router-dom": "^7.6.3",
         "react-slick": "^0.30.3",
-        "slick-carousel": "^1.8.1"
+        "slick-carousel": "^1.8.1",
+        "sweetalert": "^2.1.2",
+        "sweetalert2": "^11.22.5"
     }
 }

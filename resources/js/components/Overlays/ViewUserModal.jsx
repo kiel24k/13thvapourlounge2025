@@ -19,7 +19,7 @@ const style = {
     p: 4,
 };
 
-export default function ViewModal({ children, data }) {
+export default function ViewUserModal({ children, data }) {
     const [open, setOpen] = React.useState(false);
     const handleOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);

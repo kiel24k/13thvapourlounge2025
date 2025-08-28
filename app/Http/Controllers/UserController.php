@@ -5,14 +5,9 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use Illuminate\Http\Request;
 
-class AdminController extends Controller
+class UserController extends Controller
 {
-    public function test(): void
-    {
-        echo "dssd";
-    }
-
-    public function adminList(Request $request)
+    public function UsersList(Request $request)
     {
         $sortOrder = $request->query('sortOrder', 'ASC');
         $sortName = $request->query('sortName', 'id');
@@ -54,12 +49,13 @@ class AdminController extends Controller
         }
     }
 
-    public function deleteUser ($id) {
-        $user = User::findOrFail($id)->delete();
+    public function deleteUser (Request $request) {
+          $user = User::findOrFail($request->id)->delete();
         return response()->json([
             'deleted' => $user,
             'message' => "Delete user successfully",
             'status' => 200,
         ]);
+
     }
 }

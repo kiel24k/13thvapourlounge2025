@@ -11,7 +11,7 @@ import {
     Tooltip,
 } from "@mui/material";
 import VisibilityOutlinedIcon from "@mui/icons-material/VisibilityOutlined";
-import { useGetAdminList } from "../../hooks/useUsers";
+import { useDeleteUser, useGetUsersList } from "../../hooks/useUsers";
 import ModeEditOutlineOutlinedIcon from "@mui/icons-material/ModeEditOutlineOutlined";
 import DeleteOutlineOutlinedIcon from "@mui/icons-material/DeleteOutlineOutlined";
 import SearchOutlinedIcon from "@mui/icons-material/SearchOutlined";
@@ -19,13 +19,14 @@ import { AiOutlineSortAscending } from "react-icons/ai";
 import PersonAddOutlinedIcon from "@mui/icons-material/PersonAddOutlined";
 import NavigateBeforeOutlinedIcon from "@mui/icons-material/NavigateBeforeOutlined";
 import NavigateNextOutlinedIcon from "@mui/icons-material/NavigateNextOutlined";
-import DeleteDialog from "../../components/Overlays/DeleteDialog";
-import ViewModal from "../../components/Overlays/ViewModal";
+import DeleteUserDialog from "../../components/Overlays/DeleteUserDialog";
+import ViewUserModal from "../../components/Overlays/ViewUserModal";
 import EmailOutlinedIcon from "@mui/icons-material/EmailOutlined";
 import CallOutlinedIcon from "@mui/icons-material/CallOutlined";
 import CelebrationOutlinedIcon from "@mui/icons-material/CelebrationOutlined";
 import QuestionMarkOutlinedIcon from "@mui/icons-material/QuestionMarkOutlined";
 import { Link } from "react-router-dom";
+import SuccessAlert from "../../components/Alerts/SuccessAlert";
 
 const AdminList = () => {
     const [page, setPage] = useState(1);
@@ -35,7 +36,8 @@ const AdminList = () => {
     const [checkBox, setCheckBox] = useState([]);
     const [allCheckBox, setAllCheckbox] = useState(false);
 
-    const { data, isPending, isError, isFetching } = useGetAdminList(
+
+    const { data, isPending, isError, isFetching } = useGetUsersList(
         page,
         sortOrder,
         sortName,
@@ -96,6 +98,7 @@ const AdminList = () => {
 
     return (
         <section>
+
             <div className="p-2 overflow-x-auto grid gap-2">
                 <div className="flex gap-2 items-center">
                     <span className="font-semibold text-2xl">Admin List</span>
@@ -223,7 +226,7 @@ const AdminList = () => {
                                                     </IconButton>
                                                 </Link>
                                             </Tooltip>
-                                            <ViewModal data={users}>
+                                            <ViewUserModal data={users}>
                                                 <ul className="grid gap-3">
                                                     <li className="flex gap-2">
                                                         <EmailOutlinedIcon />
@@ -242,10 +245,10 @@ const AdminList = () => {
                                                         {users.role}
                                                     </li>
                                                 </ul>
-                                            </ViewModal>
-                                            <DeleteDialog title={"admin"}>
+                                            </ViewUserModal>
+                                            <DeleteUserDialog title={"admin"} id={users.id}>
                                                 <DeleteOutlineOutlinedIcon className="text-gray-500" />
-                                            </DeleteDialog>
+                                            </DeleteUserDialog>
                                         </div>
                                     </td>
                                 </tr>

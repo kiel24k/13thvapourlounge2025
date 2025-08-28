@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\UserController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -14,6 +15,9 @@ route::controller(AuthController::class)->group(function () {
   route::post('user-login', 'UserLogin');
 });
 
-route::controller(AdminController::class)->group(function () {
-  route::get('admin-list', 'adminList');
+route::controller(UserController::class)->group(function () {
+  route::get('users-list', 'usersList');
+  route::delete('delete-user/{id}', 'deleteUser');
 });
+
+
