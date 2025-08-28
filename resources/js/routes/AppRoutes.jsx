@@ -15,6 +15,7 @@ import ProtectedRoutes from "./ProtectedRoutes";
 import GuestRoutes from "./GuestRoutes";
 import AdminList from "../pages/admin/AdminList";
 import EditUser from "../pages/admin/EditUser";
+import CreateAdmin from "../pages/admin/CreateAdmin";
 
 const routes = createBrowserRouter([
     {
@@ -103,6 +104,14 @@ const routes = createBrowserRouter([
                 element: (
                     <ProtectedRoutes allowedRoles={["admin"]}>
                         <EditUser />
+                    </ProtectedRoutes>
+                ),
+            },
+              {
+                path: "admin-create-admin",
+                element: (
+                    <ProtectedRoutes allowedRoles={["admin"]}>
+                        <CreateAdmin />
                     </ProtectedRoutes>
                 ),
             },

@@ -119,6 +119,7 @@ const AdminList = () => {
                             onChange={(e) => setSearch(e.target.value)}
                         />
                     </FormControl>
+                   <Link to={"/admin-create-admin"}>
                     <Button
                         variant="contained"
                         endIcon={<PersonAddOutlinedIcon />}
@@ -126,6 +127,7 @@ const AdminList = () => {
                     >
                         New admin
                     </Button>
+                   </Link>
                     {checkBox.length > 0 && (
                         <Button
                             endIcon={<DeleteOutlineOutlinedIcon />}

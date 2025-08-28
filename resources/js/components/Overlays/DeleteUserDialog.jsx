@@ -12,7 +12,7 @@ import SuccessAlert from "../Alerts/SuccessAlert";
 
 export default function DeleteUserDialog({ title, id, children }) {
     const [open, setOpen] = React.useState(false);
-    const { mutate, isPending, isSuccess } = useDeleteUser();
+    const { mutate, isPending, isSuccess, isError } = useDeleteUser();
 
     const handleClickOpen = () => {
         setOpen(true);
@@ -25,7 +25,8 @@ export default function DeleteUserDialog({ title, id, children }) {
     const handleConfirm = () => {
         mutate(id)
         if(isSuccess){
-            alert("dsdfsfsda")
+           console.log("fsdfasdf");
+           
         }
     };
 
