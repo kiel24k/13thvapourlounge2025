@@ -25,6 +25,7 @@ import EmailOutlinedIcon from "@mui/icons-material/EmailOutlined";
 import CallOutlinedIcon from "@mui/icons-material/CallOutlined";
 import CelebrationOutlinedIcon from "@mui/icons-material/CelebrationOutlined";
 import QuestionMarkOutlinedIcon from "@mui/icons-material/QuestionMarkOutlined";
+import { Link } from "react-router-dom";
 
 const AdminList = () => {
     const [page, setPage] = useState(1);
@@ -216,9 +217,11 @@ const AdminList = () => {
                                     <td>
                                         <div className="flex">
                                             <Tooltip title="View" arrow>
-                                                <IconButton>
-                                                    <ModeEditOutlineOutlinedIcon className="text-gray-500" />
-                                                </IconButton>
+                                                <Link to={`/admin-edit-user/${users.id}`}>
+                                                    <IconButton>
+                                                        <ModeEditOutlineOutlinedIcon className="text-gray-500" />
+                                                    </IconButton>
+                                                </Link>
                                             </Tooltip>
                                             <ViewModal data={users}>
                                                 <ul className="grid gap-3">
