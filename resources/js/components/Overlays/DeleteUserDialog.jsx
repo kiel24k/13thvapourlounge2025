@@ -7,9 +7,12 @@ import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
 import { IconButton, Tooltip } from "@mui/material";
 import DeleteOutlineOutlinedIcon from "@mui/icons-material/DeleteOutlineOutlined";
+import { useDeleteUser } from "../../hooks/useUsers";
+import SuccessAlert from "../Alerts/SuccessAlert";
 
-export default function DeleteDialog({title, children}) {
+export default function DeleteUserDialog({ title, id, children }) {
     const [open, setOpen] = React.useState(false);
+    const { mutate, isPending, isSuccess } = useDeleteUser();
 
     const handleClickOpen = () => {
         setOpen(true);
@@ -19,11 +22,18 @@ export default function DeleteDialog({title, children}) {
         setOpen(false);
     };
 
+    const handleConfirm = () => {
+        mutate(id)
+        if(isSuccess){
+            alert("dsdfsfsda")
+        }
+    };
+
     return (
         <React.Fragment>
             <Tooltip title="Delete" arrow>
                 <IconButton variant="outlined" onClick={handleClickOpen}>
-                   {children}
+                    {children}
                 </IconButton>
             </Tooltip>
             <Dialog
@@ -37,12 +47,19 @@ export default function DeleteDialog({title, children}) {
                 </DialogTitle>
                 <DialogContent>
                     <DialogContentText id="alert-dialog-description">
-                       Deleting this {title} is permanent and cannot be undone. Please confirm if you want to proceed.
+                        Deleting this {title} is permanent and cannot be undone.
+                        Please confirm if you want to proceed.
                     </DialogContentText>
                 </DialogContent>
                 <DialogActions>
-                    <Button onClick={handleClose} variant="text" color="info">Cancel</Button>
-                    <Button onClick={handleClose} variant="text" color="error">
+                    <Button onClick={handleClose} variant="text" color="info">
+                        Cancel
+                    </Button>
+                    <Button
+                        onClick={handleConfirm}
+                        variant="text"
+                        color="error"
+                    >
                         Confirm
                     </Button>
                 </DialogActions>
