@@ -15,9 +15,10 @@ return new class extends Migration
             $table->id();
             $table->string('first_name');
             $table->string('last_name');
-            $table->string('phone_number');
-            $table->date('date_of_birth');
+            $table->string('contact_number');
+            $table->date('date_of_birth')->nullable();
             $table->string('email')->unique();
+            $table->string('image')->nullable();
             $table->enum('role', ['admin','sub_admin', 'customer'])->nullable();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');

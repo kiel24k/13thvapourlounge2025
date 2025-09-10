@@ -15,7 +15,7 @@ class UserController extends Controller
             $data = User::select(
                 'first_name',
                 'last_name',
-                'phone_number',
+                'contact_number',
                 'date_of_birth',
                 'email',
                 'role'
@@ -24,7 +24,7 @@ class UserController extends Controller
                 ->where(function ($query) use ($request) {
                     $query->where('first_name',  'LIKE', '%' . $request->search . '%')
                         ->orWhere('last_name',  'LIKE', '%' . $request->search . '%')
-                        ->orWhere('phone_number',  'LIKE', '%' . $request->search . '%')
+                        ->orWhere('contact_number',  'LIKE', '%' . $request->search . '%')
                         ->orWhere('email',  'LIKE', '%' . $request->search . '%')
                         ->orWhere('role',  'LIKE', '%' . $request->search . '%');
                 })
@@ -37,7 +37,7 @@ class UserController extends Controller
                 'id',
                 'first_name',
                 'last_name',
-                'phone_number',
+                'contact_number',
                 'date_of_birth',
                 'email',
                 'role'

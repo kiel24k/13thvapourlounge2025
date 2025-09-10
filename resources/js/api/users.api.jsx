@@ -1,7 +1,25 @@
+import axios from "axios";
+
+export const getUser = async () => {
+    try {
+        const token = JSON.parse(window.localStorage.getItem("tkn"));
+        const response = await axios.get("/api/user", {
+            withCredentials: true,
+            headers: {
+                Authorization: `Bearer ${token}`,
+            },
+        });
+        return response.data;
+    } catch (err) {
+        console.log(err);
+        return null;
+    }
+};
+
 export const userSignup = async (userData) => {
     try {
         const response = await axios.post("api/user-signup", userData, {
-            headers: { "content-type": "application/json" },
+            headers: { "Content-Type": "multipart/form-data" },
         });
         return response.data;
     } catch (error) {
@@ -17,6 +35,7 @@ export const userLogin = async (userData) => {
         const response = await axios.post("/api/user-login", userData, {
             headers: { "content-type": "application/json" },
         });
+        console.log(response.data);
         return response.data;
     } catch (error) {
         if (error.response) {

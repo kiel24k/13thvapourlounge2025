@@ -21,9 +21,9 @@ const Signup = () => {
         first_name: "",
         last_name: "",
         email: "",
-        phone_number: "",
+        contact_number: "",
         date_of_birth: "",
-        role: "admin",
+        role: "customer",
         password: "",
         password_confirmation: "",
     });
@@ -45,7 +45,7 @@ const Signup = () => {
     const handleSubmit = (e) => {
         e.preventDefault();
         mutate(formData);
-        console.log(formData);
+      
     };
 
     useEffect(() => {
@@ -53,7 +53,7 @@ const Signup = () => {
             first_name: "",
             last_name: "",
             email: "",
-            phone_number: "",
+            contact_number: "",
             date_of_birth: "",
             role: "admin",
             password: "",
@@ -113,9 +113,9 @@ const Signup = () => {
                                     />
                                 </InputWithIcon>
 
-                                {error?.errors?.phone_number?.[0] && (
+                                {error?.errors?.contact_number?.[0] && (
                                     <span className="text-red-500">
-                                        {error.errors.phone_number[0]}
+                                        {error.errors.contact_number[0]}
                                     </span>
                                 )}
                                 <InputWithIcon>
@@ -123,11 +123,11 @@ const Signup = () => {
                                     <TextField
                                         id="input-with-sx"
                                         type="number"
-                                        label="Phone Number"
+                                        label="Contact Number"
                                         variant="standard"
-                                        name="phone_number"
+                                        name="contact_number"
                                         sx={{ width: "100%" }}
-                                        value={formData.phone_number}
+                                        value={formData.contact_number}
                                         onChange={handleChange}
                                     />
                                 </InputWithIcon>
