@@ -163,10 +163,10 @@ const AdminList = () => {
                                 </th>
                                 <th
                                     className="text-sm p-1 text-left font-semibold text-gray-700"
-                                    onClick={() => sort("phone_number")}
+                                    onClick={() => sort("contact_number")}
                                 >
                                     <div className="flex justify-between items-center">
-                                        <span>Phone number</span>
+                                        <span>Contact number</span>
                                         <AiOutlineSortAscending />
                                     </div>
                                 </th>
@@ -211,7 +211,7 @@ const AdminList = () => {
                                         </span>
                                     </td>
                                     <td className="text-sm p-2 text-left text-gray-800">
-                                        <span>{users.phone_number}</span>
+                                        <span>{users.contact_number}</span>
                                     </td>
                                     <td className="text-sm p-2 text-left text-gray-800">
                                         <span>{users.email}</span>
@@ -236,7 +236,7 @@ const AdminList = () => {
                                                     </li>
                                                     <li className="flex gap-2">
                                                         <CallOutlinedIcon />
-                                                        {users.phone_number}
+                                                        {users.contact_number}
                                                     </li>
                                                     <li className="flex gap-2">
                                                         <CelebrationOutlinedIcon />
