@@ -12,12 +12,14 @@ Route::get('/user', function (Request $request) {
 
 route::controller(AuthController::class)->group(function () {
   route::post('user-signup', 'UserSignup');
-  route::post('user-login', 'UserLogin');
+  route::post('/user-login', 'UserLogin');
 });
 
 route::controller(UserController::class)->group(function () {
   route::get('users-list', 'usersList');
   route::delete('delete-user/{id}', 'deleteUser');
+  route::get('get-user/{id}', 'getUser');
+  route::post('update-user/{id}', 'updateUser');
 });
 
 

@@ -12,12 +12,12 @@ import {
 } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import ArrowBackOutlinedIcon from "@mui/icons-material/ArrowBackOutlined";
-import { useGetUser, useUserSignup } from "../../hooks/useUsers";
+import { useGetAuthUser, useUserSignup } from "../../hooks/useUsers";
 
 const CreateAdmin = () => {
     const { mutate, error, isSuccess, isError } = useUserSignup();
 
-    const {data} = useGetUser()
+    const { data } = useGetAuthUser();
 
     const [formData, setFormData] = useState({
         first_name: "",
@@ -40,7 +40,6 @@ const CreateAdmin = () => {
             }));
         }
     };
-    
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -63,13 +62,15 @@ const CreateAdmin = () => {
                 });
             },
         });
-   
-        
     };
 
     useEffect(() => {
         console.log(data);
-    }, [data])
+    }, [data]);
+
+   
+
+  
 
     return (
         <Paper elevation={5} className="m-2 p-2">
@@ -82,7 +83,6 @@ const CreateAdmin = () => {
                         color="info"
                         size="small"
                     >
-                        {JSON.stringify(data)}
                         Back
                     </Button>
                 </div>

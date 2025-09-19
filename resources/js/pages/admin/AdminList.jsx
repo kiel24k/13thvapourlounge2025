@@ -36,7 +36,6 @@ const AdminList = () => {
     const [checkBox, setCheckBox] = useState([]);
     const [allCheckBox, setAllCheckbox] = useState(false);
 
-
     const { data, isPending, isError, isFetching } = useGetUsersList(
         page,
         sortOrder,
@@ -98,7 +97,6 @@ const AdminList = () => {
 
     return (
         <section>
-
             <div className="p-2 overflow-x-auto grid gap-2">
                 <div className="flex gap-2 items-center">
                     <span className="font-semibold text-2xl">Admin List</span>
@@ -119,15 +117,15 @@ const AdminList = () => {
                             onChange={(e) => setSearch(e.target.value)}
                         />
                     </FormControl>
-                   <Link to={"/admin-create-admin"}>
-                    <Button
-                        variant="contained"
-                        endIcon={<PersonAddOutlinedIcon />}
-                        color="success"
-                    >
-                        New admin
-                    </Button>
-                   </Link>
+                    <Link to={"/admin-create-admin"}>
+                        <Button
+                            variant="contained"
+                            endIcon={<PersonAddOutlinedIcon />}
+                            color="success"
+                        >
+                            New admin
+                        </Button>
+                    </Link>
                     {checkBox.length > 0 && (
                         <Button
                             endIcon={<DeleteOutlineOutlinedIcon />}
@@ -222,7 +220,9 @@ const AdminList = () => {
                                     <td>
                                         <div className="flex">
                                             <Tooltip title="View" arrow>
-                                                <Link to={`/admin-edit-user/${users.id}`}>
+                                                <Link
+                                                    to={`/admin-edit-user/${users.id}`}
+                                                >
                                                     <IconButton>
                                                         <ModeEditOutlineOutlinedIcon className="text-gray-500" />
                                                     </IconButton>
@@ -248,7 +248,10 @@ const AdminList = () => {
                                                     </li>
                                                 </ul>
                                             </ViewUserModal>
-                                            <DeleteUserDialog title={"admin"} id={users.id}>
+                                            <DeleteUserDialog
+                                                title={"admin"}
+                                                id={users.id}
+                                            >
                                                 <DeleteOutlineOutlinedIcon className="text-gray-500" />
                                             </DeleteUserDialog>
                                         </div>

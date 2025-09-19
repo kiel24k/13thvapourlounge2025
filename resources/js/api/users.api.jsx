@@ -1,17 +1,15 @@
 import axios from "axios";
+import { cookieName } from "../cookies/GetCookies";
 
-export const getUser = async () => {
+export const getAuthUser = async () => {
     try {
-        const token = JSON.parse(window.localStorage.getItem("tkn"));
         const response = await axios.get("/api/user", {
-            withCredentials: true,
             headers: {
-                Authorization: `Bearer ${token}`,
+                Authorization: `Bearer ${cookieName("usr_tkn")}`,
             },
         });
         return response.data;
     } catch (err) {
-        console.log(err);
         return null;
     }
 };
@@ -32,10 +30,11 @@ export const userSignup = async (userData) => {
 
 export const userLogin = async (userData) => {
     try {
+        await axios.get("/sanctum/csrf-cookie");
         const response = await axios.post("/api/user-login", userData, {
-            headers: { "content-type": "application/json" },
+            withCredentials: true,
         });
-        console.log(response.data);
+
         return response.data;
     } catch (error) {
         if (error.response) {
@@ -62,4 +61,22 @@ export const deleteUser = async (id) => {
         headers: { "content-type": "application/json" },
     });
     return response.data;
+};
+
+export const getUser = async (id) => {
+    const response = await axios.get(`/api/get-user/${id}`);
+
+    return response.data;
+};
+
+export const updateUser = async (userData) => {
+    try {
+        const response = await axios.post(
+            `/api/update-user/${userData.id}`,
+            userData,
+        );
+        return response.data;
+    } catch (error) {
+        throw error.response.data;
+    }
 };

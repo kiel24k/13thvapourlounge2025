@@ -26,6 +26,7 @@ import Badge from "@mui/material/Badge";
 import ErrorOutlineOutlinedIcon from "@mui/icons-material/ErrorOutlineOutlined";
 import Tooltip from "@mui/material/Tooltip";
 import { createTheme } from "@mui/material";
+import SpeedDialDirection from "../components/SpeedDialDirection";
 
 const theme = createTheme({
     zIndex: {
@@ -173,17 +174,18 @@ function AdminLayout(props) {
 
     return (
         <>
-            <div className="absolute top-4 right-16 z-[901] cursor-pointer">
+            <div className="absolute top-4 right-16 z-[905] cursor-pointer flex gap-3 items-start content-center ">
                 <h1 className="text-black text-xl">
                     <Tooltip title="Low stocks" arrow>
                         <Badge badgeContent={10} color="error" max={99}>
                             <ErrorOutlineOutlinedIcon
-                                fontSize="medium"
+                                fontSize="large"
                                 color="primary"
                             />
                         </Badge>
                     </Tooltip>
                 </h1>
+              <SpeedDialDirection/>
             </div>
             <AppProvider
                 theme={theme}
