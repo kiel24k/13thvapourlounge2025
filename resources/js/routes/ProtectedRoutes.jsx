@@ -1,8 +1,11 @@
 import { Navigate } from "react-router-dom";
+import { cookieName } from "../cookies/GetCookies";
 
 export default function ProtectedRoutes({ children, allowedRoles }) {
-    const storedUser = window.localStorage.getItem("user");
-    const user = storedUser ? JSON.parse(storedUser) : null;
+    const storedUser = cookieName('rl')
+    const user = storedUser ? storedUser: null;
+    console.log(user);
+    
 
     if (!user) {
         return <Navigate to="/login" replace />;

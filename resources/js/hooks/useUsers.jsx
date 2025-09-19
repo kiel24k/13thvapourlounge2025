@@ -10,7 +10,9 @@ import {
     userLogin,
     getUsersList,
     deleteUser,
+    getAuthUser,
     getUser,
+    updateUser,
 } from "../api/users.api";
 import { useNavigate } from "react-router-dom";
 import SuccessAlert from "../components/Alerts/SuccessAlert";
@@ -34,10 +36,12 @@ function toast(message, type) {
     });
 }
 
-export const useGetUser = () => {
+
+
+export const useGetAuthUser = () => {
     return useQuery({
-        queryFn: getUser,
-        queryKey: ["getUser"],
+        queryFn: getAuthUser,
+        queryKey: ["getAuthUser"],
     });
 };
 export const useUserSignup = () => {
@@ -55,8 +59,7 @@ export const useUserLogin = () => {
     return useMutation({
         mutationFn: userLogin,
         onSuccess: (data) => {
-            window.localStorage.setItem("user", JSON.stringify(data.role));
-            window.localStorage.setItem("tkn", JSON.stringify(data.token));
+            document.cookie = `rl=${data.role}`;
             if (data.role === "customer") {
                 navigate("/");
             } else if (data.role === "admin") {
@@ -81,6 +84,24 @@ export const useDeleteUser = () => {
         onSuccess: () => {
             queryClient.invalidateQueries(["fetchUsersList"]);
             toast("Deleted successfully", "success");
+        },
+    });
+};
+
+export const useGetUser = (id) => {
+    return useQuery({
+        queryFn: () => getUser(id),
+        queryKey: ["fetchUserData", id],
+    });
+};
+
+export const useUpdateUser = () => {
+    const queryClient = useQueryClient();
+    return useMutation({
+        mutationFn: updateUser,
+        onSuccess: () => {
+            queryClient.invalidateQueries(["fetchUserData"]);
+            toast("User update successfully", "success");
         },
     });
 };

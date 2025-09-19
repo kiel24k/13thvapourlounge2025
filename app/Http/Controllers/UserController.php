@@ -2,8 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\RegisterUserRequest;
+use App\Http\Requests\UpdateUserRequest;
 use App\Models\User;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
 {
@@ -49,13 +53,31 @@ class UserController extends Controller
         }
     }
 
-    public function deleteUser (Request $request) {
-          $user = User::findOrFail($request->id)->delete();
+    public function deleteUser(Request $request): JsonResponse
+    {
+        $user = User::findOrFail($request->id)->delete();
         return response()->json([
             'deleted' => $user,
             'message' => "Delete user successfully",
             'status' => 200,
         ]);
+    }
 
+    public function getUser($id)
+    {
+        $userId = User::find($id);
+        return $userId;
+    }
+    public function updateUser(UpdateUserRequest $request, $id): JsonResponse
+    {
+        $validated = $request->validated();
+        $user = User::findOrFail($id);
+        $user->first_name = $validated['first_name'];
+        $user->last_name = $validated['last_name'];
+        $user->contact_number = $validated['contact_number'];
+        $user->role = $validated['role'];
+        $user->update();
+
+        return response()->json(['message' => 'User updated successfully'], 200);
     }
 }
