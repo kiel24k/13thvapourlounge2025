@@ -16,6 +16,10 @@ import GuestRoutes from "./GuestRoutes";
 import AdminList from "../pages/admin/AdminList";
 import EditUser from "../pages/admin/EditUser";
 import CreateAdmin from "../pages/admin/CreateAdmin";
+import ProductList from "../pages/admin/ProductList";
+import Categories from "../pages/admin/Categories";
+import Descriptions from "../pages/admin/Descriptions";
+import Options from "../pages/admin/Options";
 
 const routes = createBrowserRouter([
     {
@@ -95,11 +99,11 @@ const routes = createBrowserRouter([
                 path: "admin-list",
                 element: (
                     <ProtectedRoutes allowedRoles={["admin"]}>
-                       <AdminList/>
+                        <AdminList />
                     </ProtectedRoutes>
                 ),
             },
-              {
+            {
                 path: "admin-edit-user/:id",
                 element: (
                     <ProtectedRoutes allowedRoles={["admin"]}>
@@ -107,11 +111,43 @@ const routes = createBrowserRouter([
                     </ProtectedRoutes>
                 ),
             },
-              {
+            {
                 path: "admin-create-admin",
                 element: (
                     <ProtectedRoutes allowedRoles={["admin"]}>
                         <CreateAdmin />
+                    </ProtectedRoutes>
+                ),
+            },
+            {
+                path: "admin-product-list",
+                element: (
+                    <ProtectedRoutes allowedRoles={["admin"]}>
+                        <ProductList />
+                    </ProtectedRoutes>
+                ),
+            },
+            {
+                path: "admin-categories",
+                element: (
+                    <ProtectedRoutes allowedRoles={["admin"]}>
+                        <Categories />
+                    </ProtectedRoutes>
+                ),
+            },
+            {
+                path: "admin-descriptions",
+                element: (
+                    <ProtectedRoutes allowedRoles={["admin"]}>
+                        <Descriptions />
+                    </ProtectedRoutes>
+                ),
+            },
+            {
+                path: "admin-options",
+                element: (
+                    <ProtectedRoutes allowedRoles={["admin"]}>
+                        <Options />
                     </ProtectedRoutes>
                 ),
             },

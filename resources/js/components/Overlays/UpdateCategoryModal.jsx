@@ -4,7 +4,7 @@ import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import Modal from "@mui/material/Modal";
 import { IconButton, Tooltip } from "@mui/material";
-import VisibilityOutlinedIcon from "@mui/icons-material/VisibilityOutlined";
+import ModeEditOutlineOutlinedIcon from "@mui/icons-material/ModeEditOutlineOutlined";
 
 const style = {
     position: "absolute",
@@ -19,16 +19,16 @@ const style = {
     p: 4,
 };
 
-export default function ViewUserModal({ children, data }) {
+export default function UpdateCategoryModal() {
     const [open, setOpen] = React.useState(false);
     const handleOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);
 
     return (
         <div>
-            <Tooltip title="Edit" arrow sx={{zIndex: 999}}>
-                <IconButton onClick={handleOpen}>
-                    <VisibilityOutlinedIcon />
+            <Tooltip title="Edit" arrow>
+                <IconButton onClick={handleOpen} sx={{zIndex: 999}}>
+                    <ModeEditOutlineOutlinedIcon />
                 </IconButton>
             </Tooltip>
             <Modal
@@ -43,10 +43,10 @@ export default function ViewUserModal({ children, data }) {
                         variant="h6"
                         component="h2"
                     >
-                        {data.first_name} {data.last_name} Information
+                        Update Category
                     </Typography>
                     <Typography id="modal-modal-description" sx={{ mt: 2 }}>
-                        {children}
+                      
                     </Typography>
                 </Box>
             </Modal>
