@@ -151,11 +151,7 @@ const NAVIGATION = [
         title: "Settings",
         icon: <SettingsIcon />,
     },
-    {
-        segment: "reports",
-        title: "Logout",
-        icon: <LogoutIcon />,
-    },
+   
 ];
 
 function AdminLayout(props) {
