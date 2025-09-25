@@ -60,37 +60,28 @@ const NAVIGATION = [
     //     title: "Analytics",
     // },
     {
-        segment: "reports",
         title: "Products",
         icon: <InventoryIcon />,
         children: [
             {
-                segment: "reports",
+                segment: "admin-product-list",
                 title: "Product list",
                 icon: <ListIcon />,
             },
 
             {
-                segment: "reports",
-                title: "New product",
+                segment: "admin-categories",
+                title: "Categories",
                 icon: <PlaylistAddIcon />,
             },
-        ],
-    },
-    {
-        segment: "reports",
-        title: "Category",
-        icon: <CategoryIcon />,
-        children: [
             {
-                segment: "reports",
-                title: "Category list",
-                icon: <ListIcon />,
+                segment: "admin-descriptions",
+                title: "Descriptions",
+                icon: <PlaylistAddIcon />,
             },
-
             {
-                segment: "reports",
-                title: "New category",
+                segment: "admin-options",
+                title: "Options",
                 icon: <PlaylistAddIcon />,
             },
         ],
@@ -151,7 +142,6 @@ const NAVIGATION = [
         title: "Settings",
         icon: <SettingsIcon />,
     },
-   
 ];
 
 function AdminLayout(props) {
@@ -181,7 +171,7 @@ function AdminLayout(props) {
                         </Badge>
                     </Tooltip>
                 </h1>
-              <SpeedDialDirection/>
+                <SpeedDialDirection />
             </div>
             <AppProvider
                 theme={theme}

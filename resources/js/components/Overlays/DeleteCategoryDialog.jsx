@@ -8,9 +8,9 @@ import DialogTitle from "@mui/material/DialogTitle";
 import { IconButton, Tooltip } from "@mui/material";
 import DeleteOutlineOutlinedIcon from "@mui/icons-material/DeleteOutlineOutlined";
 import { useDeleteUser } from "../../hooks/useUsers";
-import SuccessAlert from "../Alerts/SuccessAlert";
 
-export default function DeleteUserDialog({ title, id, children }) {
+
+export default function DeleteCategoryDialog() {
     const [open, setOpen] = React.useState(false);
     const { mutate, isPending, isSuccess, isError } = useDeleteUser();
 
@@ -32,9 +32,9 @@ export default function DeleteUserDialog({ title, id, children }) {
 
     return (
         <React.Fragment>
-            <Tooltip title="Delete" arrow>
-                <IconButton variant="outlined" onClick={handleClickOpen} sx={{zIndex: 999}}>
-                    {children}
+            <Tooltip title="Delete" arrow sx={{zIndex: 999}}>
+                <IconButton variant="outlined" onClick={handleClickOpen} >
+                  <DeleteOutlineOutlinedIcon/>
                 </IconButton>
             </Tooltip>
             <Dialog
@@ -48,7 +48,7 @@ export default function DeleteUserDialog({ title, id, children }) {
                 </DialogTitle>
                 <DialogContent>
                     <DialogContentText id="alert-dialog-description">
-                        Deleting this {title} is permanent and cannot be undone.
+                        Deleting this "title" is permanent and cannot be undone.
                         Please confirm if you want to proceed.
                     </DialogContentText>
                 </DialogContent>

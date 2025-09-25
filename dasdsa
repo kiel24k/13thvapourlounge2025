@@ -1,0 +1,128 @@
+[33mcommit 8c1b493e515ad97df2999882d862f688cb3d0081[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mkielWindows[m[33m, [m[1;31morigin/kielWindows[m[33m)[m
+Author: Kiel Bermudez <149242693+kiel24k@users.noreply.github.com>
+Date:   Thu Sep 25 11:32:41 2025 +0800
+
+    CAN UPDATE ADMIN ON TABLE => DONE
+
+[33mcommit 9a3b154c8d51d9c43cb6b079716f4ca1a406e742[m
+Author: Kiel Bermudez <149242693+kiel24k@users.noreply.github.com>
+Date:   Fri Sep 19 13:33:36 2025 +0800
+
+    update module on admin side => done
+
+[33mcommit 2805f714f31cd4a92463c251b0d74e426f9ad04d[m
+Merge: f14df45 c5f4738
+Author: Kelly <149242693+kiel24k@users.noreply.github.com>
+Date:   Wed Sep 10 08:07:34 2025 +0800
+
+    Merge pull request #7 from kiel24k/kielWindows
+    
+    CAN ADD NEW ADMIN WITH VALIDATION => DONE
+
+[33mcommit c5f473815a6e0f6fc76b177891904122ee964552[m
+Author: Kiel Bermudez <149242693+kiel24k@users.noreply.github.com>
+Date:   Wed Sep 10 08:06:03 2025 +0800
+
+    CAN ADD NEW ADMIN WITH VALIDATION => DONE
+
+[33mcommit f14df4540aca967040b04a657a358a19f692e7db[m
+Merge: cd48aeb ba61962
+Author: Kelly <149242693+kiel24k@users.noreply.github.com>
+Date:   Thu Aug 28 10:44:58 2025 +0800
+
+    Merge pull request #6 from kiel24k/kielWindows
+    
+    NEW CREATE ADMIN PAGE => DONE
+
+[33mcommit ba61962ced9d5113a1218c147beb888300384452[m
+Author: Kiel Bermudez <149242693+kiel24k@users.noreply.github.com>
+Date:   Thu Aug 28 10:43:59 2025 +0800
+
+    NEW CREATE ADMIN PAGE => DONE
+
+[33mcommit cd48aeb37d9ef4032da3802dcf44407bc6720cfa[m
+Merge: 9127441 f701186
+Author: Kelly <149242693+kiel24k@users.noreply.github.com>
+Date:   Thu Aug 28 10:35:01 2025 +0800
+
+    Merge pull request #5 from kiel24k/kielWindows
+    
+    MAKE A BACKEND THAT DIRECT DELETE ON DATABASE => DONE
+
+[33mcommit f7011861891499f5789b1182b6981aceabd4acaf[m
+Author: Kiel Bermudez <149242693+kiel24k@users.noreply.github.com>
+Date:   Thu Aug 28 10:33:56 2025 +0800
+
+    MAKE A BACKEND THAT DIRECT DELETE ON DATABASE => DONE
+
+[33mcommit 91274411c9b3738dd368fd23eb0d28215c83df47[m
+Merge: 8e248c6 3de3b2a
+Author: Kelly <149242693+kiel24k@users.noreply.github.com>
+Date:   Thu Aug 28 08:37:37 2025 +0800
+
+    Merge pull request #4 from kiel24k/kielWindows
+    
+    PAGE FOR ADMIN USER EDIT => DONE
+
+[33mcommit 3de3b2a770e4e7a860b7630bc49b2660636117b3[m
+Author: Kiel Bermudez <149242693+kiel24k@users.noreply.github.com>
+Date:   Thu Aug 28 08:36:47 2025 +0800
+
+    PAGE FOR ADMIN USER EDIT => DONE
+
+[33mcommit 8e248c69980c103d258a1078347db89c3f282a09[m
+Merge: 831693b 5381387
+Author: Kelly <149242693+kiel24k@users.noreply.github.com>
+Date:   Wed Aug 27 10:19:44 2025 +0800
+
+    Merge pull request #3 from kiel24k/kielWindows
+    
+    MODAL FOR VIEW => DONE
+
+[33mcommit 5381387038118dfa304dc50e4cf9fa35143b9fff[m
+Author: Kiel Bermudez <149242693+kiel24k@users.noreply.github.com>
+Date:   Wed Aug 27 10:18:46 2025 +0800
+
+    MODAL FOR VIEW => DONE
+
+[33mcommit 831693bdebaae15b3bd6adbdecce21b3518dd263[m
+Merge: 7c36713 701272b
+Author: Kelly <149242693+kiel24k@users.noreply.github.com>
+Date:   Wed Aug 27 09:34:05 2025 +0800
+
+    Merge pull request #2 from kiel24k/kielWindows
+    
+    MULTIPLE SELECT FOR DELETE => DONE
+
+[33mcommit 701272b9b7844468d0f04b4473dc5d45e3d6ca05[m
+Author: Kiel Bermudez <149242693+kiel24k@users.noreply.github.com>
+Date:   Wed Aug 27 09:33:42 2025 +0800
+
+    MODAL FOR DELETE => DONE
+
+[33mcommit 7ef7a727357b4c26103c2c5182c7a7a204c4bca6[m
+Author: Kiel Bermudez <149242693+kiel24k@users.noreply.github.com>
+Date:   Wed Aug 27 09:07:06 2025 +0800
+
+    MULTIPLE SELECT FOR DELETE => DONE
+
+[33mcommit 7c367136cd6d1fc9960ed52317e70aff6da0e78a[m
+Merge: 82f397d ac5b849
+Author: Kelly <149242693+kiel24k@users.noreply.github.com>
+Date:   Tue Aug 12 22:54:37 2025 +0800
+
+    Merge pull request #1 from kiel24k/kielWindows
+    
+    signup function
+
+[33mcommit ac5b849c76114d1277152bace47f6a2eb00f438d[m[33m ([m[1;32mmain[m[33m)[m
+Author: Kiel Bermudez <149242693+kiel24k@users.noreply.github.com>
+Date:   Tue Aug 12 22:52:21 2025 +0800
+
+    signup function
+
+[33mcommit 82f397ddffe38aa18cc74793f6658ee9a3b6a9f7[m
+Author: Kiel Bermudez <149242693+kiel24k@users.noreply.github.com>
+Date:   Tue Jul 15 23:03:09 2025 +0800
+
+    first commit

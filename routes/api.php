@@ -2,12 +2,13 @@
 
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\ProductController;
 use App\Http\Controllers\UserController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/user', function (Request $request) {
-    return $request->user();
+  return $request->user();
 })->middleware('auth:sanctum');
 
 route::controller(AuthController::class)->group(function () {
@@ -22,4 +23,9 @@ route::controller(UserController::class)->group(function () {
   route::post('update-user/{id}', 'updateUser');
 });
 
-
+route::controller(ProductController::class)->group(function () {
+  route::get('get-categories', 'getCategories');
+  route::post('store-category', 'storeCategory');
+  route::post('update-category', 'updateCategory');
+  route::delete('destroy-category/{id}', 'destroyCategory');
+});
