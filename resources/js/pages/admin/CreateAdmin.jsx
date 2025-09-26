@@ -64,9 +64,7 @@ const CreateAdmin = () => {
         });
     };
 
-    useEffect(() => {
-        console.log(data);
-    }, [data]);
+
 
    
 
