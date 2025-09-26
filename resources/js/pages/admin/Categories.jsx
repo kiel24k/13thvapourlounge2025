@@ -6,8 +6,14 @@ import { Link } from "react-router-dom";
 import UpdateCategory from "../../components/Overlays/UpdateCategoryModal";
 import DeleteUserDialog from "../../components/Overlays/DeleteUserDialog";
 import DeleteCategoryDialog from "../../components/Overlays/DeleteCategoryDialog";
+import { useGetCategories } from "../../hooks/useProducts";
+import UpdateCategoryModal from "../../components/Overlays/UpdateCategoryModal";
+
+import NewCategoryDialog from "../../components/Overlays/NewCategoryDialog";
 
 const Categories = () => {
+    const { data } = useGetCategories();
+
     return (
         <section>
             <div className="p-2 grid gap-2">
@@ -23,15 +29,8 @@ const Categories = () => {
                             placeholder="Search"
                         />
                     </FormControl>
-                    <Link to={"/admin-create-admin"}>
-                        <Button
-                            variant="contained"
-                            endIcon={<PersonAddOutlinedIcon />}
-                            color="success"
-                        >
-                            New admin
-                        </Button>
-                    </Link>
+                    <NewCategoryDialog/>
+                    
                 </div>
 
                 <div className="overflow-x-auto">
@@ -59,23 +58,23 @@ const Categories = () => {
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
-                                <td className="text-center">
-                                    <Checkbox />
-                                </td>
-                                <td className="text-sm p-2 text-left text-gray-800">
-                                    Test1
-                                </td>
-                                <td className="text-sm p-2 text-left text-gray-800">
-                                    Test1
-                                </td>
-                                <td>
-                                   <div className="flex">
-                                     <UpdateCategory />
-                                    <DeleteCategoryDialog/>
-                                   </div>
-                                </td>
-                            </tr>
+                            {data?.data.map((category) => (
+                                <tr key={category.id}>
+                                    <td className="text-center">
+                                        <Checkbox />
+                                    </td>
+                                    <td className="text-sm text-left p-2 text-gray-800">
+                                        {category.category_name}
+                                    </td>
+                                    <td className="text-sm text-left p-2 text-gray-800">
+                                        {category.category_description}
+                                    </td>
+                                    <td className="flex gap-2 p-2">
+                                        <UpdateCategoryModal></UpdateCategoryModal>
+                                        <DeleteCategoryDialog></DeleteCategoryDialog>
+                                    </td>
+                                </tr>
+                            ))}
                         </tbody>
                     </table>
                 </div>
