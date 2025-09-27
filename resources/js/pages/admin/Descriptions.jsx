@@ -3,7 +3,7 @@ import SearchOutlinedIcon from "@mui/icons-material/SearchOutlined";
 import PersonAddOutlinedIcon from "@mui/icons-material/PersonAddOutlined";
 import React from "react";
 import { Link } from "react-router-dom";
-import UpdateCategory from "../../components/Overlays/UpdateCategoryModal";
+import UpdateCategory from "../../components/Overlays/UpdateCategoryDialog";
 import DeleteUserDialog from "../../components/Overlays/DeleteUserDialog";
 import DeleteCategoryDialog from "../../components/Overlays/DeleteCategoryDialog";
 
