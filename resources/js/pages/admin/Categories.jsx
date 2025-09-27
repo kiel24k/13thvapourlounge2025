@@ -3,13 +3,13 @@ import SearchOutlinedIcon from "@mui/icons-material/SearchOutlined";
 import PersonAddOutlinedIcon from "@mui/icons-material/PersonAddOutlined";
 import React from "react";
 import { Link } from "react-router-dom";
-import UpdateCategory from "../../components/Overlays/UpdateCategoryModal";
-import DeleteUserDialog from "../../components/Overlays/DeleteUserDialog";
+
 import DeleteCategoryDialog from "../../components/Overlays/DeleteCategoryDialog";
 import { useGetCategories } from "../../hooks/useProducts";
-import UpdateCategoryModal from "../../components/Overlays/UpdateCategoryModal";
+
 
 import NewCategoryDialog from "../../components/Overlays/NewCategoryDialog";
+import UpdateCategoryDialog from "../../components/Overlays/UpdateCategoryDialog";
 
 const Categories = () => {
     const { data } = useGetCategories();
@@ -70,7 +70,8 @@ const Categories = () => {
                                         {category.category_description}
                                     </td>
                                     <td className="flex gap-2 p-2">
-                                        <UpdateCategoryModal></UpdateCategoryModal>
+                                        <UpdateCategoryDialog category={category}/>
+                                        
                                         <DeleteCategoryDialog></DeleteCategoryDialog>
                                     </td>
                                 </tr>

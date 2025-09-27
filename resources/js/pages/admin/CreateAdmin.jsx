@@ -64,12 +64,6 @@ const CreateAdmin = () => {
         });
     };
 
-
-
-   
-
-  
-
     return (
         <Paper elevation={5} className="m-2 p-2">
             <section>

@@ -5,7 +5,7 @@ export const getCategories = async () => {
     return response.data;
 };
 
-export const storeCategory = async (categoryData ) => {
+export const storeCategory = async (categoryData) => {
     try {
         const response = await axios.post("api/store-category", {
             category_name: categoryData.categoryName,
@@ -18,5 +18,17 @@ export const storeCategory = async (categoryData ) => {
             throw error.response.data;
         }
         throw error;
+    }
+};
+
+export const updateCategory = async (categoryData) => {
+    try {
+        const response = await axios.post("api/update-category", {
+            id: categoryData.id,
+            category_name: categoryData.categoryName,
+            category_description: categoryData.categoryDescription,
+        });
+    } catch (error) {
+        throw error.response.data;
     }
 };

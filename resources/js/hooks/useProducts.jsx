@@ -1,5 +1,5 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { getCategories, storeCategory } from "../api/products.api";
+import { getCategories, storeCategory, updateCategory } from "../api/products.api";
 
 import Swal from "sweetalert2";
 
@@ -39,4 +39,15 @@ export const useStoreCategory = () => {
         }
 
     })
+}
+
+export const useUpdateCategory = () => {
+    const queryClient = useQueryClient();
+    return useMutation({
+        mutationFn: updateCategory,
+        onSuccess: () => {
+            queryClient.invalidateQueries(["categoryList"])
+            toast("Category updated", "success")
+        }
+    }) 
 }
