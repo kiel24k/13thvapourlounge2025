@@ -72,7 +72,7 @@ const Categories = () => {
                                     <td className="flex gap-2 p-2">
                                         <UpdateCategoryDialog category={category}/>
                                         
-                                        <DeleteCategoryDialog></DeleteCategoryDialog>
+                                        <DeleteCategoryDialog id={category.id}/>
                                     </td>
                                 </tr>
                             ))}

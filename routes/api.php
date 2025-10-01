@@ -24,8 +24,13 @@ route::controller(UserController::class)->group(function () {
 });
 
 route::controller(ProductController::class)->group(function () {
+  //route for category
   route::get('get-categories', 'getCategories');
   route::post('store-category', 'storeCategory');
   route::post('update-category', 'updateCategory');
   route::delete('destroy-category/{id}', 'destroyCategory');
+  //route for description
+  route::get('get-descriptions', 'getDescriptions');
+  route::post('store-description', 'storeDescription');
+  route::get('view-product-description/{title}', 'viewDescription');
 });
