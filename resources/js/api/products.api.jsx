@@ -32,3 +32,42 @@ export const updateCategory = async (categoryData) => {
         throw error.response.data;
     }
 };
+
+export const deleteCategory = async (id) => {
+    try {
+        const response = await axios.delete(`api/destroy-category/${id}`);
+        return response.data;
+    } catch (error) {
+        throw error.response.data;
+    }
+};
+
+export const getDescriptions = async () => {
+    try {
+        const response = await axios.get(`api/get-descriptions`);
+        return response.data;
+    } catch (error) {
+        throw error.response.data;
+    }
+};
+
+export const storeDescription = async (descriptionData) => {
+    try {
+        const response = await axios.post("api/store-description", {
+            description_body: descriptionData.descriptionBody,
+            description_content: descriptionData.descriptionContent,
+        });
+
+        console.log(response);
+        // return response.data
+    } catch (error) {
+        throw error.response.data;
+    }
+};
+
+export const viewDescription = async (descriptionBody) => {
+    const response = await axios.get(`api/view-product-description/${descriptionBody}`);
+   
+     console.log(descriptionBody);
+    return response.data;
+};

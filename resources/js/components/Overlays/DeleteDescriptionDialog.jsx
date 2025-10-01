@@ -11,9 +11,9 @@ import { useDeleteUser } from "../../hooks/useUsers";
 import { useDeleteCategory } from "../../hooks/useProducts";
 
 
-export default function DeleteCategoryDialog({id}) {
+export default function DeleteDescriptionDialog() {
     const [open, setOpen] = React.useState(false);
-    const { mutate, isPending, isSuccess, isError } = useDeleteCategory();
+   
 
     const handleClickOpen = () => {
         setOpen(true);
@@ -23,9 +23,7 @@ export default function DeleteCategoryDialog({id}) {
         setOpen(false);
     };
 
-    const handleConfirm = () => {
-   mutate(id)
-    };
+ 
 
     return (
         <React.Fragment>
@@ -54,7 +52,7 @@ export default function DeleteCategoryDialog({id}) {
                         Cancel
                     </Button>
                     <Button
-                        onClick={handleConfirm}
+                        // onClick={handleConfirm}
                         variant="text"
                         color="error"
                     >

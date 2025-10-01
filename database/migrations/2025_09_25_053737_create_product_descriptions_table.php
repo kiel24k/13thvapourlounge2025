@@ -13,8 +13,8 @@ return new class extends Migration
     {
         Schema::create('product_descriptions', function (Blueprint $table) {
             $table->id();
-            $table->string('description_title');
-            $table->string('description_content');
+            $table->string('description_body');
+            $table->string('description_content')->nullable();
             $table->timestamps();
         });
     }

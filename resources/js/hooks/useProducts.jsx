@@ -1,5 +1,13 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { getCategories, storeCategory, updateCategory } from "../api/products.api";
+import {
+    deleteCategory,
+    getCategories,
+    getDescriptions,
+    storeCategory,
+    storeDescription,
+    updateCategory,
+    viewDescription,
+} from "../api/products.api";
 
 import Swal from "sweetalert2";
 
@@ -21,7 +29,6 @@ function toast(message, type) {
     });
 }
 
-
 export const useGetCategories = () => {
     return useQuery({
         queryKey: ["categoryList"],
@@ -30,24 +37,59 @@ export const useGetCategories = () => {
 };
 
 export const useStoreCategory = () => {
-    const queryClient = useQueryClient()
+    const queryClient = useQueryClient();
     return useMutation({
-        mutationFn:storeCategory,
+        mutationFn: storeCategory,
         onSuccess: () => {
-            queryClient.invalidateQueries(["categoryList"]) 
-            toast("Category added successfully", "success")
-        }
-
-    })
-}
+            queryClient.invalidateQueries(["categoryList"]);
+            toast("Category added successfully", "success");
+        },
+    });
+};
 
 export const useUpdateCategory = () => {
     const queryClient = useQueryClient();
     return useMutation({
         mutationFn: updateCategory,
         onSuccess: () => {
-            queryClient.invalidateQueries(["categoryList"])
-            toast("Category updated", "success")
-        }
-    }) 
-}
+            queryClient.invalidateQueries(["categoryList"]);
+            toast("Category updated", "success");
+        },
+    });
+};
+
+export const useDeleteCategory = () => {
+    const queryClient = useQueryClient();
+    return useMutation({
+        mutationFn: deleteCategory,
+        onSuccess: () => {
+            queryClient.invalidateQueries(["categoryList"]);
+            toast("Category Deleted", "success");
+        },
+    });
+};
+
+export const useGetDescriptions = () => {
+    return useQuery({
+        queryKey: ["descriptionsList"],
+        queryFn: getDescriptions,
+    });
+};
+
+export const useStoreDescription = () => {
+    const queryClient = useQueryClient();
+    return useMutation({
+        mutationFn: storeDescription,
+        onSuccess: () => {
+            queryClient.invalidateQueries(["descriptionList"]);
+            toast("Description added successfully", "success");
+        },
+    });
+};
+
+export const useViewDescription = (descriptionBody) => {
+    return useQuery({
+        queryFn: () => viewDescription(descriptionBody),
+        queryKey: ['product-description', descriptionBody]
+    });
+};

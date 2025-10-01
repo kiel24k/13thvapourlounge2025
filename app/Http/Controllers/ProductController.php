@@ -3,13 +3,14 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\Product\StoreCategoryRequest;
+use App\Http\Requests\Product\StoreDescriptionRequest;
 use App\Http\Requests\Product\UpdateCategoryRequest;
 use App\Models\Category;
+use App\Models\ProductDescription;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
-use function Pest\Laravel\json;
 
 class ProductController extends Controller
 {
@@ -49,5 +50,42 @@ class ProductController extends Controller
     {
         Category::destroy($id);
         return response()->json(['message' => 'Category deleted successfully'], 200);
+    }
+
+    public function getDescriptions(): JsonResponse
+    {
+        $descriptions = DB::table('product_descriptions')
+            ->select('id', 'description_body', 'description_content')
+            ->whereIn('id', function ($query) {
+                $query->selectRaw('MIN(id)')
+                    ->from('product_descriptions')
+                    ->groupBy('description_body');
+            })
+            ->paginate(5);
+
+        return response()->json($descriptions);
+    }
+
+    public function storeDescription(StoreDescriptionRequest $request)
+    {
+
+        $validated = $request->validated();
+        $items = collect($validated['description_content'])
+            ->map(function ($item) use ($validated) {
+                return [
+                    'description_body' => $validated['description_body'],
+                    'description_content' => $item['value'],
+                ];
+            })
+            ->toArray();
+        ProductDescription::insert($items);
+
+        return $items;
+    }
+
+    public function viewDescription($title)
+    {
+        $description = ProductDescription::select('description_content')->where('description_body', $title)->get();
+        return response()->json($description);
     }
 }
