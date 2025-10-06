@@ -1,4 +1,4 @@
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { keepPreviousData, useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import {
     deleteCategory,
     deleteDescription,
@@ -71,12 +71,12 @@ export const useDeleteCategory = () => {
     });
 };
 
-export const useGetDescriptions = (search) => {
+export const useGetDescriptions = (search, page) => {
     return useQuery({
-        queryKey: ["descriptionsList", search],
-        queryFn: () => getDescriptions(search),
-        keepPreviousData: true, // optional: keeps old data while fetching new
-        staleTime: 5000, // optional: cache data for 5s
+        queryKey: ["descriptionsList", search, page],
+        queryFn: () => getDescriptions(search, page),
+        placeholderData: keepPreviousData 
+
     });
 };
 

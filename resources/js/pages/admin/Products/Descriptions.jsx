@@ -2,6 +2,7 @@ import {
     Button,
     Checkbox,
     FormControl,
+    IconButton,
     OutlinedInput,
     Tooltip,
 } from "@mui/material";
@@ -18,13 +19,20 @@ import DeleteDescriptionDialog from "../../../components/Overlays/Dialogs/Delete
 import UpdateDescriptionDialog from "../../../components/Overlays/Dialogs/UpdateDescription";
 import ViewModal from "../../../components/Overlays/Modals/ViewModal";
 import { ViewDescriptionRow } from "../../../components/Table/ViewDescriptionRow";
+import NavigateBeforeOutlinedIcon from "@mui/icons-material/NavigateBeforeOutlined";
+import NavigateNextOutlinedIcon from "@mui/icons-material/NavigateNextOutlined";
 
 const Descriptions = () => {
     const [search, setSearch] = useState("");
     const [descriptionContent, setDescriptionContent] = useState("");
     const [isModalOpen, setIsModalOpen] = useState(false);
 
-    const { data: descriptionsData, isPending } = useGetDescriptions(search);
+    const [page, setPage] = useState(1);
+
+    const { data: descriptionsData, isPending } = useGetDescriptions(
+        search,
+        page,
+    );
     const { data: viewDescriptionData, isLoading } =
         useViewDescription(descriptionContent);
 
@@ -33,8 +41,17 @@ const Descriptions = () => {
         setIsModalOpen(true);
     };
 
- 
+    const handlePaginateBack = () => {
+        if (descriptionsData.last_page >= descriptionsData.current_page) {
+            setPage((prev) => prev - 1);
+        }
+    };
 
+    const handlePaginateNext = () => {
+        if (descriptionsData.current_page < descriptionsData.last_page) {
+            setPage((prev) => prev + 1);
+        }
+    };
     return (
         <section>
             <div className="p-2 grid gap-2">
@@ -145,6 +162,18 @@ const Descriptions = () => {
                             ))}
                         </tbody>
                     </table>
+                    <div className="flex gap-2 justify-center items-center">
+                        <IconButton onClick={handlePaginateBack}>
+                            <NavigateBeforeOutlinedIcon />
+                        </IconButton>
+                        <span>
+                            {descriptionsData?.current_page} of{" "}
+                            {descriptionsData?.last_page}
+                        </span>
+                        <IconButton onClick={handlePaginateNext}>
+                            <NavigateNextOutlinedIcon />
+                        </IconButton>
+                    </div>
                 </div>
             </div>
         </section>
