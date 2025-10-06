@@ -34,7 +34,7 @@ class UserController extends Controller
                 })
 
                 ->orderBy($sortName, $sortOrder)
-                ->paginate(5);
+                ->paginate(2);
             return $data;
         } else {
             $data = User::select(
@@ -48,7 +48,7 @@ class UserController extends Controller
             )
                 ->where('role', 'admin')
                 ->orderBy($sortName, $sortOrder)
-                ->paginate(5);
+                ->paginate(2);
             return $data;
         }
     }
