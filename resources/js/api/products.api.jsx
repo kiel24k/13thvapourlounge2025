@@ -58,7 +58,6 @@ export const storeDescription = async (descriptionData) => {
             description_content: descriptionData.descriptionContent,
         });
 
-        console.log(response);
         // return response.data
     } catch (error) {
         throw error.response.data;
@@ -66,13 +65,31 @@ export const storeDescription = async (descriptionData) => {
 };
 
 export const viewDescription = async (descriptionBody) => {
-    const response = await axios.get(`api/view-product-description/${descriptionBody}`);
+    const response = await axios.get(
+        `api/view-product-description/${descriptionBody}`,
+    );
     return response.data;
 };
 
 export const deleteDescription = async (id) => {
-    const response = await axios.delete(`api/destroy-description/${id}`)
-    console.log(response.data);
-    
-    return response.data
-}
+    const response = await axios.delete(`api/destroy-description/${id}`);
+
+    return response.data;
+};
+
+export const updateDescription = async (data) => {
+    try {
+        const response = await axios.post("api/update-description", {
+            description_body: data.description_body, //recovery key 
+            description_content: data.description_content, //recovery key for updating content []
+            description_body_input: data.description_body_input,
+            description_content_input: data.description_content_input
+        });
+        console.log(response);
+        
+
+        return response;
+    } catch (error) {
+        throw error.response.data;
+    }
+};

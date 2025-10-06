@@ -34,4 +34,6 @@ route::controller(ProductController::class)->group(function () {
   route::post('store-description', 'storeDescription');
   route::get('view-product-description/{title}', 'viewDescription');
   route::delete('destroy-description/{id}', 'destroyDescription');
+  route::post('update-description', 'updateDescription');
+  route::post('update-description', "updateDescription");
 });
