@@ -16,10 +16,10 @@ import GuestRoutes from "./GuestRoutes";
 import AdminList from "../pages/admin/AdminList";
 import EditUser from "../pages/admin/EditUser";
 import CreateAdmin from "../pages/admin/CreateAdmin";
-import ProductList from "../pages/admin/ProductList";
-import Categories from "../pages/admin/Categories";
-import Descriptions from "../pages/admin/Descriptions";
-import Options from "../pages/admin/Options";
+import ProductList from "../pages/admin/Products/ProductList";
+import Categories from "../pages/admin/Products/Categories";
+import Descriptions from "../pages/admin/Products/Descriptions";
+import Options from "../pages/admin/Products/Options";
 
 const routes = createBrowserRouter([
     {

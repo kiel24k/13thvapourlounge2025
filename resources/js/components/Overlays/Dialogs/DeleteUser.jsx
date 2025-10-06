@@ -7,8 +7,8 @@ import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
 import { IconButton, Tooltip } from "@mui/material";
 import DeleteOutlineOutlinedIcon from "@mui/icons-material/DeleteOutlineOutlined";
-import { useDeleteUser } from "../../hooks/useUsers";
-import SuccessAlert from "../Alerts/SuccessAlert";
+import { useDeleteUser } from "../../../hooks/useUsers";
+
 
 export default function DeleteUserDialog({ title, id, children }) {
     const [open, setOpen] = React.useState(false);

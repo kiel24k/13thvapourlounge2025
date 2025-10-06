@@ -5,7 +5,7 @@ import Typography from "@mui/material/Typography";
 import Modal from "@mui/material/Modal";
 import { IconButton, TextField, Tooltip } from "@mui/material";
 import ModeEditOutlineOutlinedIcon from "@mui/icons-material/ModeEditOutlineOutlined";
-import { useStoreDescription } from "../../hooks/useProducts";
+
 
 const style = {
     position: "absolute",

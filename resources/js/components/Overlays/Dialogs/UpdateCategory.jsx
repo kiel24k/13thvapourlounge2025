@@ -6,7 +6,7 @@ import Modal from "@mui/material/Modal";
 import { IconButton, TextField, Tooltip } from "@mui/material";
 import ModeEditOutlineOutlinedIcon from "@mui/icons-material/ModeEditOutlineOutlined";
 import { useState } from "react";
-import { useUpdateCategory } from "../../hooks/useProducts";
+import { useUpdateCategory } from "../../../hooks/useProducts";
 import { useQueryClient } from "@tanstack/react-query";
 import { useEffect } from "react";
 

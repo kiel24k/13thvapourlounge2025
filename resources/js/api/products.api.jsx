@@ -67,7 +67,12 @@ export const storeDescription = async (descriptionData) => {
 
 export const viewDescription = async (descriptionBody) => {
     const response = await axios.get(`api/view-product-description/${descriptionBody}`);
-   
-     console.log(descriptionBody);
     return response.data;
 };
+
+export const deleteDescription = async (id) => {
+    const response = await axios.delete(`api/destroy-description/${id}`)
+    console.log(response.data);
+    
+    return response.data
+}

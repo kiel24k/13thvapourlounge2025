@@ -1,6 +1,7 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import {
     deleteCategory,
+    deleteDescription,
     getCategories,
     getDescriptions,
     storeCategory,
@@ -90,6 +91,17 @@ export const useStoreDescription = () => {
 export const useViewDescription = (descriptionBody) => {
     return useQuery({
         queryFn: () => viewDescription(descriptionBody),
-        queryKey: ['product-description', descriptionBody]
+        queryKey: ["product-description", descriptionBody],
+    });
+};
+
+export const useDeleteDescription = () => {
+    const queryClient = useQueryClient();
+    return useMutation({
+        mutationFn: deleteDescription,
+        onSuccess: () => {
+            queryClient.invalidateQueries(["descriptionList"]);
+             toast("Description Deleted", "success");
+        },
     });
 };

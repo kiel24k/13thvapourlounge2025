@@ -3,20 +3,21 @@ import SearchOutlinedIcon from "@mui/icons-material/SearchOutlined";
 import PersonAddOutlinedIcon from "@mui/icons-material/PersonAddOutlined";
 import React from "react";
 import { Link } from "react-router-dom";
-import { useGetDescriptions } from "../../hooks/useProducts";
 
-import NewDescriptionDialog from "../../components/Overlays/NewDescriptionDialog";
-import DeleteDescriptionDialog from "../../components/Overlays/DeleteDescriptionDialog";
-import UpdateDescriptionDialog from "../../components/Overlays/UpdateDescriptionDialog";
-import ViewDescriptionModal from "../../components/Overlays/ViewDescriptionModal";
+import DeleteCategoryDialog from "../../../components/Overlays/Dialogs/DeleteCategory";
+import { useGetCategories } from "../../../hooks/useProducts";
 
-const Descriptions = () => {
-    const { data, isPending } = useGetDescriptions();
+import NewCategoryDialog from "../../../components/Overlays/Dialogs/NewCategory";
+import UpdateCategoryDialog from "../../../components/Overlays/Dialogs/UpdateCategory";
+
+const Categories = () => {
+    const { data } = useGetCategories();
+
     return (
         <section>
             <div className="p-2 grid gap-2">
                 <div className="flex gap-2 items-center">
-                    <span className="font-semibold text-2xl">Descriptions</span>
+                    <span className="font-semibold text-2xl">Categories</span>
                 </div>
 
                 <div className="flex gap-3 items-center">
@@ -27,10 +28,11 @@ const Descriptions = () => {
                             placeholder="Search"
                         />
                     </FormControl>
-                    <NewDescriptionDialog />
+                    <NewCategoryDialog/>
+                    
                 </div>
 
-                <div>
+                <div className="overflow-x-auto">
                     <table className="border-gray-300 divide-y divide-gray-200 min-w-full">
                         <thead className="bg-gray-100">
                             <tr>
@@ -39,12 +41,12 @@ const Descriptions = () => {
                                 </th>
                                 <th className="text-sm p-2 text-left font-semibold text-gray-700">
                                     <div className="flex-justify-between items-center">
-                                        Description Title
+                                        Category Name
                                     </div>
                                 </th>
                                 <th className="text-sm p-2 text-left font-semibold text-gray-700">
                                     <div className="flex-justify-between items-center">
-                                        Description Content
+                                        Category Description
                                     </div>
                                 </th>
                                 <th className="text-sm p-2 text-left font-semibold text-gray-700">
@@ -55,26 +57,21 @@ const Descriptions = () => {
                             </tr>
                         </thead>
                         <tbody>
-                            {data?.data?.map((description) => (
-                                <tr key={description.id}>
+                            {data?.data.map((category) => (
+                                <tr key={category.id}>
                                     <td className="text-center">
                                         <Checkbox />
                                     </td>
-                                    <td className="text-sm p-2 text-left text-gray-800">
-                                        {description.description_body}
+                                    <td className="text-sm text-left p-2 text-gray-800">
+                                        {category.category_name}
                                     </td>
-                                    <td className="text-sm p-2 text-center text-gray-800">
-                                        <div className="flex gap-2   items-center">
-                                            {description.description_content ? (
-                                                <ViewDescriptionModal title={"Description Content"} descriptionBody={description.description_body} />
-                                            ) : (
-                                                ""
-                                            )}
-                                        </div>
+                                    <td className="text-sm text-left p-2 text-gray-800">
+                                        {category.category_description}
                                     </td>
-                                    <td className="flex gap-2">
-                                        <UpdateDescriptionDialog />
-                                        <DeleteDescriptionDialog />
+                                    <td className="flex gap-2 p-2">
+                                        <UpdateCategoryDialog category={category}/>
+                                        
+                                        <DeleteCategoryDialog id={category.id}/>
                                     </td>
                                 </tr>
                             ))}
@@ -86,4 +83,4 @@ const Descriptions = () => {
     );
 };
 
-export default Descriptions;
+export default Categories;

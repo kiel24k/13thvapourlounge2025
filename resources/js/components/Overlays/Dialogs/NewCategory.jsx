@@ -5,7 +5,7 @@ import Typography from "@mui/material/Typography";
 import Modal from "@mui/material/Modal";
 import { IconButton, TextField, Tooltip } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
-import { useStoreCategory } from "../../hooks/useProducts";
+import { useStoreCategory } from "../../../hooks/useProducts";
 import { useState } from "react";
 
 const style = {
