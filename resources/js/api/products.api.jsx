@@ -42,9 +42,13 @@ export const deleteCategory = async (id) => {
     }
 };
 
-export const getDescriptions = async () => {
+export const getDescriptions = async (search) => {
     try {
-        const response = await axios.get(`api/get-descriptions`);
+        const response = await axios.get(`api/get-descriptions`,{
+            params: {
+                search: search
+            }
+        });
         return response.data;
     } catch (error) {
         throw error.response.data;

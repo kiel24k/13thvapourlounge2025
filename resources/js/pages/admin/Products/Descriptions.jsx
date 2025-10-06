@@ -7,7 +7,7 @@ import {
 } from "@mui/material";
 import SearchOutlinedIcon from "@mui/icons-material/SearchOutlined";
 import PersonAddOutlinedIcon from "@mui/icons-material/PersonAddOutlined";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 import {
     useGetDescriptions,
@@ -20,10 +20,11 @@ import ViewModal from "../../../components/Overlays/Modals/ViewModal";
 import { ViewDescriptionRow } from "../../../components/Table/ViewDescriptionRow";
 
 const Descriptions = () => {
+    const [search, setSearch] = useState("");
     const [descriptionContent, setDescriptionContent] = useState("");
     const [isModalOpen, setIsModalOpen] = useState(false);
 
-    const { data: descriptionsData, isPending } = useGetDescriptions();
+    const { data: descriptionsData, isPending } = useGetDescriptions(search);
     const { data: viewDescriptionData, isLoading } =
         useViewDescription(descriptionContent);
 
@@ -31,6 +32,9 @@ const Descriptions = () => {
         setDescriptionContent(text);
         setIsModalOpen(true);
     };
+
+ 
+
     return (
         <section>
             <div className="p-2 grid gap-2">
@@ -41,9 +45,12 @@ const Descriptions = () => {
                 <div className="flex gap-3 items-center">
                     <FormControl variant="standard">
                         <OutlinedInput
+                            type="text"
                             size="small"
                             endAdornment={<SearchOutlinedIcon />}
                             placeholder="Search"
+                            value={search}
+                            onChange={(e) => setSearch(e.target.value)}
                         />
                     </FormControl>
                     <NewDescriptionDialog />
@@ -127,8 +134,12 @@ const Descriptions = () => {
                                         </div>
                                     </td>
                                     <td className="flex gap-2">
-                                        <UpdateDescriptionDialog description={description} />
-                                        <DeleteDescriptionDialog id={description.id}  />
+                                        <UpdateDescriptionDialog
+                                            description={description}
+                                        />
+                                        <DeleteDescriptionDialog
+                                            id={description.id}
+                                        />
                                     </td>
                                 </tr>
                             ))}
