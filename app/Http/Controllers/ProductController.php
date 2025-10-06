@@ -60,18 +60,9 @@ class ProductController extends Controller
         return response()->json(['message' => 'Category deleted successfully'], 200);
     }
 
-    public function getDescriptions(): JsonResponse
+    public function getDescriptions(Request $request)
     {
-        $descriptions = DB::table('product_descriptions')
-            ->select('id', 'description_body', 'description_content')
-            ->whereIn('id', function ($query) {
-                $query->selectRaw('MIN(id)')
-                    ->from('product_descriptions')
-                    ->groupBy('description_body');
-            })
-            ->paginate(5);
-
-        return response()->json($descriptions);
+       return $this->description->getAllDescriptions($request);
     }
 
     public function storeDescription(StoreDescriptionRequest $request)

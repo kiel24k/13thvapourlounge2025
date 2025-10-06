@@ -71,10 +71,12 @@ export const useDeleteCategory = () => {
     });
 };
 
-export const useGetDescriptions = () => {
+export const useGetDescriptions = (search) => {
     return useQuery({
-        queryKey: ["descriptionsList"],
-        queryFn: getDescriptions,
+        queryKey: ["descriptionsList", search],
+        queryFn: () => getDescriptions(search),
+        keepPreviousData: true, // optional: keeps old data while fetching new
+        staleTime: 5000, // optional: cache data for 5s
     });
 };
 
@@ -102,18 +104,18 @@ export const useDeleteDescription = () => {
         mutationFn: deleteDescription,
         onSuccess: () => {
             queryClient.invalidateQueries(["descriptionList"]);
-             toast("Description Deleted", "success");
+            toast("Description Deleted", "success");
         },
     });
 };
 
 export const useUpdateDescription = () => {
-      const queryClient = useQueryClient();
+    const queryClient = useQueryClient();
     return useMutation({
         mutationFn: updateDescription,
-         onSuccess: () => {
+        onSuccess: () => {
             queryClient.invalidateQueries(["descriptionList"]);
-             toast("Description updated", "success");
+            toast("Description updated", "success");
         },
-    }) 
-}
+    });
+};
