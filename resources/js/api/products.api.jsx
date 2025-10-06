@@ -42,11 +42,13 @@ export const deleteCategory = async (id) => {
     }
 };
 
-export const getDescriptions = async (search, page) => {
+export const getDescriptions = async (search, page, orderName, orderSort) => {
     try {
         const response = await axios.get(`api/get-descriptions?page=${page}`,{
             params: {
-                search: search
+                search: search,
+                orderName: orderName,
+                orderSort: orderSort
             }
         });
         return response.data;

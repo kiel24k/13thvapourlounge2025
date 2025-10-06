@@ -10,22 +10,26 @@ use Illuminate\Support\Facades\DB;
 class Description
 {
 
-    public function getAllDescriptions($data) :JsonResponse
+    public function getAllDescriptions($data): JsonResponse
     {
+
+        $orderName = $data->input('orderName', 'id');
+        $orderSort = $data->input('orderSort', 'DESC');
 
         if (empty($data['search'])) {
             $descriptions = DB::table('product_descriptions')
                 ->select('id', 'description_body', 'description_content')
+                ->orderBy($orderName, $orderSort)
                 ->paginate(3);
             return response()->json($descriptions);
         } else {
             $descriptions = DB::table('product_descriptions')
                 ->select('id', 'description_body', 'description_content')
-                  ->where('description_body', 'LIKE', '%' . $data['search'] . '%')
+                ->where('description_body', 'LIKE', '%' . $data['search'] . '%')
+                ->orderBy($orderName, $orderSort)
                 ->paginate(3);
             return response()->json($descriptions);
         }
-     
     }
 
     public function deleteDescription($id): bool

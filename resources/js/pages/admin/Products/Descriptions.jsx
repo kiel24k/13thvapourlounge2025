@@ -21,6 +21,7 @@ import ViewModal from "../../../components/Overlays/Modals/ViewModal";
 import { ViewDescriptionRow } from "../../../components/Table/ViewDescriptionRow";
 import NavigateBeforeOutlinedIcon from "@mui/icons-material/NavigateBeforeOutlined";
 import NavigateNextOutlinedIcon from "@mui/icons-material/NavigateNextOutlined";
+import { AiOutlineSortAscending } from "react-icons/ai";
 
 const Descriptions = () => {
     const [search, setSearch] = useState("");
@@ -28,10 +29,14 @@ const Descriptions = () => {
     const [isModalOpen, setIsModalOpen] = useState(false);
 
     const [page, setPage] = useState(1);
+    const [orderName, setOrderName] = useState("id")
+    const [orderSort, setOrderSort] = useState("DESC")
 
     const { data: descriptionsData, isPending } = useGetDescriptions(
         search,
         page,
+        orderName,
+        orderSort
     );
     const { data: viewDescriptionData, isLoading } =
         useViewDescription(descriptionContent);
@@ -52,6 +57,17 @@ const Descriptions = () => {
             setPage((prev) => prev + 1);
         }
     };
+
+    const handleSort = (name) => {
+       
+        if(orderSort === "DESC"){
+            setOrderSort("ASC")
+            
+        }else{
+            setOrderSort("DESC")
+        }
+      
+    }
     return (
         <section>
             <div className="p-2 grid gap-2">
@@ -80,16 +96,22 @@ const Descriptions = () => {
                                 <th>
                                     <Checkbox />
                                 </th>
-                                <th className="text-sm p-2 text-left font-semibold text-gray-700">
-                                    <div className="flex-justify-between items-center">
-                                        Description Title
+
+                                <th className="text-sm p-2 text-left font-semibold text-gray-700" onClick={() => handleSort("description_body")}>
+                                    <div className="flex items-center">
+                                        <span>Description Body</span>
+                                        <i className="ml-2">
+                                            <AiOutlineSortAscending />
+                                        </i>
                                     </div>
                                 </th>
+
                                 <th className="text-sm p-2 text-left font-semibold text-gray-700">
-                                    <div className="flex-justify-between items-center">
-                                        Description Content
+                                    <div className="flex items-center">
+                                        <span>Description Content</span>
                                     </div>
                                 </th>
+
                                 <th className="text-sm p-2 text-left font-semibold text-gray-700">
                                     <div className="flex-justify-between items-center">
                                         Action
