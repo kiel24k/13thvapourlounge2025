@@ -7,6 +7,7 @@ use App\Http\Requests\Product\StoreDescriptionRequest;
 use App\Http\Requests\Product\UpdateCategoryRequest;
 use App\Models\Category;
 use App\Models\ProductDescription;
+use App\Services\ProductService\Description;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -14,6 +15,11 @@ use Illuminate\Support\Facades\DB;
 
 class ProductController extends Controller
 {
+    protected $description;
+    public function __construct(Description $description)
+    {
+        $this->description = $description;
+    }
     public function getCategories(): JsonResponse
     {
         $category = DB::table('product_categories')
@@ -87,5 +93,10 @@ class ProductController extends Controller
     {
         $description = ProductDescription::select('description_content')->where('description_body', $title)->get();
         return response()->json($description);
+    }
+
+    public function destroyDescription($id): JsonResponse
+    {
+        return response()->json($this->description->deleteDescription($id));
     }
 }

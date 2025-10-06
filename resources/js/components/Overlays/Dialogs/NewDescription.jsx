@@ -5,7 +5,7 @@ import Typography from "@mui/material/Typography";
 import Modal from "@mui/material/Modal";
 import { IconButton, TextField, Tooltip } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
-import { useStoreCategory, useStoreDescription } from "../../hooks/useProducts";
+import { useStoreDescription } from "../../../hooks/useProducts";
 import DeleteForeverOutlinedIcon from "@mui/icons-material/DeleteForeverOutlined";
 import { useState } from "react";
 import { useRef } from "react";

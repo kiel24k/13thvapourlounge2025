@@ -3,22 +3,16 @@ import SearchOutlinedIcon from "@mui/icons-material/SearchOutlined";
 import PersonAddOutlinedIcon from "@mui/icons-material/PersonAddOutlined";
 import React from "react";
 import { Link } from "react-router-dom";
+import UpdateCategory from "../../../components/Overlays/Dialogs/UpdateCategory";
+// import DeleteUserDialog from "../../../components/Overlays/DeleteUserDialog";
+import DeleteCategoryDialog from "../../../components/Overlays/Dialogs/DeleteCategory";
 
-import DeleteCategoryDialog from "../../components/Overlays/DeleteCategoryDialog";
-import { useGetCategories } from "../../hooks/useProducts";
-
-
-import NewCategoryDialog from "../../components/Overlays/NewCategoryDialog";
-import UpdateCategoryDialog from "../../components/Overlays/UpdateCategoryDialog";
-
-const Categories = () => {
-    const { data } = useGetCategories();
-
+const Options = () => {
     return (
         <section>
             <div className="p-2 grid gap-2">
                 <div className="flex gap-2 items-center">
-                    <span className="font-semibold text-2xl">Categories</span>
+                    <span className="font-semibold text-2xl">Options</span>
                 </div>
 
                 <div className="flex gap-3 items-center">
@@ -29,8 +23,15 @@ const Categories = () => {
                             placeholder="Search"
                         />
                     </FormControl>
-                    <NewCategoryDialog/>
-                    
+                    <Link to={"/admin-create-admin"}>
+                        <Button
+                            variant="contained"
+                            endIcon={<PersonAddOutlinedIcon />}
+                            color="success"
+                        >
+                            New admin
+                        </Button>
+                    </Link>
                 </div>
 
                 <div className="overflow-x-auto">
@@ -42,12 +43,12 @@ const Categories = () => {
                                 </th>
                                 <th className="text-sm p-2 text-left font-semibold text-gray-700">
                                     <div className="flex-justify-between items-center">
-                                        Category Name
+                                        Option Title
                                     </div>
                                 </th>
                                 <th className="text-sm p-2 text-left font-semibold text-gray-700">
                                     <div className="flex-justify-between items-center">
-                                        Category Description
+                                        Option Label
                                     </div>
                                 </th>
                                 <th className="text-sm p-2 text-left font-semibold text-gray-700">
@@ -58,24 +59,23 @@ const Categories = () => {
                             </tr>
                         </thead>
                         <tbody>
-                            {data?.data.map((category) => (
-                                <tr key={category.id}>
-                                    <td className="text-center">
-                                        <Checkbox />
-                                    </td>
-                                    <td className="text-sm text-left p-2 text-gray-800">
-                                        {category.category_name}
-                                    </td>
-                                    <td className="text-sm text-left p-2 text-gray-800">
-                                        {category.category_description}
-                                    </td>
-                                    <td className="flex gap-2 p-2">
-                                        <UpdateCategoryDialog category={category}/>
-                                        
-                                        <DeleteCategoryDialog id={category.id}/>
-                                    </td>
-                                </tr>
-                            ))}
+                            <tr>
+                                <td className="text-center">
+                                    <Checkbox />
+                                </td>
+                                <td className="text-sm p-2 text-left text-gray-800">
+                                    Test1
+                                </td>
+                                <td className="text-sm p-2 text-left text-gray-800">
+                                    Test1
+                                </td>
+                                <td>
+                                   <div className="flex">
+                                     <UpdateCategory />
+                                    <DeleteCategoryDialog/>
+                                   </div>
+                                </td>
+                            </tr>
                         </tbody>
                     </table>
                 </div>
@@ -84,4 +84,4 @@ const Categories = () => {
     );
 };
 
-export default Categories;
+export default Options;

@@ -7,8 +7,8 @@ import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
 import { IconButton, Tooltip } from "@mui/material";
 import DeleteOutlineOutlinedIcon from "@mui/icons-material/DeleteOutlineOutlined";
-import { useDeleteUser } from "../../hooks/useUsers";
-import { useDeleteCategory } from "../../hooks/useProducts";
+import { useDeleteUser } from "../../../hooks/useUsers";
+import { useDeleteCategory } from "../../../hooks/useProducts";
 
 
 export default function DeleteCategoryDialog({id}) {

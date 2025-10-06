@@ -7,13 +7,12 @@ import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
 import { IconButton, Tooltip } from "@mui/material";
 import DeleteOutlineOutlinedIcon from "@mui/icons-material/DeleteOutlineOutlined";
-import { useDeleteUser } from "../../hooks/useUsers";
-import { useDeleteCategory } from "../../hooks/useProducts";
+import { useDeleteDescription } from "../../../hooks/useProducts";
 
-
-export default function DeleteDescriptionDialog() {
+export default function DeleteDescriptionDialog({id}) {
     const [open, setOpen] = React.useState(false);
-   
+
+    const {mutate} = useDeleteDescription()
 
     const handleClickOpen = () => {
         setOpen(true);
@@ -23,13 +22,15 @@ export default function DeleteDescriptionDialog() {
         setOpen(false);
     };
 
- 
+    const handleConfirm = () => {
+        mutate(id)
+    }
 
     return (
         <React.Fragment>
-            <Tooltip title="Delete" arrow sx={{zIndex: 999}}>
-                <IconButton variant="outlined" onClick={handleClickOpen} >
-                  <DeleteOutlineOutlinedIcon/>
+            <Tooltip title="Delete" arrow sx={{ zIndex: 999 }}>
+                <IconButton variant="outlined" onClick={handleClickOpen}>
+                    <DeleteOutlineOutlinedIcon />
                 </IconButton>
             </Tooltip>
             <Dialog
@@ -52,7 +53,7 @@ export default function DeleteDescriptionDialog() {
                         Cancel
                     </Button>
                     <Button
-                        // onClick={handleConfirm}
+                        onClick={handleConfirm}
                         variant="text"
                         color="error"
                     >
