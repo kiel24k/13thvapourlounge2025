@@ -5,7 +5,12 @@ import Typography from "@mui/material/Typography";
 import Modal from "@mui/material/Modal";
 import { IconButton, TextField, Tooltip } from "@mui/material";
 import ModeEditOutlineOutlinedIcon from "@mui/icons-material/ModeEditOutlineOutlined";
-
+import {
+    useUpdateDescription,
+    useViewDescription,
+} from "../../../hooks/useProducts";
+import { useState } from "react";
+import { useEffect } from "react";
 
 const style = {
     position: "absolute",
@@ -20,10 +25,48 @@ const style = {
     p: 4,
 };
 
-export default function UpdateDescriptionDialog({ category }) {
+export default function UpdateDescriptionDialog({ description }) {
     const [open, setOpen] = React.useState(false);
     const handleOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);
+
+    const { data: descriptionContent } = useViewDescription(
+        description.description_body,
+    );
+
+    const [descriptionContentInput, setDescriptionContentInput] = useState([]);
+
+    useEffect(() => {
+        if (descriptionContent) {
+            setDescriptionContentInput(descriptionContent);
+        }
+    }, [descriptionContent]);
+
+    const [inputDescriptionBody, setInputDescriptionBody] = useState(
+        description.description_body,
+    );
+
+    const { mutate, error } = useUpdateDescription();
+
+    const handleChange = (id, newValue) => {
+        setDescriptionContentInput((prev) => prev.map((data) => data.id === id ? {...data, description_content: newValue} : data))
+    };
+
+    const handleForm = (e) => {
+        e.preventDefault();
+        
+       
+        mutate({
+            description_body: description.description_body, //recovery key to update description body
+            description_content: descriptionContent, //recovery key to get the current value of the input description
+            description_body_input: inputDescriptionBody,
+            description_content_input: descriptionContentInput,
+        }, {
+            onSuccess: () => {
+                handleClose() 
+            }
+        });
+    };
 
     return (
         <div>
@@ -39,7 +82,7 @@ export default function UpdateDescriptionDialog({ category }) {
                 aria-describedby="modal-modal-description"
             >
                 <Box sx={style}>
-                    <form >
+                    <form onSubmit={handleForm}>
                         <Box sx={style}>
                             <div className="grid gap-4">
                                 <Typography
@@ -49,21 +92,41 @@ export default function UpdateDescriptionDialog({ category }) {
                                 >
                                     Update Description
                                 </Typography>
-
+                              
                                 <TextField
                                     size="small"
                                     fullWidth
                                     variant="outlined"
-                                    label="Description title"
+                                    label="Description Body"
+                                    multiline
+                                    rows={6}
+                                    error={error?.errors?.description_body_input[0]}
+                                    helperText={error?.errors?.description_body_input[0]}
+                                    value={inputDescriptionBody}
+                                    onChange={(e) =>
+                                        setInputDescriptionBody(e.target.value)
+                                    }
                                 />
 
-                                <TextField
-                                    multiline
-                                    fullWidth
-                                    rows={6}
-                                    variant="outlined"
-                                    label="Description content"
-                                />
+                                {descriptionContentInput &&
+                                    descriptionContentInput.map((data) => (
+                                        <TextField
+                                            key={data.id}
+                                            size="small"
+                                            fullWidth
+                                            variant="outlined"
+                                            label="Description Content"
+                                            value={
+                                                data.description_content
+                                            }
+                                            onChange={(e) =>
+                                                handleChange(
+                                                    data.id,
+                                                    e.target.value,
+                                                )
+                                            }
+                                        />
+                                    ))}
 
                                 <div className="flex gap-4 justify-end">
                                     <Button

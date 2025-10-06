@@ -7,6 +7,7 @@ import {
     storeCategory,
     storeDescription,
     updateCategory,
+    updateDescription,
     viewDescription,
 } from "../api/products.api";
 
@@ -105,3 +106,14 @@ export const useDeleteDescription = () => {
         },
     });
 };
+
+export const useUpdateDescription = () => {
+      const queryClient = useQueryClient();
+    return useMutation({
+        mutationFn: updateDescription,
+         onSuccess: () => {
+            queryClient.invalidateQueries(["descriptionList"]);
+             toast("Description updated", "success");
+        },
+    }) 
+}

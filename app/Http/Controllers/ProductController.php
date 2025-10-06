@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Http\Requests\Product\StoreCategoryRequest;
 use App\Http\Requests\Product\StoreDescriptionRequest;
 use App\Http\Requests\Product\UpdateCategoryRequest;
+use App\Http\Requests\Product\UpdateDescriptionRequest;
+
 use App\Models\Category;
 use App\Models\ProductDescription;
 use App\Services\ProductService\Description;
@@ -91,12 +93,18 @@ class ProductController extends Controller
 
     public function viewDescription($title)
     {
-        $description = ProductDescription::select('description_content')->where('description_body', $title)->get();
+        $description = ProductDescription::select('id','description_content')->where('description_body', $title)->get();
         return response()->json($description);
     }
 
     public function destroyDescription($id): JsonResponse
     {
         return response()->json($this->description->deleteDescription($id));
+    }
+
+    public function updateDescription(UpdateDescriptionRequest $request)
+    {
+        
+        return $this->description->updateDescription($request);
     }
 }

@@ -127,7 +127,7 @@ const Descriptions = () => {
                                         </div>
                                     </td>
                                     <td className="flex gap-2">
-                                        <UpdateDescriptionDialog />
+                                        <UpdateDescriptionDialog description={description} />
                                         <DeleteDescriptionDialog id={description.id}  />
                                     </td>
                                 </tr>
