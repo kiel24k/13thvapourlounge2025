@@ -131,3 +131,8 @@ export const updateOption = async (data) => {
 
     console.log(data.id);
 };
+
+export const deleteOption = async (id) => {
+    const response = await axios.delete(`api/destroy-option/${id}`);
+    return response.data;
+};

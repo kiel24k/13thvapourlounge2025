@@ -11,7 +11,7 @@ class Option
     public function getAllOptions(): JsonResponse
     {
         $options = DB::table('product_options')
-            ->select('option_title')
+            ->select('id','option_title')
             ->orderBy('id', 'DESC')
             ->distinct()
             ->get();
@@ -41,8 +41,7 @@ class Option
 
     public function updateOption($data): JsonResponse
     {
-       
-      ProductOption::where("option_title", $data['option_title'])
+        ProductOption::where("option_title", $data['option_title'])
             ->update(['option_title' => $data["option_title_input"]]);
 
         foreach ($data["option_label_input"] as $option) {
@@ -52,5 +51,10 @@ class Option
         }
 
         return response()->json($data);
+    }
+
+    public function deleteOption($id)
+    {
+        return ProductOption::destroy($id);
     }
 }

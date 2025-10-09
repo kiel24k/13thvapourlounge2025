@@ -121,4 +121,8 @@ class ProductController extends Controller
     public function updateOption (UpdateOptionRequest $request) {
         return $this->option->updateOption($request);
     }
+
+    public function destroyOption ($id) {
+        return $this->option->deleteOption($id);
+    }
 }

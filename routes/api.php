@@ -41,4 +41,5 @@ route::controller(ProductController::class)->group(function () {
   route::get('show-option/{title}', 'showOption');
   route::post('store-option', 'storeOption');
   route::post('update-option', 'updateOption');
+  route::delete('destroy-option/{id}', 'destroyOption');
 });

@@ -8,6 +8,7 @@ import {
     createOption,
     deleteCategory,
     deleteDescription,
+    deleteOption,
     getCategories,
     getDescriptions,
     getOptionList,
@@ -154,10 +155,23 @@ export const useShowOption = (title) => {
 }
 
 export const useUpdateOption = () => {
+    const queryClient = useQueryClient()
     return useMutation({
         mutationFn: updateOption,
         onSuccess: () => {
-            return 
+            queryClient.invalidateQueries(['optionList'])
+            toast("Option updated", "success")
         }
     })
+}
+
+export const useDeleteOption = () => {
+    const queryClient = useQueryClient()
+    return useMutation({
+        mutationFn:deleteOption,
+        onSuccess: () => {
+            queryClient.invalidateQueries(['optionList'])
+            toast("Option deleted", "success")
+        }
+    }) 
 }
