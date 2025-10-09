@@ -110,8 +110,7 @@ export const createOption = async (optionData) => {
             option_title: optionData.optionTitle,
             option_label: optionData.optionLabel,
         });
-      console.log(response.data);
-      
+        console.log(response.data);
     } catch (error) {
         throw error.response.data;
     }
@@ -120,4 +119,15 @@ export const createOption = async (optionData) => {
 export const showOption = async (title) => {
     const response = await axios.get(`api/show-option/${title}`);
     return response.data;
+};
+
+export const updateOption = async (data) => {
+    const response = await axios.post("api/update-option", {
+        option_title: data.option_title, //recovery key
+        option_label: data.option_label, //recovery key for updating content []
+        option_title_input: data.option_title_input,
+        option_label_input: data.option_label_input,
+    });
+
+    console.log(data.id);
 };

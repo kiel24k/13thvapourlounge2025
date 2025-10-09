@@ -40,4 +40,5 @@ route::controller(ProductController::class)->group(function () {
   route::get('option-list', 'optionList');
   route::get('show-option/{title}', 'showOption');
   route::post('store-option', 'storeOption');
+  route::post('update-option', 'updateOption');
 });

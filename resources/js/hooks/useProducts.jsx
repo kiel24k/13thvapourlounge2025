@@ -16,6 +16,7 @@ import {
     storeDescription,
     updateCategory,
     updateDescription,
+    updateOption,
     viewDescription,
 } from "../api/products.api";
 
@@ -150,4 +151,13 @@ export const useShowOption = (title) => {
         queryKey: ["showOption", title],
         queryFn: () => showOption(title)
     }) 
+}
+
+export const useUpdateOption = () => {
+    return useMutation({
+        mutationFn: updateOption,
+        onSuccess: () => {
+            return 
+        }
+    })
 }

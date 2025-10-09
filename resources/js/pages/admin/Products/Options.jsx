@@ -5,6 +5,7 @@ import NewOption from "../../../components/Overlays/Dialogs/NewOption";
 import ViewModal from "../../../components/Overlays/Modals/ViewModal";
 import { useState } from "react";
 import ViewOptionRow from "../../../components/Table/ViewOptionRow";
+import UpdateOption from "../../../components/Overlays/Dialogs/UpdateOption";
 
 const Options = () => {
     const [optionData, setOptionData] = useState("");
@@ -100,7 +101,9 @@ const Options = () => {
                                             )}
                                         </td>
                                         <td>
-                                            <div className="flex"></div>
+                                            <div className="flex">
+                                                <UpdateOption option={data}/>
+                                            </div>
                                         </td>
                                     </tr>
                                 ))}
