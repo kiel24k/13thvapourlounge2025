@@ -11,10 +11,10 @@ class Option
     public function getAllOptions(): JsonResponse
     {
         $options = DB::table('product_options')
-        ->select('option_title')
-        ->orderBy('id', 'DESC')
-        ->distinct()
-        ->get();
+            ->select('id','option_title')
+            ->orderBy('id', 'DESC')
+            ->distinct()
+            ->get();
         return response()->json($options);
     }
 
@@ -36,8 +36,25 @@ class Option
             })
             ->toArray();
         ProductOption::insert($items);
-
-
         return response()->json($items);
+    }
+
+    public function updateOption($data): JsonResponse
+    {
+        ProductOption::where("option_title", $data['option_title'])
+            ->update(['option_title' => $data["option_title_input"]]);
+
+        foreach ($data["option_label_input"] as $option) {
+            $optionTb = ProductOption::find($option['id']);
+            $optionTb->option_label = $option["option_label"];
+            $optionTb->update();
+        }
+
+        return response()->json($data);
+    }
+
+    public function deleteOption($id)
+    {
+        return ProductOption::destroy($id);
     }
 }

@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('product_options', function (Blueprint $table) {
             $table->id();
             $table->string('option_title');
-            $table->string('option_label');
+            $table->string('option_label')->nullable();
             $table->timestamps();
         });
     }

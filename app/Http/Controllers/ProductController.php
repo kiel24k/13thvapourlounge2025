@@ -7,7 +7,7 @@ use App\Http\Requests\Product\StoreDescriptionRequest;
 use App\Http\Requests\Product\StoreOptionRequest;
 use App\Http\Requests\Product\UpdateCategoryRequest;
 use App\Http\Requests\Product\UpdateDescriptionRequest;
-
+use App\Http\Requests\Product\UpdateOptionRequest;
 use App\Models\Category;
 use App\Models\ProductDescription;
 use App\Services\ProductService\Description;
@@ -116,5 +116,13 @@ class ProductController extends Controller
     public function showOption($title)
     {
         return $this->option->getOption($title);
+    }
+
+    public function updateOption (UpdateOptionRequest $request) {
+        return $this->option->updateOption($request);
+    }
+
+    public function destroyOption ($id) {
+        return $this->option->deleteOption($id);
     }
 }

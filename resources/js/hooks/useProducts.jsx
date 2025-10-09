@@ -8,6 +8,7 @@ import {
     createOption,
     deleteCategory,
     deleteDescription,
+    deleteOption,
     getCategories,
     getDescriptions,
     getOptionList,
@@ -16,6 +17,7 @@ import {
     storeDescription,
     updateCategory,
     updateDescription,
+    updateOption,
     viewDescription,
 } from "../api/products.api";
 
@@ -149,5 +151,27 @@ export const useShowOption = (title) => {
     return useQuery({
         queryKey: ["showOption", title],
         queryFn: () => showOption(title)
+    }) 
+}
+
+export const useUpdateOption = () => {
+    const queryClient = useQueryClient()
+    return useMutation({
+        mutationFn: updateOption,
+        onSuccess: () => {
+            queryClient.invalidateQueries(['optionList'])
+            toast("Option updated", "success")
+        }
+    })
+}
+
+export const useDeleteOption = () => {
+    const queryClient = useQueryClient()
+    return useMutation({
+        mutationFn:deleteOption,
+        onSuccess: () => {
+            queryClient.invalidateQueries(['optionList'])
+            toast("Option deleted", "success")
+        }
     }) 
 }
