@@ -44,12 +44,12 @@ export const deleteCategory = async (id) => {
 
 export const getDescriptions = async (search, page, orderName, orderSort) => {
     try {
-        const response = await axios.get(`api/get-descriptions?page=${page}`,{
+        const response = await axios.get(`api/get-descriptions?page=${page}`, {
             params: {
                 search: search,
                 orderName: orderName,
-                orderSort: orderSort
-            }
+                orderSort: orderSort,
+            },
         });
         return response.data;
     } catch (error) {
@@ -86,16 +86,38 @@ export const deleteDescription = async (id) => {
 export const updateDescription = async (data) => {
     try {
         const response = await axios.post("api/update-description", {
-            description_body: data.description_body, //recovery key 
+            description_body: data.description_body, //recovery key
             description_content: data.description_content, //recovery key for updating content []
             description_body_input: data.description_body_input,
-            description_content_input: data.description_content_input
+            description_content_input: data.description_content_input,
         });
         console.log(response);
-        
 
         return response;
     } catch (error) {
         throw error.response.data;
     }
+};
+
+export const getOptionList = async () => {
+    const response = await axios.get("api/option-list");
+    return response.data;
+};
+
+export const createOption = async (optionData) => {
+    try {
+        const response = await axios.post("api/store-option", {
+            option_title: optionData.optionTitle,
+            option_label: optionData.optionLabel,
+        });
+      console.log(response.data);
+      
+    } catch (error) {
+        throw error.response.data;
+    }
+};
+
+export const showOption = async (title) => {
+    const response = await axios.get(`api/show-option/${title}`);
+    return response.data;
 };

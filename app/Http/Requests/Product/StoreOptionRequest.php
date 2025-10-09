@@ -4,7 +4,7 @@ namespace App\Http\Requests\Product;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class StoreDescriptionRequest extends FormRequest
+class StoreOptionRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -22,8 +22,8 @@ class StoreDescriptionRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'description_body' => 'required|unique:product_descriptions,description_body',
-            'description_content' => 'nullable'
+            'option_title' => 'required|unique:product_options,option_title',
+            'option_label' => 'nullable'
         ];
     }
 }

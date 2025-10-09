@@ -5,10 +5,13 @@ import {
     useQueryClient,
 } from "@tanstack/react-query";
 import {
+    createOption,
     deleteCategory,
     deleteDescription,
     getCategories,
     getDescriptions,
+    getOptionList,
+    showOption,
     storeCategory,
     storeDescription,
     updateCategory,
@@ -123,3 +126,28 @@ export const useUpdateDescription = () => {
         },
     });
 };
+
+export const useGetOptionList = () => {
+    return useQuery({
+        queryKey: ["optionList"],
+        queryFn: getOptionList,
+    });
+};
+
+export const useStoreOption = () => {
+    const queryClient = useQueryClient()
+    return useMutation({
+        mutationFn: createOption,
+        onSuccess: () => {
+            queryClient.invalidateQueries(["optionList"])
+            toast("Option added", "success")
+        }
+    }) 
+}
+
+export const useShowOption = (title) => {
+    return useQuery({
+        queryKey: ["showOption", title],
+        queryFn: () => showOption(title)
+    }) 
+}

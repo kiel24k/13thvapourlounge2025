@@ -36,4 +36,8 @@ route::controller(ProductController::class)->group(function () {
   route::delete('destroy-description/{id}', 'destroyDescription');
   route::post('update-description', 'updateDescription');
   route::post('update-description', "updateDescription");
+
+  route::get('option-list', 'optionList');
+  route::get('show-option/{title}', 'showOption');
+  route::post('store-option', 'storeOption');
 });
