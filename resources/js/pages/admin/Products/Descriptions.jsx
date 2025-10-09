@@ -29,17 +29,16 @@ const Descriptions = () => {
     const [isModalOpen, setIsModalOpen] = useState(false);
 
     const [page, setPage] = useState(1);
-    const [orderName, setOrderName] = useState("id")
-    const [orderSort, setOrderSort] = useState("DESC")
+    const [orderName, setOrderName] = useState("id");
+    const [orderSort, setOrderSort] = useState("DESC");
 
     const { data: descriptionsData, isPending } = useGetDescriptions(
         search,
         page,
         orderName,
-        orderSort
+        orderSort,
     );
-    const { data: viewDescriptionData, isLoading } =
-        useViewDescription(descriptionContent);
+    const { data: viewDescriptionData, isLoading } = useViewDescription(descriptionContent);
 
     const handleViewButton = (text) => {
         setDescriptionContent(text);
@@ -58,16 +57,9 @@ const Descriptions = () => {
         }
     };
 
-    const handleSort = (name) => {
-       
-        if(orderSort === "DESC"){
-            setOrderSort("ASC")
-            
-        }else{
-            setOrderSort("DESC")
-        }
-      
-    }
+    const handleSort = () => {
+        setOrderSort(orderSort === "DESC" ? "ASC" : "DESC");
+    };
     return (
         <section>
             <div className="p-2 grid gap-2">
@@ -97,7 +89,10 @@ const Descriptions = () => {
                                     <Checkbox />
                                 </th>
 
-                                <th className="text-sm p-2 text-left font-semibold text-gray-700" onClick={() => handleSort("description_body")}>
+                                <th
+                                    className="text-sm p-2 text-left font-semibold text-gray-700"
+                                    onClick={handleSort}
+                                >
                                     <div className="flex items-center">
                                         <span>Description Body</span>
                                         <i className="ml-2">

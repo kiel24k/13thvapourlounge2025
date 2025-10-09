@@ -1,13 +1,23 @@
 import { Button, Checkbox, FormControl, OutlinedInput } from "@mui/material";
 import SearchOutlinedIcon from "@mui/icons-material/SearchOutlined";
-import PersonAddOutlinedIcon from "@mui/icons-material/PersonAddOutlined";
-import React from "react";
-import { Link } from "react-router-dom";
-import UpdateCategory from "../../../components/Overlays/Dialogs/UpdateCategory";
-// import DeleteUserDialog from "../../../components/Overlays/DeleteUserDialog";
-import DeleteCategoryDialog from "../../../components/Overlays/Dialogs/DeleteCategory";
+import { useGetOptionList, useShowOption } from "../../../hooks/useProducts";
+import NewOption from "../../../components/Overlays/Dialogs/NewOption";
+import ViewModal from "../../../components/Overlays/Modals/ViewModal";
+import { useState } from "react";
+import ViewOptionRow from "../../../components/Table/ViewOptionRow";
 
 const Options = () => {
+    const [optionData, setOptionData] = useState("");
+
+    const { data: optionList } = useGetOptionList();
+    const { data: showOption, isLoading } = useShowOption(optionData);
+
+    const [isModalOpen, setIsModalOpen] = useState(false);
+
+    const handleViewButton = (optionTitle) => {
+        setOptionData(optionTitle);
+        setIsModalOpen(true);
+    };
     return (
         <section>
             <div className="p-2 grid gap-2">
@@ -23,15 +33,7 @@ const Options = () => {
                             placeholder="Search"
                         />
                     </FormControl>
-                    <Link to={"/admin-create-admin"}>
-                        <Button
-                            variant="contained"
-                            endIcon={<PersonAddOutlinedIcon />}
-                            color="success"
-                        >
-                            New admin
-                        </Button>
-                    </Link>
+                    <NewOption />
                 </div>
 
                 <div className="overflow-x-auto">
@@ -59,23 +61,49 @@ const Options = () => {
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
-                                <td className="text-center">
-                                    <Checkbox />
-                                </td>
-                                <td className="text-sm p-2 text-left text-gray-800">
-                                    Test1
-                                </td>
-                                <td className="text-sm p-2 text-left text-gray-800">
-                                    Test1
-                                </td>
-                                <td>
-                                   <div className="flex">
-                                     <UpdateCategory />
-                                    <DeleteCategoryDialog/>
-                                   </div>
-                                </td>
-                            </tr>
+                            {optionList &&
+                                optionList.map((data) => (
+                                    <tr>
+                                        <td className="text-center">
+                                            <Checkbox />
+                                        </td>
+                                        <td className="text-sm p-2 text-left text-gray-800">
+                                            <span>{data.option_title}</span>
+                                        </td>
+                                        <td className="text-sm p-2 text-left text-gray-800">
+                                            <Button
+                                                size="small"
+                                                variant="contained"
+                                                color="secondary"
+                                                onClick={() =>
+                                                    handleViewButton(
+                                                        data.option_title,
+                                                    )
+                                                }
+                                            >
+                                                Details
+                                            </Button>
+                                            {isModalOpen && (
+                                                <ViewModal
+                                                    header="Option details"
+                                                    modalOpen={isModalOpen}
+                                                    isLoading={isLoading}
+                                                    modalContent={optionList}
+                                                    onClose={() =>
+                                                        setIsModalOpen(false)
+                                                    }
+                                                >
+                                                    <ViewOptionRow
+                                                        data={showOption}
+                                                    />
+                                                </ViewModal>
+                                            )}
+                                        </td>
+                                        <td>
+                                            <div className="flex"></div>
+                                        </td>
+                                    </tr>
+                                ))}
                         </tbody>
                     </table>
                 </div>

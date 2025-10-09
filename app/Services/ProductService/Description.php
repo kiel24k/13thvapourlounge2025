@@ -18,8 +18,9 @@ class Description
 
         if (empty($data['search'])) {
             $descriptions = DB::table('product_descriptions')
-                ->select('id', 'description_body', 'description_content')
+                ->select('description_body')
                 ->orderBy($orderName, $orderSort)
+                ->distinct()
                 ->paginate(3);
             return response()->json($descriptions);
         } else {

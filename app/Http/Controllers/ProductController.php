@@ -4,23 +4,28 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\Product\StoreCategoryRequest;
 use App\Http\Requests\Product\StoreDescriptionRequest;
+use App\Http\Requests\Product\StoreOptionRequest;
 use App\Http\Requests\Product\UpdateCategoryRequest;
 use App\Http\Requests\Product\UpdateDescriptionRequest;
 
 use App\Models\Category;
 use App\Models\ProductDescription;
 use App\Services\ProductService\Description;
+use App\Services\ProductService\Option;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
 
+
 class ProductController extends Controller
 {
     protected $description;
-    public function __construct(Description $description)
+    protected $option;
+    public function __construct(Description $description, Option $option)
     {
         $this->description = $description;
+        $this->option = $option;
     }
     public function getCategories(): JsonResponse
     {
@@ -62,7 +67,7 @@ class ProductController extends Controller
 
     public function getDescriptions(Request $request)
     {
-       return $this->description->getAllDescriptions($request);
+        return $this->description->getAllDescriptions($request);
     }
 
     public function storeDescription(StoreDescriptionRequest $request)
@@ -84,7 +89,7 @@ class ProductController extends Controller
 
     public function viewDescription($title)
     {
-        $description = ProductDescription::select('id','description_content')->where('description_body', $title)->get();
+        $description = ProductDescription::select('id', 'description_content')->where('description_body', $title)->get();
         return response()->json($description);
     }
 
@@ -95,7 +100,21 @@ class ProductController extends Controller
 
     public function updateDescription(UpdateDescriptionRequest $request)
     {
-        
         return $this->description->updateDescription($request);
+    }
+
+    public function optionList()
+    {
+        return $this->option->getAllOptions();
+    }
+
+    public function storeOption(StoreOptionRequest $request)
+    {
+        return $this->option->createOption($request);
+    }
+
+    public function showOption($title)
+    {
+        return $this->option->getOption($title);
     }
 }
