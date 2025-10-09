@@ -6,6 +6,7 @@ import ViewModal from "../../../components/Overlays/Modals/ViewModal";
 import { useState } from "react";
 import ViewOptionRow from "../../../components/Table/ViewOptionRow";
 import UpdateOption from "../../../components/Overlays/Dialogs/UpdateOption";
+import DeleteOption from "../../../components/Overlays/Dialogs/DeleteOption";
 
 const Options = () => {
     const [optionData, setOptionData] = useState("");
@@ -103,6 +104,7 @@ const Options = () => {
                                         <td>
                                             <div className="flex">
                                                 <UpdateOption option={data}/>
+                                                <DeleteOption id={data.id}/>
                                             </div>
                                         </td>
                                     </tr>
