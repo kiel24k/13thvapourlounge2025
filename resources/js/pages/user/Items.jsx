@@ -1,6 +1,6 @@
 import React from "react";
 import FadeInSection from "../../components/FadeInSection";
-import ItemCard from "../../components/ItemCard";
+import ItemCard from "./components/ItemCard";
 
 const Items = () => {
     return (

@@ -20,6 +20,9 @@ import ProductList from "../pages/admin/Products/ProductList";
 import Categories from "../pages/admin/Products/Categories";
 import Descriptions from "../pages/admin/Products/Descriptions";
 import Options from "../pages/admin/Products/Options";
+import NewProduct from "../pages/admin/Products/NewProduct";
+import ScrollToTop from "../components/scrolltotop";
+
 
 const routes = createBrowserRouter([
     {
@@ -51,7 +54,7 @@ const routes = createBrowserRouter([
                 element: <Items />,
             },
             {
-                path: "view-item",
+                path: "view-item/:id",
                 element: <ViewItem />,
             },
             {
@@ -148,6 +151,14 @@ const routes = createBrowserRouter([
                 element: (
                     <ProtectedRoutes allowedRoles={["admin"]}>
                         <Options />
+                    </ProtectedRoutes>
+                ),
+            },
+             {
+                path: "admin-new-product",
+                element: (
+                    <ProtectedRoutes allowedRoles={["admin"]}>
+                        <NewProduct />
                     </ProtectedRoutes>
                 ),
             },

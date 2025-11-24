@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\Product\StoreCategoryRequest;
 use App\Http\Requests\Product\StoreDescriptionRequest;
 use App\Http\Requests\Product\StoreOptionRequest;
+use App\Http\Requests\Product\StoreProductRequest;
 use App\Http\Requests\Product\UpdateCategoryRequest;
 use App\Http\Requests\Product\UpdateDescriptionRequest;
 use App\Http\Requests\Product\UpdateOptionRequest;
@@ -12,9 +13,11 @@ use App\Models\Category;
 use App\Models\ProductDescription;
 use App\Services\ProductService\Description;
 use App\Services\ProductService\Option;
+use App\Services\ProductService\ProductService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+
 
 
 
@@ -22,10 +25,12 @@ class ProductController extends Controller
 {
     protected $description;
     protected $option;
-    public function __construct(Description $description, Option $option)
+    protected $product;
+    public function __construct(Description $description, Option $option, ProductService $product)
     {
         $this->description = $description;
         $this->option = $option;
+        $this->product = $product;
     }
     public function getCategories(): JsonResponse
     {
@@ -73,18 +78,18 @@ class ProductController extends Controller
     public function storeDescription(StoreDescriptionRequest $request)
     {
 
-        $validated = $request->validated();
-        $items = collect($validated['description_content'])
-            ->map(function ($item) use ($validated) {
-                return [
-                    'description_body' => $validated['description_body'],
-                    'description_content' => $item['value'],
-                ];
-            })
-            ->toArray();
-        ProductDescription::insert($items);
+        // $validated = $request->validated();
+        // $items = collect($validated['description_content'])
+        //     ->map(function ($item) use ($validated) {
+        //         return [
+        //             'description_body' => $validated['description_body'],
+        //             'description_content' => $item['value'],
+        //         ];
+        //     })
+        //     ->toArray();
+        // ProductDescription::insert($items);
 
-        return $items;
+        return $this->description->createDescription($request);
     }
 
     public function viewDescription($title)
@@ -118,11 +123,28 @@ class ProductController extends Controller
         return $this->option->getOption($title);
     }
 
-    public function updateOption (UpdateOptionRequest $request) {
+    public function updateOption(UpdateOptionRequest $request)
+    {
         return $this->option->updateOption($request);
     }
 
-    public function destroyOption ($id) {
-        return $this->option->deleteOption($id);
+    public function destroyOption($title)
+    {
+        return $this->option->deleteOption($title);
+    }
+
+    public function showProducts()
+    {
+        return $this->product->getProducts();
+    }
+
+    public function showProduct ($id) {
+        return $this->product->getProduct($id);
+
+    }
+
+    public function storeProduct(StoreProductRequest $request)
+    {
+        return $this->product->createProduct($request);
     }
 }

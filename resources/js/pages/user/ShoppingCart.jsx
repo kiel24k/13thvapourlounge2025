@@ -1,12 +1,175 @@
 import { TextFields } from "@mui/icons-material";
-import { Button, Checkbox, TextField } from "@mui/material";
-import React from "react";
+import {
+    Button,
+    Checkbox,
+    CircularProgress,
+    IconButton,
+    TextField,
+} from "@mui/material";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import {
+    useDeleteCart,
+    useShowCartById,
+    useUpdateCart,
+} from "../../hooks/useCart";
+import { useGetAuthUser } from "../../hooks/useUsers";
+import { MdDeleteOutline } from "react-icons/md";
+import Swal from "sweetalert2";
+import { RxUpdate } from "react-icons/rx";
+import FullScreenDialog from "./components/FullScreenDialog";
 
 const ShoppingCart = () => {
+    const { data: user } = useGetAuthUser();
+    const { data: cart, isFetching } = useShowCartById(user?.id);
+    const [carts, setCarts] = useState([]);
+    const [checkbox, setCheckBox] = useState([]);
+    const [cartPrices, setCartPrices] = useState([]);
+    const { mutate: updateCart } = useUpdateCart();
+    const { mutate: deleteCart } = useDeleteCart();
+
+    const handleCheckBox = (item) => {
+        let updateCheckbox;
+
+        if (checkbox.includes(item.id)) {
+            updateCheckbox = checkbox.filter((el) => el !== item.id); //remove id in array to make it false and uncheck the checkbox
+        } else {
+            updateCheckbox = [...checkbox, item.id]; // add the id in array to make it true and check the checkbox
+        }
+
+        setCheckBox(updateCheckbox);
+    };
+
+    useEffect(() => {
+        const getCheck = checkbox.map((el) => {
+            const findCheck = cart.find((cartEl) => cartEl.id === el);
+            const total = parseInt(findCheck.total);
+            return total;
+        });
+
+        setCartPrices(
+            getCheck.reduce(
+                (accumulator, currentValue) => accumulator + currentValue,
+                0,
+            ),
+        );
+    }, [checkbox]);
+
+    useEffect(() => {
+        if (cart) {
+            setCarts(cart);
+        }
+    }, [cart]);
+
+    const handleQuantityChange = (maxQty, id, field, value) => {
+        const updateCart = carts.map((cart) =>
+            cart.id === id ? { ...cart, [field]: Number(value) } : cart,
+        );
+        setCarts(updateCart);
+
+        if (Number(value) >= maxQty) {
+            const maxCart = carts.map((cart) =>
+                cart.id === id ? { ...cart, [field]: Number(maxQty) } : cart,
+            );
+            setCarts(maxCart);
+        }
+
+        // if (Number(value) <= 0) {
+        //     const minimumCart = carts.map((cart) =>
+        //         cart.id === id ? { ...cart, [field]: 0 } : cart,
+        //     );
+        //     setCarts(minimumCart);
+        // }
+    };
+
+    const handleUpdateCart = () => {
+        updateCart(carts);
+    };
+
+    const deleteCarts = () => {
+        Swal.fire({
+            title: "Are you sure?",
+            text: "You won't be able to revert this!",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#3085d6",
+            cancelButtonColor: "#d33",
+            confirmButtonText: "Yes, delete it!",
+        }).then((result) => {
+            if (result.isConfirmed) {
+                deleteCart(checkbox);
+                setCheckBox([]);
+                Swal.fire({
+                    title: "Deleted!",
+                    text: "Your file has been deleted.",
+                    icon: "success",
+                });
+            }
+        });
+    };
+
+    const handleIncrement = (maxQty, id) => {
+        setCarts((prev) =>
+            prev.map((cart) =>
+                cart.id === id
+                    ? {
+                          ...cart,
+                          quantity:
+                              cart.quantity < maxQty
+                                  ? cart.quantity + 1
+                                  : maxQty,
+                      }
+                    : cart,
+            ),
+        );
+    };
+
+    const handleDecrement = (maxQty, id) => {
+        setCarts((prev) =>
+            prev.map((cart) =>
+                cart.id === id
+                    ? {
+                          ...cart,
+                          quantity:
+                              cart.quantity > 1
+                                  ? cart.quantity - 1
+                                  : 1
+                      }
+                    : cart,
+            ),
+        );
+    };
+
+    if (isFetching) {
+        return (
+            <div className="flex gap-5 items-center justify-center">
+                <CircularProgress size={100} />
+                <b>Loading . . .</b>
+            </div>
+        );
+    }
     return (
         <>
             <section className="md:w-300 m-auto">
+                <div className="flex justify-center gap-2 mb-2">
+                    {carts.length > 0 && (
+                        <Button
+                            variant="outlined"
+                            color="info"
+                            size="small"
+                            startIcon={<RxUpdate />}
+                            sx={{ textTransform: "none" }}
+                            onClick={handleUpdateCart}
+                        >
+                            Update Cart
+                        </Button>
+                    )}
+                    {checkbox.length > 0 && (
+                        <IconButton sx={{ color: "red" }} onClick={deleteCarts}>
+                            <MdDeleteOutline />
+                        </IconButton>
+                    )}
+                </div>
                 <div className="flex flex-wrap md:flex-nowrap gap-5 md:gap-0">
                     <div className="max-h-100 overflow-y-scroll gap-5 md:gap-2">
                         <table className="border border-gray-200  mt-5 ">
@@ -29,194 +192,113 @@ const ShoppingCart = () => {
                                     </th>
                                 </tr>
                             </thead>
+
                             <tbody>
-                                <tr>
-                                    <td>
-                                        <Checkbox />
-                                    </td>
-                                    <td className="p-2">
-                                        <figure className="flex gap-5">
-                                            <div className="">
-                                                <img
-                                                    src="https://admin.elementvape.com/media/promobanners/Exodus_-_Megamenu_Brand.jpg"
-                                                    alt=""
+                                {carts &&
+                                    carts.map((data) => (
+                                        <tr>
+                                            <td>
+                                                <Checkbox
+                                                    disabled={
+                                                        data.quantity <= 0
+                                                    }
+                                                    checked={checkbox.includes(
+                                                        data.id,
+                                                    )}
+                                                    onChange={() =>
+                                                        handleCheckBox(data)
+                                                    }
                                                 />
-                                            </div>
-                                            <figcaption>
-                                                <span>
-                                                    FVKD Exotics Liquid Diamond
-                                                    Pre Rolls 7.5G
+                                            </td>
+                                            <td className="p-2">
+                                                <figure className="flex gap-5">
+                                                    <div className="">
+                                                        <img
+                                                            src={`/images/${JSON.parse(data.products.image)[0]}`}
+                                                            alt="cart image"
+                                                            width={150}
+                                                            height={150}
+                                                        />
+                                                    </div>
+                                                    <figcaption>
+                                                        <span>
+                                                            {
+                                                                data.products
+                                                                    .product_name
+                                                            }
+                                                        </span>
+                                                    </figcaption>
+                                                </figure>
+                                            </td>
+                                            <td className="p-5">
+                                                <div className="grid">
+                                                    <b className="font-bold">
+                                                        ₱
+                                                        {
+                                                            data.products
+                                                                .product_price
+                                                        }
+                                                    </b>
+                                                </div>
+                                            </td>
+                                            <td className="p-5">
+                                                <div className="flex gap-2">
+                                                    <button
+                                                        className="border-1 border-green-500 w-5 rounded-1xl shadow-2xl font-bold"
+                                                        onClick={() =>
+                                                            handleIncrement(
+                                                                data.products
+                                                                    .product_quantity,
+                                                                data.id,
+                                                            )
+                                                        }
+                                                    >
+                                                        +
+                                                    </button>
+                                                    <input
+                                                        type="number"
+                                                        value={data.quantity}
+                                                        max={
+                                                            data.products
+                                                                .product_quantity
+                                                        }
+                                                        min={1}
+                                                        className="w-10 outline-1"
+                                                        onChange={(e) =>
+                                                            handleQuantityChange(
+                                                                data.products
+                                                                    .product_quantity,
+                                                                data.id,
+                                                                "quantity",
+                                                                e.target.value,
+                                                            )
+                                                        }
+                                                    />
+                                                    <button
+                                                        className="border-1 border-red-400 w-5 rounded-1xl shadow-2xl"
+                                                        onClick={() =>
+                                                            handleDecrement(
+                                                                data.products
+                                                                    .product_quantity,
+                                                                data.id,
+                                                            )
+                                                        }
+                                                    >
+                                                        -
+                                                    </button>
+                                                </div>
+                                            </td>
+                                            <td className="p-5">
+                                                <span className="font-bold text-green-600">
+                                                    ₱
+                                                    {Number(
+                                                        data.total,
+                                                    ).toLocaleString()}
+                                                    .00
                                                 </span>
-                                            </figcaption>
-                                        </figure>
-                                    </td>
-                                    <td className="p-5">
-                                        <div className="grid">
-                                            <b className="font-bold">P100.00</b>
-                                        </div>
-                                    </td>
-                                    <td className="p-5">
-                                        <div className="flex gap-2">
-                                            <button className="border-1 border-green-500 w-5 rounded-1xl shadow-2xl font-bold">
-                                                +
-                                            </button>
-                                            <input
-                                                type="text"
-                                                value={1}
-                                                className="w-10 outline-1"
-                                            />
-                                            <button className="border-1 border-red-400 w-5 rounded-1xl shadow-2xl">
-                                                -
-                                            </button>
-                                        </div>
-                                    </td>
-                                    <td className="p-5">
-                                        <span className="font-bold text-green-600">
-                                            P9,232.00
-                                        </span>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <Checkbox />
-                                    </td>
-                                    <td className="p-2">
-                                        <figure className="flex gap-5">
-                                            <div className="">
-                                                <img
-                                                    src="https://admin.elementvape.com/media/promobanners/Exodus_-_Megamenu_Brand.jpg"
-                                                    alt=""
-                                                />
-                                            </div>
-                                            <figcaption>
-                                                <span>
-                                                    FVKD Exotics Liquid Diamond
-                                                    Pre Rolls 7.5G
-                                                </span>
-                                            </figcaption>
-                                        </figure>
-                                    </td>
-                                    <td className="p-5">
-                                        <div className="grid">
-                                            <b className="font-bold">P100.00</b>
-                                        </div>
-                                    </td>
-                                    <td className="p-5">
-                                        <div className="flex gap-2">
-                                            <button className="border-1 border-green-500 w-5 rounded-1xl shadow-2xl font-bold">
-                                                +
-                                            </button>
-                                            <input
-                                                type="text"
-                                                value={1}
-                                                className="w-10 outline-1"
-                                            />
-                                            <button className="border-1 border-red-400 w-5 rounded-1xl shadow-2xl">
-                                                -
-                                            </button>
-                                        </div>
-                                    </td>
-                                    <td className="p-5">
-                                        <span className="font-bold text-green-600">
-                                            P9,232.00
-                                        </span>
-                                    </td>
-                                </tr>
-
-                                <tr>
-                                    <td>
-                                        <Checkbox />
-                                    </td>
-                                    <td className="p-2">
-                                        <figure className="flex gap-5">
-                                            <div className="">
-                                                <img
-                                                    src="https://admin.elementvape.com/media/promobanners/Exodus_-_Megamenu_Brand.jpg"
-                                                    alt=""
-                                                />
-                                            </div>
-                                            <figcaption>
-                                                <span>
-                                                    FVKD Exotics Liquid Diamond
-                                                    Pre Rolls 7.5G
-                                                </span>
-                                            </figcaption>
-                                        </figure>
-                                    </td>
-                                    <td className="p-5">
-                                        <div className="grid">
-                                            <b className="font-bold">P100.00</b>
-                                        </div>
-                                    </td>
-                                    <td className="p-5">
-                                        <div className="flex gap-2">
-                                            <button className="border-1 border-green-500 w-5 rounded-1xl shadow-2xl font-bold">
-                                                +
-                                            </button>
-                                            <input
-                                                type="text"
-                                                value={1}
-                                                className="w-10 outline-1"
-                                            />
-                                            <button className="border-1 border-red-400 w-5 rounded-1xl shadow-2xl">
-                                                -
-                                            </button>
-                                        </div>
-                                    </td>
-                                    <td className="p-5">
-                                        <span className="font-bold text-green-600">
-                                            P9,232.00
-                                        </span>
-                                    </td>
-                                </tr>
-
-                                <tr>
-                                    <td>
-                                        <Checkbox />
-                                    </td>
-                                    <td className="p-2">
-                                        <figure className="flex gap-5">
-                                            <div className="">
-                                                <img
-                                                    src="https://admin.elementvape.com/media/promobanners/Exodus_-_Megamenu_Brand.jpg"
-                                                    alt=""
-                                                />
-                                            </div>
-                                            <figcaption>
-                                                <span>
-                                                    {" "}
-                                                    FVKD Exotics Liquid Diamond
-                                                    Pre Rolls 7.5G
-                                                </span>
-                                            </figcaption>
-                                        </figure>
-                                    </td>
-                                    <td className="p-5">
-                                        <div className="grid">
-                                            <b className="font-bold">P100.00</b>
-                                        </div>
-                                    </td>
-                                    <td className="p-5">
-                                        <div className="flex gap-2">
-                                            <button className="border-1 border-green-500 w-5 rounded-1xl shadow-2xl font-bold">
-                                                +
-                                            </button>
-                                            <input
-                                                type="text"
-                                                value={1}
-                                                className="w-10 outline-1"
-                                            />
-                                            <button className="border-1 border-red-400 w-5 rounded-1xl shadow-2xl">
-                                                -
-                                            </button>
-                                        </div>
-                                    </td>
-                                    <td className="p-5">
-                                        <span className="font-bold text-green-600">
-                                            P9,232.00
-                                        </span>
-                                    </td>
-                                </tr>
+                                            </td>
+                                        </tr>
+                                    ))}
                             </tbody>
                         </table>
                     </div>
@@ -226,20 +308,23 @@ const ShoppingCart = () => {
                             <div className="border-b-1 border-gray-300 pb-3 ">
                                 <span>SUMMARY</span>
                             </div>
+
+                            {/* <div className="flex justify-between">
+                                <span>Sub Total</span>
+                                <span className="font-bold">
+                                    ₱{cartPrices.toLocaleString()}.00
+                                </span>
+                            </div> */}
+
                             <div className="flex justify-between">
-                                <span>Subtotal</span>
-                                <span>P32,122.00</span>
+                                <span>Total</span>
+                                <span className="font-bold text-green-600">
+                                    ₱{cartPrices.toLocaleString()}.00
+                                </span>
                             </div>
-                            <div className="flex justify-between">
-                                <span>Order Total</span>
-                                <span className="font-bold">P32,122.00</span>
-                            </div>
-                            <div className="grid">
-                               <Link to={"/checkout"}>
-                                <Button variant="contained" color="error">
-                                    PROCEED TO CHECKOUT
-                                </Button>
-                               </Link>
+
+                            <div className="flex gap-3">
+                                <FullScreenDialog />
                             </div>
                         </div>
                     </div>

@@ -11,7 +11,7 @@ class Option
     public function getAllOptions(): JsonResponse
     {
         $options = DB::table('product_options')
-            ->select('id','option_title')
+            ->select('option_title')
             ->orderBy('id', 'DESC')
             ->distinct()
             ->get();
@@ -53,8 +53,8 @@ class Option
         return response()->json($data);
     }
 
-    public function deleteOption($id)
+    public function deleteOption($title)
     {
-        return ProductOption::destroy($id);
+        return ProductOption::where('option_title', $title)->delete();
     }
 }

@@ -91,7 +91,6 @@ export const updateDescription = async (data) => {
             description_body_input: data.description_body_input,
             description_content_input: data.description_content_input,
         });
-        console.log(response);
 
         return response;
     } catch (error) {
@@ -110,7 +109,6 @@ export const createOption = async (optionData) => {
             option_title: optionData.optionTitle,
             option_label: optionData.optionLabel,
         });
-        console.log(response.data);
     } catch (error) {
         throw error.response.data;
     }
@@ -128,11 +126,56 @@ export const updateOption = async (data) => {
         option_title_input: data.option_title_input,
         option_label_input: data.option_label_input,
     });
-
-    console.log(data.id);
 };
 
-export const deleteOption = async (id) => {
-    const response = await axios.delete(`api/destroy-option/${id}`);
+export const deleteOption = async (title) => {
+    const response = await axios.delete(`api/destroy-option/${title}`);
     return response.data;
+};
+
+export const storeProduct = async (data) => {
+    try {
+        const response = await axios.post(
+            "api/store-product",
+            {
+                image: data.image,
+                product_category: data.product_category,
+                product_name: data.product_name,
+                product_price: data.price,
+                product_quantity: data.quantity,
+                product_description: data.product_details.description_body,
+                product_option:
+                    data.product_details.option_title.length === 0
+                        ? null
+                        : JSON.stringify(data.product_details.option_title),
+                product_details: JSON.stringify(data.product_details), //json obj
+            },
+            {
+                headers: { "Content-Type": "multipart/form-data" },
+            },
+        );
+        console.log(response.data);
+
+        return response.data;
+    } catch (error) {
+        throw error.response.data;
+    }
+};
+
+export const showProducts = async () => {
+    try {
+        const response = await axios.get("api/show-products");
+        return response.data.data;
+    } catch (error) {
+        throw error.response;
+    }
+};
+
+export const showProduct = async (id) => {
+    try {
+        const response = await axios.get(`/api/show-product/${id}`);
+        return response.data;
+    } catch (error) {
+        throw error;
+    }
 };
