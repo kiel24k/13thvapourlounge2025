@@ -17,11 +17,18 @@ import MenuRoundedIcon from "@mui/icons-material/MenuRounded";
 import UserSidebar from "../components/UserSidebar";
 import DropdownMenu from "../components/DropdownMenu";
 import CartBox from "../components/CartBox";
-
+import { cookieName } from "../cookies/GetCookies";
+import AccountMenu from "../components/Menu/AccountMenu";
+import { useShowCartById } from "../hooks/useCart";
+import { useGetAuthUser } from "../hooks/useUsers";
+import ScrollToTop from "../components/scrolltotop";
 
 const RootLayout = () => {
+    const [isLogin, setIsLogin] = useState(false);
     const [isSidebarOpen, setIsSidebarOpen] = useState(false);
     const [isCartBox, setIsCartBox] = useState(false);
+    // const {data:user} = useGetAuthUser()
+    // const {data:cart} = useShowCartById(user.id)
 
     const handleSidebar = () => {
         setIsSidebarOpen(true);
@@ -35,10 +42,23 @@ const RootLayout = () => {
         }
     };
 
-   
+    useEffect(() => {
+        const cookieInterval = setInterval(() => {
+            const cookie = cookieName("rl");
+            if (cookie === "customer") {
+                setIsLogin(true);
+                clearInterval(cookieInterval);
+            } else {
+                setIsLogin(false);
+            }
+        }, 2000);
+
+        //  return () => clearInterval(cookieInterval);
+    }, []);
 
     return (
         <>
+        <ScrollToTop/>
             <header>
                 <div className="border-b-3 p-2 text-center">
                     <h1 className="font-semibold text-md">
@@ -75,16 +95,20 @@ const RootLayout = () => {
                                 />
                             </FormControl>
                         </span>
-                        <span>
-                            <NavLink to={"login"}>
-                                <PersonIcon fontSize="large" />
-                            </NavLink>
-                        </span>
-                        <span
+                        {!isLogin ? (
+                            <span>
+                                <NavLink to={"login"}>
+                                    <PersonIcon fontSize="large" />
+                                </NavLink>
+                            </span>
+                        ) : (
+                            <AccountMenu/>
+                        )}
+                     <span
                             className="cursor-pointer"
                             onClick={handleCartBox}
                         >
-                            <Badge badgeContent={4} color="warning">
+                            <Badge badgeContent={2} color="warning">
                                 <ShoppingCartIcon
                                     color="action"
                                     fontSize="large"

@@ -13,8 +13,11 @@ import {
     getDescriptions,
     getOptionList,
     showOption,
+    showProduct,
+    showProducts,
     storeCategory,
     storeDescription,
+    storeProduct,
     updateCategory,
     updateDescription,
     updateOption,
@@ -137,42 +140,65 @@ export const useGetOptionList = () => {
 };
 
 export const useStoreOption = () => {
-    const queryClient = useQueryClient()
+    const queryClient = useQueryClient();
     return useMutation({
         mutationFn: createOption,
         onSuccess: () => {
-            queryClient.invalidateQueries(["optionList"])
-            toast("Option added", "success")
-        }
-    }) 
-}
+            queryClient.invalidateQueries(["optionList"]);
+            toast("Option added", "success");
+        },
+    });
+};
 
 export const useShowOption = (title) => {
     return useQuery({
         queryKey: ["showOption", title],
-        queryFn: () => showOption(title)
-    }) 
-}
+        queryFn: () => showOption(title),
+    });
+};
 
 export const useUpdateOption = () => {
-    const queryClient = useQueryClient()
+    const queryClient = useQueryClient();
     return useMutation({
         mutationFn: updateOption,
         onSuccess: () => {
-            queryClient.invalidateQueries(['optionList'])
-            toast("Option updated", "success")
-        }
-    })
-}
+            queryClient.invalidateQueries(["optionList"]);
+            toast("Option updated", "success");
+        },
+    });
+};
 
 export const useDeleteOption = () => {
-    const queryClient = useQueryClient()
+    const queryClient = useQueryClient();
     //e
     return useMutation({
-        mutationFn:deleteOption,
+        mutationFn: deleteOption,
         onSuccess: () => {
-            queryClient.invalidateQueries(['optionList'])
-            toast("Option deleted", "success")
-        }
-    }) 
-}
+            queryClient.invalidateQueries(["optionList"]);
+            toast("Option deleted", "success");
+        },
+    });
+};
+
+export const useStoreProduct = () => {
+    return useMutation({
+        mutationFn: storeProduct,
+        onSuccess: () => {
+            toast("Product added", "success");
+        },
+    });
+};
+
+export const useShowProducts = () => {
+    return useQuery({
+        queryFn: showProducts,
+        queryKey: ["showProducts"],
+    });
+};
+
+export const useShowProduct = (id) => {
+    return useQuery({
+        queryFn: () => showProduct(id),
+        queryKey: ["showProduct"],
+    });
+};

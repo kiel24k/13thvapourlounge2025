@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\DB;
 
 class Description
 {
-
+    public $test = "dfs";
     public function getAllDescriptions($data): JsonResponse
     {
 
@@ -31,6 +31,22 @@ class Description
                 ->paginate(3);
             return response()->json($descriptions);
         }
+    }
+
+    public function createDescription($data)
+    {
+        $validated = $data->validated();
+        $items = collect($validated['description_content'])
+            ->map(function ($item) use ($validated) {
+                return [
+                    'description_body' => $validated['description_body'],
+                    'description_content' => $item['value'],
+                ];
+            })
+            ->toArray();
+        ProductDescription::insert($items);
+
+        return response()->json($data);
     }
 
     public function deleteDescription($id): bool

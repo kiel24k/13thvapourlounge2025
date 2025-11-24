@@ -104,7 +104,7 @@ const Options = () => {
                                         <td>
                                             <div className="flex">
                                                 <UpdateOption option={data}/>
-                                                <DeleteOption id={data.id}/>
+                                                <DeleteOption data={data}/>
                                             </div>
                                         </td>
                                     </tr>

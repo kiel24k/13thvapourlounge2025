@@ -4,6 +4,7 @@ import Typography from "@mui/material/Typography";
 import Modal from "@mui/material/Modal";
 import { Button, CircularProgress, IconButton, Tooltip } from "@mui/material";
 import CloseOutlinedIcon from "@mui/icons-material/CloseOutlined";
+import ViewProductRow from "../../Table/ViewProductRow";
 
 const style = {
     position: "absolute",
@@ -24,17 +25,19 @@ const style = {
 // isLoading: boolean
 
 export default function ViewModal({
-    modalOpen,
-    onClose,
+    modalOpen, //boolean
+    onClose, //function to change the modalOpen boolean
     header,
     children,
     isLoading,
+    data,
 }) {
     const open = modalOpen;
 
     return (
         <div className="bg-red-200">
             <Modal
+                className="overflow-x-scroll"
                 open={open}
                 onClose={onClose}
                 aria-labelledby="modal-modal-title"

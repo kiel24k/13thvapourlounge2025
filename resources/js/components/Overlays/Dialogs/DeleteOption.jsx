@@ -9,9 +9,10 @@ import { IconButton, Tooltip } from "@mui/material";
 import DeleteOutlineOutlinedIcon from "@mui/icons-material/DeleteOutlineOutlined";
 import { useDeleteDescription, useDeleteOption, useShowOption } from "../../../hooks/useProducts";
 
-export default function DeleteOption({id}) {
+export default function DeleteOption({data}) {
     const [open, setOpen] = React.useState(false);
 
+    const {data: optionData} = useShowOption(data.option_title)
     const {mutate, error} = useDeleteOption()
 
     const handleClickOpen = () => {
@@ -23,8 +24,9 @@ export default function DeleteOption({id}) {
     };
 
     const handleConfirm = () => {
-       
-     mutate(id, {
+      
+        
+     mutate(data.option_title, {
         onSuccess: () => {
             setOpen(false) 
         }

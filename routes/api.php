@@ -1,7 +1,9 @@
 <?php
 
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\AnalyticController;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\CartController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\UserController;
 use Illuminate\Http\Request;
@@ -41,5 +43,20 @@ route::controller(ProductController::class)->group(function () {
   route::get('show-option/{title}', 'showOption');
   route::post('store-option', 'storeOption');
   route::post('update-option', 'updateOption');
-  route::delete('destroy-option/{id}', 'destroyOption');
+  route::delete('destroy-option/{title}', 'destroyOption');
+
+  route::post('store-product', 'storeProduct');
+  route::get('show-products', 'showProducts');
+  route::get('show-product/{id}', 'showProduct');
+});
+
+route::controller(AnalyticController::class)->group(function () {
+  route::get('/product-trending', 'ProductTrending');
+});
+
+route::controller(CartController::class)->group(function () {
+  route::post('store-cart', 'storeCart');
+  route::get('show-cart/{id}', 'showCart');
+  route::post('update-cart', 'updateCart');
+  route::post('delete-cart', 'deleteCart');
 });
