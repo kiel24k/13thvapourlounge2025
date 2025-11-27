@@ -3,7 +3,9 @@ NOV 25:::::::::::::
 
 can increase and decrease order on cart => DONE
 total not change when update the cart => 
-bulk delete on shopping shopping cart => 
-proceed to checkout function and design => 
+proceed to checkout function and design => ongoing
 place order => 
+category on index page => 
+profile => 
+My account => 
 

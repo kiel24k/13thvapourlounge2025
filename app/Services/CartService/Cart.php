@@ -9,13 +9,18 @@ class Cart
 
     public function createCart($request)
     {
-        ModelsCart::create([
+        $cart = ModelsCart::firstOrNew([
             'user_id' => $request->user_id,
             'product_id' => $request->product_id,
-            'quantity' => $request->quantity,
             'option_type' => $request->option_type,
-            'total' => $request->total
         ]);
+
+        // if new row, qty is null → default to 0
+        $cart->quantity = ($cart->quantity ?? 0) + $request->quantity;
+        $cart->option_type = $request->option_type;
+        $cart->total = ($cart->total ?? 0) + $request->total;
+
+        $cart->save();
         return response()->json(['message' => 'Add to cart success']);
     }
 

@@ -18,10 +18,11 @@ import UserSidebar from "../components/UserSidebar";
 import DropdownMenu from "../components/DropdownMenu";
 import CartBox from "../components/CartBox";
 import { cookieName } from "../cookies/GetCookies";
-import AccountMenu from "../components/Menu/AccountMenu";
+
 import { useShowCartById } from "../hooks/useCart";
 import { useGetAuthUser } from "../hooks/useUsers";
 import ScrollToTop from "../components/scrolltotop";
+import AccountMenu from "../pages/user/components/Menu/AccountMenu";
 
 const RootLayout = () => {
     const [isLogin, setIsLogin] = useState(false);

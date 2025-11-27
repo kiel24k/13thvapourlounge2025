@@ -13,7 +13,7 @@ const ViewItem = () => {
     const [isOptionError, setIsOptionError] = useState(false);
     const { id } = useParams();
     const { data, isFetching } = useShowProduct(id);
-    const {data: user} = useGetAuthUser()
+    const { data: user } = useGetAuthUser();
 
     const { mutate } = useStoreCart();
 
@@ -35,7 +35,7 @@ const ViewItem = () => {
     const handleSubmit = (e) => {
         e.preventDefault();
         console.log(user);
-        
+
         if (
             JSON.parse(data.product_details).option_title.length !==
                 Object.values(selectedOptions).length ||
@@ -69,13 +69,13 @@ const ViewItem = () => {
         }));
     };
 
-    if(isFetching) {
+    if (isFetching) {
         return (
             <div className="flex items-center justify-center">
-                <CircularProgress size={40}/>
+                <CircularProgress size={40} />
                 <b>Loading...</b>
             </div>
-        )
+        );
     }
 
     return (
@@ -122,10 +122,6 @@ const ViewItem = () => {
                                     </ul>
                                 </div>
                                 <div className="grid gap-2">
-                                    {isOptionError && (
-                                        <span>fill up all options</span>
-                                    )}
-
                                     {data &&
                                         JSON.parse(
                                             data?.product_details,
@@ -174,6 +170,9 @@ const ViewItem = () => {
                                             </div>
                                         ))}
                                 </div>
+                                 {isOptionError && (
+                                        <li className="text-red-700 capitalize">fill up all option</li>
+                                    )}
 
                                 <div className="flex gap-4 items-center mt-10">
                                     <div className="flex items-center content-center border-1 rounded-lg font-bold">
