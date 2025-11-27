@@ -7,7 +7,7 @@ import {
     TextField,
 } from "@mui/material";
 import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { data, Link } from "react-router-dom";
 import {
     useDeleteCart,
     useShowCartById,
@@ -17,7 +17,8 @@ import { useGetAuthUser } from "../../hooks/useUsers";
 import { MdDeleteOutline } from "react-icons/md";
 import Swal from "sweetalert2";
 import { RxUpdate } from "react-icons/rx";
-import FullScreenDialog from "./components/FullScreenDialog";
+
+import BillingDetails from "./components/BillingDetails";
 
 const ShoppingCart = () => {
     const { data: user } = useGetAuthUser();
@@ -44,7 +45,9 @@ const ShoppingCart = () => {
         const getCheck = checkbox.map((el) => {
             const findCheck = cart.find((cartEl) => cartEl.id === el);
             const total = parseInt(findCheck.total);
-            return total;
+            if (total) {
+                return total;
+            }
         });
 
         setCartPrices(
@@ -130,10 +133,7 @@ const ShoppingCart = () => {
                 cart.id === id
                     ? {
                           ...cart,
-                          quantity:
-                              cart.quantity > 1
-                                  ? cart.quantity - 1
-                                  : 1
+                          quantity: cart.quantity > 1 ? cart.quantity - 1 : 1,
                       }
                     : cart,
             ),
@@ -195,8 +195,8 @@ const ShoppingCart = () => {
 
                             <tbody>
                                 {carts &&
-                                    carts.map((data) => (
-                                        <tr>
+                                    carts.map((data, key) => (
+                                        <tr key={key}>
                                             <td>
                                                 <Checkbox
                                                     disabled={
@@ -234,10 +234,11 @@ const ShoppingCart = () => {
                                                 <div className="grid">
                                                     <b className="font-bold">
                                                         ₱
-                                                        {
+                                                        {Number(
                                                             data.products
-                                                                .product_price
-                                                        }
+                                                                .product_price,
+                                                        ).toLocaleString()}
+                                                        .00
                                                     </b>
                                                 </div>
                                             </td>
@@ -324,7 +325,11 @@ const ShoppingCart = () => {
                             </div>
 
                             <div className="flex gap-3">
-                                <FullScreenDialog />
+                                <BillingDetails
+                                    checkBox={checkbox}
+                                    carts={carts}
+                                    total={cartPrices}
+                                />
                             </div>
                         </div>
                     </div>

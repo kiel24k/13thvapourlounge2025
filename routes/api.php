@@ -4,6 +4,7 @@ use App\Http\Controllers\AdminController;
 use App\Http\Controllers\AnalyticController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CartController;
+use App\Http\Controllers\OrderController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\UserController;
 use Illuminate\Http\Request;
@@ -59,4 +60,8 @@ route::controller(CartController::class)->group(function () {
   route::get('show-cart/{id}', 'showCart');
   route::post('update-cart', 'updateCart');
   route::post('delete-cart', 'deleteCart');
+});
+
+route::controller(OrderController::class)->group(function () {
+  route::post('/store-order', 'storeOrder');
 });
