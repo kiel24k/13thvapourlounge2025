@@ -6,7 +6,7 @@ import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 
-export default function AlertDialog({isOpen, onClose, message, handleSubmit}) {
+export default function AlertDialog({isOpen, onClose, message, handleSubmit, title}) {
   return (
     <React.Fragment>
       <Dialog
@@ -16,7 +16,9 @@ export default function AlertDialog({isOpen, onClose, message, handleSubmit}) {
         aria-describedby="alert-dialog-description"
       >
         <DialogTitle id="alert-dialog-title">
-          {"Use Previous data recovery?"}
+        <div className="grid justify-center">
+        {title}
+        </div>
         </DialogTitle>
         <DialogContent>
           <DialogContentText id="alert-dialog-description">

@@ -29,6 +29,7 @@ const ProcessProduct = ({ products, isFetching }) => {
     const [productTotal, setProductTotal] = useState();
     const [customer_name, setCustomer] = useState("");
     const [isOpen, setIsOpen] = useState(false);
+    const [isProceed, setIsProceed] = useState(false);
 
     const handleSelectProduct = (items) => {
         //items is object
@@ -63,15 +64,16 @@ const ProcessProduct = ({ products, isFetching }) => {
     };
 
     const handleProceed = (status) => {
-        storeOrder(
-            { selectedProducts, customer_name, status: status },
-            {
-                onSuccess: () => {
-                    setSelectedProducts([]);
-                    setCustomer("");
-                },
-            },
-        );
+        // storeOrder(
+        //     { selectedProducts, customer_name, status: status },
+        //     {
+        //         onSuccess: () => {
+        //             setSelectedProducts([]);
+        //             setCustomer("");
+        //         },
+        //     },
+        // );
+        setIsProceed(true);
     };
 
     const handleOnHold = (status) => {
@@ -91,8 +93,8 @@ const ProcessProduct = ({ products, isFetching }) => {
     };
 
     const handleSubmit = () => {
-        alert("data restored")
-    }
+        alert("data restored");
+    };
 
     useEffect(() => {
         setProductTotal(
@@ -370,10 +372,63 @@ const ProcessProduct = ({ products, isFetching }) => {
                                     variant="contained"
                                     color="secondary"
                                     disabled={selectedProducts.length <= 0}
-                                    onClick={() => handleProceed("proceeded")}
+                                    onClick={handleProceed}
                                 >
                                     Proceed
                                 </Button>
+                                <AlertDialog
+                                    isOpen={isProceed}
+                                    onClose={() => setIsProceed(false)}
+                                    title={
+                                        <div className="grid justify-center items-center text-center">
+                                            <b className="text-2xl">
+                                                Logo here
+                                            </b>
+                                            <span>Address here</span>
+                                        </div>
+                                    }
+                                    message={
+                                        <div>
+                                            <ul>
+                                                {selectedProducts &&
+                                                    selectedProducts.map(
+                                                        (s) => (
+                                                            <div className="grid">
+                                                                <li>
+                                                                    {
+                                                                        s.product_name
+                                                                    }
+                                                                </li>
+                                                                <li>
+                                                                    {
+                                                                        s.product_price
+                                                                    }
+                                                                </li>
+                                                                <li>
+                                                                    x
+                                                                    {s.quantity}
+                                                                </li>
+                                                                <hr />
+                                                            </div>
+                                                        ),
+                                                    )}
+                                            </ul>
+                                            <hr />
+                                            <div className="grid">
+                                                <span>
+                                                    Total: ₱
+                                                    {productTotal.toLocaleString()}
+                                                    .00
+                                                </span>
+                                                <span>Cash: ₱5,000.00</span>
+                                                <span>
+                                                    Subtotal:{" "}₱
+                                                    {(5000 - productTotal).toLocaleString()}.00
+                                                </span>
+                                            </div>
+                                        </div>
+                                    }
+                                />
                             </div>
                         </div>
                     )}
