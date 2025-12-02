@@ -1,6 +1,6 @@
 export const storeOrder = async (data) => {
     try {
-        const response = await axios.post("/api/store-order", data);
+        const response = await axios.post("/api/pos-store-order", data);
         console.log(response.data);
         return response.data;
     } catch (error) {
@@ -10,7 +10,7 @@ export const storeOrder = async (data) => {
 
 export const showCustomerByStatus = async (status) => {
     try {
-        const response = await axios.get(`/api/get-customer-by-status/${status}` );
+        const response = await axios.get(`/api/pos-get-customer-by-status/${status}` );
         console.log(response.data);
         return response.data;
     } catch (error) {

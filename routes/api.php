@@ -76,6 +76,6 @@ route::controller(OrderController::class)->group(function () {
 });
 
 route::controller(PosController::class)->group(function () {
-  route::post('/store-order', 'storeOrder');
-  route::get('/get-customer-by-status/{status}', 'showCustomerByStatus');
+  route::post('/pos-store-order', 'storeOrder');
+  route::get('/pos-get-customer-by-status/{status}', 'showCustomerByStatus');
 });
