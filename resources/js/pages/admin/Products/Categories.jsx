@@ -9,77 +9,71 @@ import { useGetCategories } from "../../../hooks/useProducts";
 
 import NewCategoryDialog from "../../../components/Overlays/Dialogs/NewCategory";
 import UpdateCategoryDialog from "../../../components/Overlays/Dialogs/UpdateCategory";
+import Section from "../../SectionLayout/Section";
 
 const Categories = () => {
     const { data } = useGetCategories();
 
     return (
-        <section>
-            <div className="p-2 grid gap-2">
-                <div className="flex gap-2 items-center">
-                    <span className="font-semibold text-2xl">Categories</span>
-                </div>
-
-                <div className="flex gap-3 items-center">
-                    <FormControl variant="standard">
-                        <OutlinedInput
-                            size="small"
-                            endAdornment={<SearchOutlinedIcon />}
-                            placeholder="Search"
-                        />
-                    </FormControl>
-                    <NewCategoryDialog/>
-                    
-                </div>
-
-                <div className="overflow-x-auto">
-                    <table className="border-gray-300 divide-y divide-gray-200 min-w-full">
-                        <thead className="bg-gray-100">
-                            <tr>
-                                <th>
-                                    <Checkbox />
-                                </th>
-                                <th className="text-sm p-2 text-left font-semibold text-gray-700">
-                                    <div className="flex-justify-between items-center">
-                                        Category Name
-                                    </div>
-                                </th>
-                                <th className="text-sm p-2 text-left font-semibold text-gray-700">
-                                    <div className="flex-justify-between items-center">
-                                        Category Description
-                                    </div>
-                                </th>
-                                <th className="text-sm p-2 text-left font-semibold text-gray-700">
-                                    <div className="flex-justify-between items-center">
-                                        Action
-                                    </div>
-                                </th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {data?.data.map((category) => (
-                                <tr key={category.id}>
-                                    <td className="text-center">
-                                        <Checkbox />
-                                    </td>
-                                    <td className="text-sm text-left p-2 text-gray-800">
-                                        {category.category_name}
-                                    </td>
-                                    <td className="text-sm text-left p-2 text-gray-800">
-                                        {category.category_description}
-                                    </td>
-                                    <td className="flex gap-2 p-2">
-                                        <UpdateCategoryDialog category={category}/>
-                                        
-                                        <DeleteCategoryDialog id={category.id}/>
-                                    </td>
-                                </tr>
-                            ))}
-                        </tbody>
-                    </table>
-                </div>
+        <Section sectionName={"Categories"}>
+            <div className="flex gap-3 items-center">
+                <FormControl variant="standard">
+                    <OutlinedInput
+                        size="small"
+                        endAdornment={<SearchOutlinedIcon />}
+                        placeholder="Search"
+                    />
+                </FormControl>
+                <NewCategoryDialog />
             </div>
-        </section>
+
+            <div className="overflow-x-auto">
+                <table className="border-gray-300 divide-y divide-gray-200 min-w-full">
+                    <thead className="bg-gray-100">
+                        <tr>
+                            <th>
+                                <Checkbox />
+                            </th>
+                            <th className="text-sm p-2 text-left font-semibold text-gray-700">
+                                <div className="flex-justify-between items-center">
+                                    Category Name
+                                </div>
+                            </th>
+                            <th className="text-sm p-2 text-left font-semibold text-gray-700">
+                                <div className="flex-justify-between items-center">
+                                    Category Description
+                                </div>
+                            </th>
+                            <th className="text-sm p-2 text-left font-semibold text-gray-700">
+                                <div className="flex-justify-between items-center">
+                                    Action
+                                </div>
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {data?.data.map((category) => (
+                            <tr key={category.id}>
+                                <td className="text-center">
+                                    <Checkbox />
+                                </td>
+                                <td className="text-sm text-left p-2 text-gray-800">
+                                    {category.category_name}
+                                </td>
+                                <td className="text-sm text-left p-2 text-gray-800">
+                                    {category.category_description}
+                                </td>
+                                <td className="flex gap-2 p-2">
+                                    <UpdateCategoryDialog category={category} />
+
+                                    <DeleteCategoryDialog id={category.id} />
+                                </td>
+                            </tr>
+                        ))}
+                    </tbody>
+                </table>
+            </div>
+        </Section>
     );
 };
 

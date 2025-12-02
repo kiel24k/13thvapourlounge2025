@@ -22,7 +22,10 @@ import Descriptions from "../pages/admin/Products/Descriptions";
 import Options from "../pages/admin/Products/Options";
 import NewProduct from "../pages/admin/Products/NewProduct";
 import ScrollToTop from "../components/scrolltotop";
-
+import Orders from "../pages/admin/Orders";
+import CreateAddress from "../pages/user/CreateAddress";
+import Home from "../pages/Pos/Home";
+import PosLayout from "../layouts/PosLayout";
 
 const routes = createBrowserRouter([
     {
@@ -60,7 +63,7 @@ const routes = createBrowserRouter([
             {
                 path: "shopping-cart",
                 element: (
-                    <ProtectedRoutes allowedRoles={["customer"]}>
+                    <ProtectedRoutes allowedRoles={["staff"]}>
                         <ShoppingCart />
                     </ProtectedRoutes>
                 ),
@@ -68,8 +71,16 @@ const routes = createBrowserRouter([
             {
                 path: "checkout",
                 element: (
-                    <ProtectedRoutes allowedRoles={["customer"]}>
+                    <ProtectedRoutes allowedRoles={["staff"]}>
                         <Checkout />
+                    </ProtectedRoutes>
+                ),
+            },
+            {
+                path: "create-address",
+                element: (
+                    <ProtectedRoutes allowedRoles={["staff"]}>
+                        <CreateAddress />
                     </ProtectedRoutes>
                 ),
             },
@@ -154,11 +165,33 @@ const routes = createBrowserRouter([
                     </ProtectedRoutes>
                 ),
             },
-             {
+            {
                 path: "admin-new-product",
                 element: (
                     <ProtectedRoutes allowedRoles={["admin"]}>
                         <NewProduct />
+                    </ProtectedRoutes>
+                ),
+            },
+            {
+                path: "admin-orders",
+                element: (
+                    <ProtectedRoutes allowedRoles={["admin"]}>
+                        <Orders />
+                    </ProtectedRoutes>
+                ),
+            },
+        ],
+    },
+    //admin and staff
+    {
+        element: <PosLayout />,
+        children: [
+            {
+                path: "pos",
+                element: (
+                    <ProtectedRoutes allowedRoles={["admin", "staff"]}>
+                        <Home />
                     </ProtectedRoutes>
                 ),
             },

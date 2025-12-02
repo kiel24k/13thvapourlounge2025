@@ -1,5 +1,5 @@
-import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { createOrder } from "../api/order.api";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { createOrder, showOrders, updateStatus } from "../api/order.api";
 import Swal from "sweetalert2";
 
 function success(title) {
@@ -13,12 +13,29 @@ function success(title) {
 }
 
 export const useCreateOrder = () => {
-    const queryClient = useQueryClient()
+    const queryClient = useQueryClient();
     return useMutation({
         mutationFn: createOrder,
         onSuccess: () => {
-            queryClient.invalidateQueries(['showcartbyid'])
-           success("Order placed!")
+            queryClient.invalidateQueries(["showcartbyid"]);
+            success("Order placed!");
         },
     });
 };
+
+export const useShowOrders = () => {
+    return useQuery({ 
+        queryFn: showOrders, 
+        queryKey: ["showOrders"] 
+    });
+};
+
+export const useUpdateStatus = () => {
+    const queryClient = useQueryClient()
+    return useMutation({
+        mutationFn: updateStatus,
+        onSuccess: () => {
+           queryClient.invalidateQueries(['showOrders'])
+        }
+    }) 
+}

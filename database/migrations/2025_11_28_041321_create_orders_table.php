@@ -15,19 +15,11 @@ return new class extends Migration
             $table->id();
             $table->foreignId('user_id')->constrained();
             $table->foreignId('product_id')->constrained();
-            $table->string('first_name');
-            $table->string('last_name');
-            $table->string('company_name')->nullable();
-            $table->string('street_name');
-            $table->string('apartment')->nullable();
-            $table->string('town');
-            $table->integer('zip_code');
-            $table->string('contact_number', 20)->nullable();
-            $table->string('email');
-            $table->text('note')->nullable();
-            $table->enum('delivery_type', ['cod', 'walk-in']);
+            $table->foreignId('address_id')->constrained();
+            $table->integer('quantity')->nullable();
+            $table->integer('price');
             $table->decimal('total', 10, 2);
-            $table->enum('status', ['pending', 'preparing', 'completed', 'cancelled', 'failed'])->default('pending');
+            $table->enum('status', ['pending', 'preparing','to-received', 'completed', 'cancelled', 'failed'])->default('pending');
             $table->timestamps();
         });
     }

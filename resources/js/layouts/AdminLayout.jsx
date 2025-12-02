@@ -47,7 +47,7 @@ const NAVIGATION = [
     },
 
     {
-        segment: "reports",
+        segment: "admin-orders",
         title: "Orders",
         icon: <LocalGroceryStoreIcon />,
     },
@@ -121,7 +121,7 @@ const NAVIGATION = [
             },
             {
                 segment: "traffic",
-                title: "Sub-admin",
+                title: "Staff",
                 icon: <SupervisedUserCircleIcon />,
             },
 
@@ -133,7 +133,7 @@ const NAVIGATION = [
         ],
     },
     {
-        segment: "reports",
+        segment: "pos",
         title: "POS",
         icon: <CreditCardIcon />,
     },

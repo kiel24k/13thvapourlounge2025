@@ -1,4 +1,4 @@
-import React from "react";
+
 import "../../css/boxloader.css";
 
 const BoxLoader = () => {

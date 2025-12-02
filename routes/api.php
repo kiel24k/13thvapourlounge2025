@@ -1,10 +1,12 @@
 <?php
 
+use App\Http\Controllers\AddressController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\AnalyticController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\OrderController;
+use App\Http\Controllers\PosController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\UserController;
 use Illuminate\Http\Request;
@@ -62,6 +64,18 @@ route::controller(CartController::class)->group(function () {
   route::post('delete-cart', 'deleteCart');
 });
 
+route::controller(AddressController::class)->group(function () {
+  route::get('show-address/{id}', 'showAddressById');
+  route::post('store-address', 'storeAddress');
+});
+
 route::controller(OrderController::class)->group(function () {
   route::post('/store-order', 'storeOrder');
+  route::get('/show-orders', 'showOrders');
+  route::post('/update-status', 'updateStatusById');
+});
+
+route::controller(PosController::class)->group(function () {
+  route::post('/store-order', 'storeOrder');
+  route::get('/get-customer-by-status/{status}', 'showCustomerByStatus');
 });

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1:3307
--- Generation Time: Nov 27, 2025 at 06:28 AM
+-- Generation Time: Dec 02, 2025 at 07:47 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -20,6 +20,36 @@ SET time_zone = "+00:00";
 --
 -- Database: `13thvapourlounge2025`
 --
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `addresses`
+--
+
+CREATE TABLE `addresses` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `user_id` bigint(20) UNSIGNED NOT NULL,
+  `first_name` varchar(255) NOT NULL,
+  `last_name` varchar(255) NOT NULL,
+  `company_name` varchar(255) DEFAULT NULL,
+  `street_name` varchar(255) NOT NULL,
+  `apartment` varchar(255) DEFAULT NULL,
+  `town` varchar(255) NOT NULL,
+  `zip_code` int(11) NOT NULL,
+  `contact_number` varchar(20) DEFAULT NULL,
+  `email` varchar(255) NOT NULL,
+  `note` text DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `addresses`
+--
+
+INSERT INTO `addresses` (`id`, `user_id`, `first_name`, `last_name`, `company_name`, `street_name`, `apartment`, `town`, `zip_code`, `contact_number`, `email`, `note`, `created_at`, `updated_at`) VALUES
+(1, 2, 'yftfg', 'hygy', 'fsdf', 'dsafasdf', 'sadfsad', 'fasdfs', 2131, '09193471522', 'user@gmail.com', NULL, '2025-11-28 14:45:26', '2025-11-28 14:45:26');
 
 -- --------------------------------------------------------
 
@@ -67,7 +97,7 @@ CREATE TABLE `carts` (
 --
 
 INSERT INTO `carts` (`id`, `user_id`, `product_id`, `quantity`, `option_type`, `total`, `created_at`, `updated_at`) VALUES
-(32, 2, 36, 3, '{\"sd\":\"sadas\"}', 6099.00, '2025-11-26 00:17:36', '2025-11-26 00:17:36');
+(58, 1, 40, 2, '{\"Smok Xpro Flavors | Devices\":\"Fresh Burst\"}', 720.00, '2025-12-01 10:20:29', '2025-12-01 10:20:29');
 
 -- --------------------------------------------------------
 
@@ -147,7 +177,11 @@ INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
 (8, '2025_10_16_122852_create_product_categories_table', 1),
 (14, '2025_11_06_013058_create_carts_table', 2),
 (15, '2025_11_25_041321_create_addresses_table', 2),
-(21, '2025_11_25_041321_create_orders_table', 3);
+(26, '2025_11_25_041321_create_orders_table', 3),
+(28, '2025_11_28_181927_create_addresses_table', 4),
+(29, '2025_11_25_181927_create_addresses_table', 5),
+(30, '2025_11_28_041321_create_orders_table', 5),
+(32, '2025_12_01_184434_create_pos_orders_table', 6);
 
 -- --------------------------------------------------------
 
@@ -159,40 +193,14 @@ CREATE TABLE `orders` (
   `id` bigint(20) UNSIGNED NOT NULL,
   `user_id` bigint(20) UNSIGNED NOT NULL,
   `product_id` bigint(20) UNSIGNED NOT NULL,
-  `first_name` varchar(255) NOT NULL,
-  `last_name` varchar(255) NOT NULL,
-  `company_name` varchar(255) DEFAULT NULL,
-  `street_name` varchar(255) NOT NULL,
-  `apartment` varchar(255) DEFAULT NULL,
-  `town` varchar(255) NOT NULL,
-  `zip_code` int(11) NOT NULL,
-  `contact_number` varchar(20) DEFAULT NULL,
-  `email` varchar(255) NOT NULL,
-  `note` text DEFAULT NULL,
-  `delivery_type` enum('cod','walk-in') NOT NULL,
+  `address_id` bigint(20) UNSIGNED NOT NULL,
+  `quantity` int(11) DEFAULT NULL,
+  `price` int(11) NOT NULL,
   `total` decimal(10,2) NOT NULL,
-  `status` enum('pending','preparing','completed','cancelled','failed') NOT NULL DEFAULT 'pending',
+  `status` enum('pending','preparing','to-received','completed','cancelled','failed') NOT NULL DEFAULT 'pending',
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
---
--- Dumping data for table `orders`
---
-
-INSERT INTO `orders` (`id`, `user_id`, `product_id`, `first_name`, `last_name`, `company_name`, `street_name`, `apartment`, `town`, `zip_code`, `contact_number`, `email`, `note`, `delivery_type`, `total`, `status`, `created_at`, `updated_at`) VALUES
-(23, 2, 36, 'yftfg', 'hygy', 'fsdf', 'dsafasdf', 'sadfsad', 'fasdfs', 4012, '09193471522', 'admin@gmail.com', 'fsdafas', 'cod', 12219.00, 'pending', NULL, NULL),
-(24, 2, 24, 'yftfg', 'hygy', 'fsdf', 'dsafasdf', 'sadfsad', 'fasdfs', 4012, '09193471522', 'admin@gmail.com', 'fsdafas', 'cod', 12219.00, 'pending', NULL, NULL),
-(25, 2, 27, 'yftfg', 'hygy', 'fsdf', 'dsafasdf', 'sadfsad', 'fasdfs', 4012, '09193471522', 'admin@gmail.com', 'fsdafas', 'cod', 63.00, 'pending', NULL, NULL),
-(26, 2, 25, 'yftfg', 'hygy', 'fsdf', 'dsafasdf', 'sadfsad', 'fasdfs', 4012, '09193471522', 'admin@gmail.com', 'fsdafas', 'cod', 63.00, 'pending', NULL, NULL),
-(27, 2, 25, 'yftfg', 'hygy', 'fsdf', 'dsafasdf', 'sadfsad', 'fasdfs', 4012, '09193471522', 'admin@gmail.com', 'fsdafas', 'cod', 84.00, 'pending', NULL, NULL),
-(28, 2, 36, 'yftfg', 'hygy', 'fsdf', 'dsafasdf', 'sadfsad', 'fasdfs', 4012, '09193471522', 'admin@gmail.com', 'fsdafas', 'cod', 10211.00, 'pending', NULL, NULL),
-(29, 2, 34, 'yftfg', 'hygy', 'fsdf', 'dsafasdf', 'sadfsad', 'fasdfs', 4012, '09193471522', 'admin@gmail.com', 'fsdafas', 'cod', 10211.00, 'pending', NULL, NULL),
-(30, 2, 37, 'yftfg', 'hygy', 'fsdf', 'dsafasdf', 'sadfsad', 'fasdfs', 4012, '09193471522', 'admin@gmail.com', 'fsdafas', 'cod', 73.00, 'pending', NULL, NULL),
-(31, 2, 34, 'yftfg', 'hygy', 'fsdf', 'dsafasdf', 'sadfsad', 'fasdfs', 4012, '09193471522', 'admin@gmail.com', 'fsdafas', 'cod', 73.00, 'pending', NULL, NULL),
-(32, 2, 22, 'yftfg', 'hygy', 'fsdf', 'dsafasdf', 'sadfsad', 'fasdfs', 4012, '09193471522', 'admin@gmail.com', 'fsdafas', 'cod', 42.00, 'pending', NULL, NULL),
-(33, 2, 27, 'yftfg', 'hygy', 'fsdf', 'dsafasdf', 'sadfsad', 'fasdfs', 4012, '09193471522', 'admin@gmail.com', 'fsdafas', 'cod', 84.00, 'pending', NULL, NULL),
-(34, 2, 34, 'yftfg', 'hygy', 'fsdf', 'dsafasdf', 'sadfsad', 'fasdfs', 4012, '09193471522', 'admin@gmail.com', 'fsdafas', 'cod', 23.00, 'pending', NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -259,7 +267,50 @@ INSERT INTO `personal_access_tokens` (`id`, `tokenable_type`, `tokenable_id`, `n
 (27, 'App\\Models\\User', 2, 'token2', '5aab96e7b909eacc44fbd546a697ff28c7b3a3854cf4e141d417240f228348c7', '[\"*\"]', '2025-11-24 22:37:24', NULL, '2025-11-24 21:07:20', '2025-11-24 22:37:24'),
 (28, 'App\\Models\\User', 2, 'token2', 'f3d934ea1c6d75230432b2ac961228fa2f381030acb672d122a7e1a84c673804', '[\"*\"]', '2025-11-25 04:27:42', NULL, '2025-11-25 01:21:34', '2025-11-25 04:27:42'),
 (29, 'App\\Models\\User', 2, 'token2', '58c9aac1eb7351171581b32aa13bbe47a49b47b0352dcf093b6b87bcc9857ae0', '[\"*\"]', NULL, NULL, '2025-11-25 16:18:52', '2025-11-25 16:18:52'),
-(30, 'App\\Models\\User', 2, 'token2', '129609d7b9f97944d1188e5b9496ed6ca71e170897e8877bd7d8d69017330d69', '[\"*\"]', '2025-11-26 02:21:46', NULL, '2025-11-25 16:18:54', '2025-11-26 02:21:46');
+(30, 'App\\Models\\User', 2, 'token2', '129609d7b9f97944d1188e5b9496ed6ca71e170897e8877bd7d8d69017330d69', '[\"*\"]', '2025-11-26 02:21:46', NULL, '2025-11-25 16:18:54', '2025-11-26 02:21:46'),
+(31, 'App\\Models\\User', 1, 'token1', '454967b56536109207ebfafd17f0050b7c16b99efbfed8ed8ad59ad0683cdcf2', '[\"*\"]', NULL, NULL, '2025-11-28 07:13:46', '2025-11-28 07:13:46'),
+(32, 'App\\Models\\User', 1, 'token1', 'e95624f758430a7a467dcea9acb87ce02969518aaab889bfac278f32ab2138cc', '[\"*\"]', NULL, NULL, '2025-11-28 07:13:48', '2025-11-28 07:13:48'),
+(33, 'App\\Models\\User', 2, 'token2', 'c528c11d5c659cd9002934e71ad519d537699c7bfe9e7c8bfad0899fa816336f', '[\"*\"]', '2025-11-28 17:19:44', NULL, '2025-11-28 08:55:22', '2025-11-28 17:19:44'),
+(34, 'App\\Models\\User', 1, 'token1', 'f71f94c7f4d4ce182019fd0f75270071893ea9075ff82e77c460e573c98b9378', '[\"*\"]', NULL, NULL, '2025-11-30 09:04:35', '2025-11-30 09:04:35'),
+(35, 'App\\Models\\User', 1, 'token1', '973cd34ff820134f063183c4b3284b3e7ac4123737145c23548259436160443b', '[\"*\"]', NULL, NULL, '2025-11-30 09:04:36', '2025-11-30 09:04:36'),
+(36, 'App\\Models\\User', 2, 'token2', 'f4feb4b405db171661cd3cf7d9640d774096aab6c15582e61eae8db3a28634c5', '[\"*\"]', '2025-11-30 12:24:49', NULL, '2025-11-30 12:06:28', '2025-11-30 12:24:49'),
+(37, 'App\\Models\\User', 1, 'token1', 'e62b957ed7e50686b93013f97302004ef626728bbd1f53fbbdc9231e6379c242', '[\"*\"]', '2025-12-01 10:20:30', NULL, '2025-11-30 12:23:49', '2025-12-01 10:20:30'),
+(38, 'App\\Models\\User', 1, 'token1', '9357759366d9a79d26e360122adaf5d97f08e24008c4f1d325b9be2db0ce07df', '[\"*\"]', '2025-12-01 10:25:13', NULL, '2025-12-01 10:20:43', '2025-12-01 10:25:13');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `pos_orders`
+--
+
+CREATE TABLE `pos_orders` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `product_id` bigint(20) UNSIGNED NOT NULL,
+  `customer_name` varchar(255) DEFAULT NULL,
+  `quantity` varchar(255) NOT NULL,
+  `price` int(11) NOT NULL,
+  `total` int(11) NOT NULL,
+  `status` enum('on-hold','proceeded') NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `pos_orders`
+--
+
+INSERT INTO `pos_orders` (`id`, `product_id`, `customer_name`, `quantity`, `price`, `total`, `status`, `created_at`, `updated_at`) VALUES
+(47, 42, 'Jonathan', '1', 1000, 1000, 'on-hold', '2025-12-01 14:11:21', '2025-12-01 14:11:21'),
+(48, 39, 'Jonathan', '1', 350, 350, 'on-hold', '2025-12-01 14:11:21', '2025-12-01 14:11:21'),
+(49, 39, 'Rhona', '1', 350, 350, 'on-hold', '2025-12-01 14:11:29', '2025-12-01 14:11:29'),
+(50, 40, 'Rhonalyn', '1', 360, 360, 'on-hold', '2025-12-01 14:11:39', '2025-12-01 14:11:39'),
+(51, 41, 'Rhonalyn', '1', 900, 900, 'on-hold', '2025-12-01 14:11:39', '2025-12-01 14:11:39'),
+(52, 43, 'Rhonalyn', '1', 300, 300, 'on-hold', '2025-12-01 14:11:39', '2025-12-01 14:11:39'),
+(53, 39, 'POS Guy', '1', 350, 350, 'proceeded', '2025-12-01 14:11:53', '2025-12-01 14:11:53'),
+(54, 40, 'POS Guy', '1', 360, 360, 'proceeded', '2025-12-01 14:11:53', '2025-12-01 14:11:53'),
+(55, 39, 'sige', '1', 350, 350, 'on-hold', '2025-12-01 14:35:58', '2025-12-01 14:35:58'),
+(56, 40, 'sige', '1', 360, 360, 'on-hold', '2025-12-01 14:35:58', '2025-12-01 14:35:58'),
+(57, 41, 'sige', '1', 900, 900, 'on-hold', '2025-12-01 14:35:58', '2025-12-01 14:35:58');
 
 -- --------------------------------------------------------
 
@@ -284,23 +335,11 @@ CREATE TABLE `products` (
 --
 
 INSERT INTO `products` (`id`, `product_category`, `product_name`, `product_price`, `product_quantity`, `product_details`, `image`, `created_at`, `updated_at`) VALUES
-(22, 'fsdf', 'Cholos Blend Salt Nic Vape Juice 20mL', 21.00, 23, '{\"description_body\":\"fdfadsafasd\",\"description_content\":[\"fsdfsdas\",\"fdsf\"],\"option_title\":[{\"title\":\"hahasdfdsdsf\",\"labels\":[\"dsf\"]}],\"option\":[{\"title\":\"hahasdfdsdsf\",\"labels\":[\"dsf\"]}]}', '[\"1762148916_090bd203-e522-48f1-a51e-ec5f2affb786.jpg\",\"1762148916_2f6d7753-a062-4fdf-af46-1be50f782104.jpg\"]', '2025-11-02 21:48:36', '2025-11-02 21:48:36'),
-(23, 'fsdf', 'Cholos Blend Salt Nic Vape Juice 20mL', 21.00, 23, '{\"description_body\":\"fdfadsafasd\",\"description_content\":[\"fsdfsdas\",\"fdsf\"],\"option_title\":[{\"title\":\"hahasdfdsdsf\",\"labels\":[\"dsf\"]}],\"option\":[{\"title\":\"hahasdfdsdsf\",\"labels\":[\"dsf\"]}]}', '[\"1762148967_090bd203-e522-48f1-a51e-ec5f2affb786.jpg\",\"1762148967_2f6d7753-a062-4fdf-af46-1be50f782104.jpg\"]', '2025-11-02 21:49:27', '2025-11-02 21:49:27'),
-(24, 'fsdf', 'Cholos Blend Salt Nic Vape Juice 20mL', 21.00, 23, '{\"description_body\":\"fdfadsafasd\",\"description_content\":[\"fsdfsdas\",\"fdsf\"],\"option_title\":[{\"title\":\"hahasdfdsdsf\",\"labels\":[\"dsf\"]}],\"option\":[{\"title\":\"hahasdfdsdsf\",\"labels\":[\"dsf\"]}]}', '[\"1762148969_090bd203-e522-48f1-a51e-ec5f2affb786.jpg\",\"1762148969_2f6d7753-a062-4fdf-af46-1be50f782104.jpg\"]', '2025-11-02 21:49:30', '2025-11-02 21:49:30'),
-(25, 'fsdf', 'Cholos Blend Salt Nic Vape Juice 20mL', 21.00, 23, '{\"description_body\":\"fdfadsafasd\",\"description_content\":[\"fsdfsdas\",\"fdsf\"],\"option_title\":[{\"title\":\"hahasdfdsdsf\",\"labels\":[\"dsf\"]}],\"option\":[{\"title\":\"hahasdfdsdsf\",\"labels\":[\"dsf\"]}]}', '[\"1762149084_090bd203-e522-48f1-a51e-ec5f2affb786.jpg\",\"1762149084_2f6d7753-a062-4fdf-af46-1be50f782104.jpg\"]', '2025-11-02 21:51:24', '2025-11-02 21:51:24'),
-(26, 'fsdf', 'Cholos Blend Salt Nic Vape Juice 20mL', 23.00, 231, '{\"description_body\":\"sdfsd\",\"description_content\":[\"212\"],\"option_title\":[{\"title\":\"fdsf\",\"labels\":[\"dsfds\"]}],\"option\":[{\"title\":\"fdsf\",\"labels\":[\"dsfds\"]}]}', '[\"1762149130_f87694d1-9dc7-4b0c-abf6-a862bc8b6743.jpg\"]', '2025-11-02 21:52:10', '2025-11-02 21:52:10'),
-(27, 'fsdaf', 'Cholos Blend Salt Nic Vape Juice 20mL', 21.00, 20, '{\"description_body\":\"asdfasd\",\"description_content\":[\"fsdaf\"],\"option_title\":[{\"title\":\"fsdaffas\",\"labels\":[\"asdf\",\"dsad\"]}],\"option\":[{\"title\":\"fsdaffas\",\"labels\":[\"asdf\",\"dsad\"]}]}', '[\"1762149167_82867ce3-12e8-47d3-b1f1-c6b3f1319bda.jpg\"]', '2025-11-02 21:52:47', '2025-11-02 21:52:47'),
-(28, 'fsdf', 'Cholos Blend Salt Nic Vape Juice 20mL', 23.00, 231, '{\"description_body\":\"dasd\",\"description_content\":[\"sad21\"],\"option_title\":[{\"title\":\"dsad\",\"labels\":[\"asd\"]}],\"option\":[{\"title\":\"dsad\",\"labels\":[\"asd\"]}]}', '[]', '2025-11-02 21:54:22', '2025-11-02 21:54:22'),
-(29, 'fsdf', 'Cholos Blend Salt Nic Vape Juice 20mL', 23.00, 231, '{\"description_body\":\"dsa\",\"description_content\":[\"dasdsa\"],\"option_title\":[{\"title\":\"dsad\",\"labels\":[\"asd\"]}],\"option\":[{\"title\":\"dsad\",\"labels\":[\"asd\"]}]}', '[]', '2025-11-02 21:57:20', '2025-11-02 21:57:20'),
-(30, 'fsdf', 'Cholos Blend Salt Nic Vape Juice 20mL', 23.00, 231, '{\"description_body\":\"dsad\",\"description_content\":[\"asda\"],\"option_title\":[{\"title\":\"das\",\"labels\":[\"asdsa\"]}],\"option\":[{\"title\":\"das\",\"labels\":[\"asdsa\"]}]}', '[]', '2025-11-02 21:57:48', '2025-11-02 21:57:48'),
-(31, 'fsdf', 'Cholos Blend Salt Nic Vape Juice 20mL', 23.00, 231, '{\"description_body\":\"sdas\",\"description_content\":[\"dasd\"],\"option_title\":[{\"title\":\"dasd\",\"labels\":[\"sadas\"]}],\"option\":[{\"title\":\"dasd\",\"labels\":[\"sadas\"]}]}', '[\"1762149519_sakamoto days walppaper.jpeg\"]', '2025-11-02 21:58:39', '2025-11-02 21:58:39'),
-(32, 'fsdf', 'Cholos Blend Salt Nic Vape Juice 20mL', 23.00, 231, '{\"description_body\":\"dsa\",\"description_content\":[\"dasd\"],\"option_title\":[{\"title\":\"dsad\",\"labels\":[\"asd\"]}],\"option\":[{\"title\":\"dsad\",\"labels\":[\"asd\"]}]}', '[\"1762149566_sakamoto days walppaper.jpeg\"]', '2025-11-02 21:59:26', '2025-11-02 21:59:26'),
-(33, 'fsdf', 'Cholos Blend Salt Nic Vape Juice 20mL', 23.00, 231, '{\"description_body\":\"dsad\",\"description_content\":[\"sadsa\"],\"option_title\":[{\"title\":\"das\",\"labels\":[\"dsad\"]}],\"option\":[{\"title\":\"das\",\"labels\":[\"dsad\"]}]}', '[]', '2025-11-02 21:59:47', '2025-11-02 21:59:47'),
-(34, 'fsdf', 'Cholos Blend Salt Nic Vape Juice 20mL', 23.00, 231, '{\"description_body\":\"dafas\",\"description_content\":[\"dsad\"],\"option_title\":[{\"title\":\"asdsa\",\"labels\":[\"dasd\"]}],\"option\":[{\"title\":\"asdsa\",\"labels\":[\"dasd\"]}]}', '[\"1762149664_2f6d7753-a062-4fdf-af46-1be50f782104.jpg\",\"1762149664_20468dec-0f62-401b-bcc8-d29a45d95f1b.jpg\"]', '2025-11-02 22:01:04', '2025-11-02 22:01:04'),
-(35, 'fsdf', 'Cholos Blend Salt Nic Vape Juice 20mL', 23.00, 231, '{\"description_body\":\"fsadf\",\"description_content\":[\"fadf\"],\"option_title\":[{\"title\":\"fsdf\",\"labels\":[\"sdfs\"]},{\"title\":\"fsdf\",\"labels\":[\"sdf\"]}],\"option\":[{\"title\":\"fsdf\",\"labels\":[\"sdfs\"]},{\"title\":\"fsdf\",\"labels\":[\"sdf\"]}]}', '[\"1762149838_82867ce3-12e8-47d3-b1f1-c6b3f1319bda.jpg\"]', '2025-11-02 22:03:58', '2025-11-02 22:03:58'),
-(36, 'fsdf', 'Cholos Blend Salt Nic Vape Juice 20mL', 2033.00, 231, '{\"description_body\":\"Cholos Blend satisfies your desires with our enormous variety of e-liquids,Cholos Blend from traditional tobacco and menthol to fruity and dessert-inspired blends.Providing options for all types of vapers. Whether you prefer a dense or PG balanced liquid, it will make your throat feel the ultimate enjoyment. Explore our wide range of liquid flavors to find your favorite. Each of our e-liquids is carefully crafted to ensure that the quality of the liquid will bring you immersive enjoyment\",\"description_content\":[\"Volume: 20mL\",\"Nicotine: 15MG / 25MG 50MG\",\"Type: Salt Nic E-Liquid\",\"Bottle Type: Gorilla Bottle\",\"Usage: Not for sub ohm use\"],\"option_title\":[{\"title\":\"sd\",\"labels\":[\"sadas\"]}],\"option\":[{\"title\":\"sd\",\"labels\":[\"sadas\"]}]}', '[\"1762150008_f87694d1-9dc7-4b0c-abf6-a862bc8b6743-removebg-preview.png\",\"1762150008_f87694d1-9dc7-4b0c-abf6-a862bc8b6743.jpg\",\"1762150008_mygradpic.jpg\",\"1762150008_1327505-final.png\",\"1762150008_gakudrawing.jpg\",\"1762150008_sakamoto days walppaper.jpeg\",\"1762150008_74a40b49-dd4c-49dc-bc13-0d96d51dc78b.jpg\",\"1762150008_d7c81f3d-d3a0-45ff-93a2-db07cfc20f16.jpg\"]', '2025-11-02 22:06:48', '2025-11-02 22:06:48'),
-(37, 'sige ba', 'ututins', 2.00, 21, '{\"description_body\":\"dsadas\",\"description_content\":[\"dasd\",\"dsad\",\"fsadf\"],\"option_title\":[{\"title\":\"one\",\"labels\":[\"okay 1\"]},{\"title\":\"two\",\"labels\":[\"okay 2\"]},{\"title\":\"three\",\"labels\":[\"okay 3\"]}],\"option\":[{\"title\":\"one\",\"labels\":[\"okay 1\"]},{\"title\":\"two\",\"labels\":[\"okay 2\"]},{\"title\":\"three\",\"labels\":[\"okay 3\"]}]}', '[\"1762394875_WIN_20250125_15_02_05_Pro.jpg\"]', '2025-11-05 18:07:55', '2025-11-05 18:07:55'),
-(38, 'haha', 'FSDF', 212.00, 21, '{\"description_body\":\"sdfsdf\",\"description_content\":[\"fsd\",\"fsdaf\"],\"option_title\":[{\"title\":\"two\",\"labels\":[\"thoo\"]},{\"title\":\"three\",\"labels\":[\"prrt\",\"okay\",\"flavor 1\"]},{\"title\":\"foru\",\"labels\":[\"foru1\",\"foru2\",\"foruethree\",\"freu 3\"]}],\"option\":[{\"title\":\"two\",\"labels\":[\"thoo\"]},{\"title\":\"three\",\"labels\":[\"prrt\",\"okay\",\"flavor 1\"]},{\"title\":\"foru\",\"labels\":[\"foru1\",\"foru2\",\"foruethree\",\"freu 3\"]}]}', '[\"1762396017_WIN_20250323_21_37_30_Pro.jpg\"]', '2025-11-05 18:26:57', '2025-11-05 18:26:57');
+(39, 'compatible black', 'Aerogin Don Bars Disposable Vape – 9500 Puffs, Mesh Coil, Pre-filled Cartridge｜compatible black', 350.00, 20, '{\"description_body\":\"Battery & Charging: Long-lasting built-in battery with USB-C fast charging\",\"description_content\":[\"Puff Count: Up to 9500 puffs per device\",\"Coil Technology: Mesh Coil for smoother vapor and consistent flavor\",\"Nicotine Type: Freebase Nicotine formula for a satisfying throat hit\",\"Design: Portable, durable body with stylish metallic finish\",\"Flavors: Available in 10 signature flavor options\"],\"option_title\":[{\"title\":\"Flavor List\",\"labels\":[\"Blast bar\",\"Pink Kingdom - Straberry Milk\",\"Jolly Haze - Jolly Lychee\",\"Grand Slamma\",\"Punchy Chill\"]}],\"option\":[{\"title\":\"Flavor List\",\"labels\":[\"Blast bar\",\"Pink Kingdom - Straberry Milk\",\"Jolly Haze - Jolly Lychee\",\"Grand Slamma\",\"Punchy Chill\"]}]}', '[\"1764533080_aerogin-don-bars.png\"]', '2025-11-30 12:04:40', '2025-11-30 12:04:40'),
+(40, 'Smok', 'Smok XPRO Prefilled Pod Kit – 15K Puffs, 10 Flavors | Mesh Coil | 3 Output Modes', 360.00, 10, '{\"description_body\":\"Discover the Smok XPRO Prefilled Pod Kit, featuring 15,000 puffs, mesh coil technology, 10ml prefilled pods, and Type-C rechargeable battery. Experience rich flavor, massive vapor, and authentic Smok performance in every puff.\",\"description_content\":[],\"option_title\":[{\"title\":\"Smok Xpro Flavors | Devices\",\"labels\":[\"Tropical forest\",\"Fresh Burst\",\"Blue Burst\"]}],\"option\":[{\"title\":\"Smok Xpro Flavors | Devices\",\"labels\":[\"Tropical forest\",\"Fresh Burst\",\"Blue Burst\"]}]}', '[\"1764533481_lost_vape_centaurus_b80_aio_kit_-_default.png\"]', '2025-11-30 12:11:21', '2025-11-30 12:11:21'),
+(41, 'mosmo', 'Denkat Mosmo Stick (5PCS /PACK)', 900.00, 4, '{\"description_body\":\"The Denkat Mosmo Stick is a realistic-looking disposable vape with a shape and packaging perfectly similar to a cigarette, bringing the real feeling of smoking. Suitable for people who want to quit smoking or enjoy the pleasure of cigarettes. It comes with a 1ml e-liquid capacity with 20 mg of nicotine and a 1.8?? mesh coil that emits a rich vapor with each puff. The 150mAh battery can smoke more cigarettes than ordinary cigarettes and is easy to carry.\",\"description_content\":[\"E-liquid Capacity: 1ml\",\"Salt Nicotine: 20mg\",\"Battery Capacity:150mAh\",\"Resistance: 1.8\"],\"option_title\":[{\"title\":\"Flavors\",\"labels\":[\"Bubblegum\",\"Strong methalotic\",\"Lychee\",\"Sweet caramel RY4\"]}],\"option\":[{\"title\":\"Flavors\",\"labels\":[\"Bubblegum\",\"Strong methalotic\",\"Lychee\",\"Sweet caramel RY4\"]}]}', '[\"1764533608_fruitia_x_fifty_bar_20k_disposable_-_default.png\"]', '2025-11-30 12:13:28', '2025-11-30 12:13:28'),
+(42, 'Disposable vape', 'FLAVA GEEKBAR 10000 Puffs Disposable Vape', 1000.00, 12, '{\"description_body\":\"FLAVA GEEKBAR 10000 Puffs Disposable Vape is one of the most representative vape products that Flava innovates and designs, bringing users the ultimate e-cigarette experience. The Flava Geekbar boasts a simple and atmospheric exterior design and a durable 650mAh battery with a large capacity of 10,000 puffs. Exploring the future of e-cigarettes with Flava Disposable Vape.\",\"description_content\":[\"10000 puffs\",\"650mAh Battery\",\"Adjustable airflow\",\"Battery indicator\",\"Mesh coil\"],\"option_title\":[{\"title\":\"Flavors\",\"labels\":[\"Blueberry\",\"Lemonade\",\"Yacult ace\",\"Ice cola\",\"MIxed Beries\"]}],\"option\":[{\"title\":\"Flavors\",\"labels\":[\"Blueberry\",\"Lemonade\",\"Yacult ace\",\"Ice cola\",\"MIxed Beries\"]}]}', '[\"1764533996_adjust_mysour_40k_disposable_-_default.png\"]', '2025-11-30 12:19:56', '2025-11-30 12:19:56'),
+(43, 'Disposable vape', 'Aerogin Truez Prefilled Pod Vape Kit – 10ml E-Liquid, 600mAh |compatible black v1 |10 Flavors', 300.00, 9, '{\"description_body\":\"Battery & Charging: 600mAh rechargeable battery with USB-C fast charging\",\"description_content\":[\"E-Liquid Capacity: 10ml prefilled pods with 5% nicotine salt\",\"Coil Technology: Mesh Coil Technology for smooth vapor and strong flavor\",\"Design: Urban-inspired unibody design with premium PCTG material\",\"Compatibility: Prefilled pod system, battery sold separately\",\"Flavors: 10 bold flavor options\"],\"option_title\":[{\"title\":\"Aerogin Truez 10 Flavors\",\"labels\":[\"Black battery\",\"Fresh rad\",\"sunset vibes\",\"blue cypher\",\"purple haze\"]}],\"option\":[{\"title\":\"Aerogin Truez 10 Flavors\",\"labels\":[\"Black battery\",\"Fresh rad\",\"sunset vibes\",\"blue cypher\",\"purple haze\"]}]}', '[\"1764534129_fumi_24k_0_zero_nicotine_disposable_-_default.png\"]', '2025-11-30 12:22:09', '2025-11-30 12:22:09');
 
 -- --------------------------------------------------------
 
@@ -400,7 +439,7 @@ CREATE TABLE `users` (
   `date_of_birth` date DEFAULT NULL,
   `email` varchar(255) NOT NULL,
   `image` varchar(255) DEFAULT NULL,
-  `role` enum('admin','sub_admin','customer') DEFAULT NULL,
+  `role` enum('admin','staff','customer') DEFAULT NULL,
   `email_verified_at` timestamp NULL DEFAULT NULL,
   `password` varchar(255) NOT NULL,
   `remember_token` varchar(100) DEFAULT NULL,
@@ -414,12 +453,19 @@ CREATE TABLE `users` (
 
 INSERT INTO `users` (`id`, `first_name`, `last_name`, `contact_number`, `date_of_birth`, `email`, `image`, `role`, `email_verified_at`, `password`, `remember_token`, `created_at`, `updated_at`) VALUES
 (1, 'Kiel', 'Bermudez', '09193471522', '2001-10-04', 'admin@gmail.com', NULL, 'admin', NULL, '$2y$12$ESnZeixQDIX3zrRSiZPQ6e4JjqCfKVz96daVBOovofg1rod/I0gI6', NULL, '2025-10-21 22:45:37', '2025-10-21 22:45:37'),
-(2, 'kielpogi', 'soryo', '09456023942', '2001-12-04', 'user@gmail.com', NULL, 'customer', NULL, '$2y$12$oeOYNNE5xHibC9NYnYV.muIyxGqR2Aj7O1Sc1SQs4hBKeA3r7G2Ui', NULL, '2025-11-05 16:24:42', '2025-11-05 16:24:42'),
-(3, 'yuser1', 'fdsafasd', '09193471522', '2004-11-06', 'user2@gmail.com', NULL, 'customer', NULL, '$2y$12$3NAZuJfO6bkcz9D2CT0A3.DwpV4gjB3F5tPhEEKcZrYc8HRRXhrTK', NULL, '2025-11-05 20:22:51', '2025-11-05 20:22:51');
+(2, 'kielpogi', 'soryo', '09456023942', '2001-12-04', 'user@gmail.com', NULL, 'staff', NULL, '$2y$12$oeOYNNE5xHibC9NYnYV.muIyxGqR2Aj7O1Sc1SQs4hBKeA3r7G2Ui', NULL, '2025-11-05 16:24:42', '2025-11-05 16:24:42'),
+(3, 'yuser1', 'fdsafasd', '09193471522', '2004-11-06', 'user2@gmail.com', NULL, 'staff', NULL, '$2y$12$3NAZuJfO6bkcz9D2CT0A3.DwpV4gjB3F5tPhEEKcZrYc8HRRXhrTK', NULL, '2025-11-05 20:22:51', '2025-11-05 20:22:51');
 
 --
 -- Indexes for dumped tables
 --
+
+--
+-- Indexes for table `addresses`
+--
+ALTER TABLE `addresses`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `addresses_user_id_foreign` (`user_id`);
 
 --
 -- Indexes for table `cache`
@@ -473,7 +519,8 @@ ALTER TABLE `migrations`
 ALTER TABLE `orders`
   ADD PRIMARY KEY (`id`),
   ADD KEY `orders_user_id_foreign` (`user_id`),
-  ADD KEY `orders_product_id_foreign` (`product_id`);
+  ADD KEY `orders_product_id_foreign` (`product_id`),
+  ADD KEY `orders_address_id_foreign` (`address_id`);
 
 --
 -- Indexes for table `password_reset_tokens`
@@ -488,6 +535,13 @@ ALTER TABLE `personal_access_tokens`
   ADD PRIMARY KEY (`id`),
   ADD UNIQUE KEY `personal_access_tokens_token_unique` (`token`),
   ADD KEY `personal_access_tokens_tokenable_type_tokenable_id_index` (`tokenable_type`,`tokenable_id`);
+
+--
+-- Indexes for table `pos_orders`
+--
+ALTER TABLE `pos_orders`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `pos_orders_product_id_foreign` (`product_id`);
 
 --
 -- Indexes for table `products`
@@ -533,10 +587,16 @@ ALTER TABLE `users`
 --
 
 --
+-- AUTO_INCREMENT for table `addresses`
+--
+ALTER TABLE `addresses`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
 -- AUTO_INCREMENT for table `carts`
 --
 ALTER TABLE `carts`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=33;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=59;
 
 --
 -- AUTO_INCREMENT for table `failed_jobs`
@@ -554,25 +614,31 @@ ALTER TABLE `jobs`
 -- AUTO_INCREMENT for table `migrations`
 --
 ALTER TABLE `migrations`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=33;
 
 --
 -- AUTO_INCREMENT for table `orders`
 --
 ALTER TABLE `orders`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=35;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 
 --
 -- AUTO_INCREMENT for table `personal_access_tokens`
 --
 ALTER TABLE `personal_access_tokens`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=31;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=39;
+
+--
+-- AUTO_INCREMENT for table `pos_orders`
+--
+ALTER TABLE `pos_orders`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=58;
 
 --
 -- AUTO_INCREMENT for table `products`
 --
 ALTER TABLE `products`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=39;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=44;
 
 --
 -- AUTO_INCREMENT for table `product_categories`
@@ -603,6 +669,12 @@ ALTER TABLE `users`
 --
 
 --
+-- Constraints for table `addresses`
+--
+ALTER TABLE `addresses`
+  ADD CONSTRAINT `addresses_user_id_foreign` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`);
+
+--
 -- Constraints for table `carts`
 --
 ALTER TABLE `carts`
@@ -613,8 +685,15 @@ ALTER TABLE `carts`
 -- Constraints for table `orders`
 --
 ALTER TABLE `orders`
+  ADD CONSTRAINT `orders_address_id_foreign` FOREIGN KEY (`address_id`) REFERENCES `addresses` (`id`),
   ADD CONSTRAINT `orders_product_id_foreign` FOREIGN KEY (`product_id`) REFERENCES `products` (`id`),
   ADD CONSTRAINT `orders_user_id_foreign` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`);
+
+--
+-- Constraints for table `pos_orders`
+--
+ALTER TABLE `pos_orders`
+  ADD CONSTRAINT `pos_orders_product_id_foreign` FOREIGN KEY (`product_id`) REFERENCES `products` (`id`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
