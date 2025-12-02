@@ -23,7 +23,7 @@ class StoreProductRequest extends FormRequest
     {
         return [
             'product_category' => 'required',
-            'product_name' => 'required',
+            'product_name' => 'required|unique:products,product_name',
             'product_price' => 'required',
             'product_quantity' => 'required',
             'product_description' => 'required',

@@ -10,16 +10,24 @@ class Order extends Model
     protected $fillable = [
         'user_id',
         'product_id',
-        'first_name',
-        'last_name',
-        'company_name',
-        'street_name',
-        'apartment',
-        'town',
-        'zip_code',
-        'contact_number',
-        'email',
-        'note',
+        'address_id',
+        'quantity',
+        'price',
         'total',
+        'status',
     ];
+
+    public $timestamps = true;
+    public function user()
+    {
+        return $this->belongsTo(User::class, 'user_id');
+    }
+    public function product()
+    {
+        return $this->belongsTo(Product::class, 'product_id');
+    }
+
+    public function address () {
+        return $this->belongsTo(Address::class, 'address_id');
+    }
 }

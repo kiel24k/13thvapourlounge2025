@@ -75,8 +75,8 @@ const RootLayout = () => {
                         <Link to={"/"}>
                             <img
                                 src="/image/ShopIcon.png"
-                                width={120}
-                                height={120}
+                                width={30}
+                                height={30}
                                 alt=""
                             />
                         </Link>

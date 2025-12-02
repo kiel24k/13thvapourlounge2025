@@ -13,8 +13,17 @@ class OrderController extends Controller
     {
         $this->order = $order;
     }
-    public function storeOrder(OrderRequest $request)
+    public function storeOrder(Request $request)
     {
         return $this->order->createOrder($request);
+    }
+
+    public function showOrders () {
+        return $this->order->getOrders();
+    }
+
+    public function updateStatusById (Request $request) {
+        return $this->order->updateStatusById($request);
+
     }
 }

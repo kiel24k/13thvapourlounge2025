@@ -19,7 +19,7 @@ return new class extends Migration
             $table->date('date_of_birth')->nullable();
             $table->string('email')->unique();
             $table->string('image')->nullable();
-            $table->enum('role', ['admin','sub_admin', 'customer'])->nullable();
+            $table->enum('role', ['admin','staff', 'customer'])->nullable();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
             $table->rememberToken();

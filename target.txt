@@ -1,11 +1,9 @@
-NOV 25:::::::::::::
+ADMIN:::
+ORDER MODULE => DONE
+POS MODULE => 
+SETTINGS MODULE => 
 
 
-can increase and decrease order on cart => DONE
-total not change when update the cart => 
-proceed to checkout function and design => ongoing
-place order => 
-category on index page => 
-profile => 
-My account => 
-
+USERS/
+STAFF MODULE
+CUSTOMER MODULE => 

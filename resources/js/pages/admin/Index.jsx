@@ -4,88 +4,18 @@ import Paper from "../../components/box/Paper";
 import Pie from "../../components/Charts/Pie";
 import GroupIcon from "@mui/icons-material/Group";
 import FadeInSection from "../../components/FadeInSection";
+import TotalBox from "../../components/TotalBox";
 const Index = () => {
     return (
         <>
             <div className="grid">
                 <FadeInSection>
                     <section>
-                        <div className="flex justify-center flex-wrap">
-                            <Paper elevation={4}>
-                                <div className="grid gap-5 p-5">
-                                    <figure className="flex justify-start items-end gap-2 ">
-                                        <i>
-                                            <GroupIcon />
-                                        </i>
-                                        <figcaption>
-                                            <span className="text-gray-500 text-sm">
-                                                Total of customers
-                                            </span>
-                                        </figcaption>
-                                    </figure>
-
-                                    <div className="text-start">
-                                        <b className="text-2xl">56,232</b>
-                                    </div>
-                                </div>
-                            </Paper>
-
-                            <Paper elevation={4}>
-                                <div className="grid gap-5 p-5">
-                                    <figure className="flex justify-start items-end gap-2 ">
-                                        <i>
-                                            <GroupIcon />
-                                        </i>
-                                        <figcaption>
-                                            <span className="text-gray-500 text-sm">
-                                                Total of customers
-                                            </span>
-                                        </figcaption>
-                                    </figure>
-
-                                    <div className="text-start">
-                                        <b className="text-2xl">56,232</b>
-                                    </div>
-                                </div>
-                            </Paper>
-
-                            <Paper elevation={4}>
-                                <div className="grid gap-5 p-5">
-                                    <figure className="flex justify-start items-end gap-2 ">
-                                        <i>
-                                            <GroupIcon />
-                                        </i>
-                                        <figcaption>
-                                            <span className="text-gray-500 text-sm">
-                                                Total of customers
-                                            </span>
-                                        </figcaption>
-                                    </figure>
-
-                                    <div className="text-start">
-                                        <b className="text-2xl">56,232</b>
-                                    </div>
-                                </div>
-                            </Paper>
-
-                            <Paper elevation={4}>
-                                <div className="grid gap-5 p-5">
-                                    <figure className="flex justify-start items-end gap-2 ">
-                                        <i>
-                                            <GroupIcon />
-                                        </i>
-                                        <figcaption>
-                                            <span className="text-gray-500 text-sm">
-                                                Total of customers
-                                            </span>
-                                        </figcaption>
-                                    </figure>
-
-                                    <div className="text-start">
-                                        <b className="text-2xl">56,232</b>
-                                    </div>
-                                </div>
-                            </Paper>
+                        <div className="flex justify-center gap-4 flex-wrap">
+                            <TotalBox title={"total of customers"} total={"323,423"} />
+                            <TotalBox title={"total of orders"} total={"32"} />
+                            <TotalBox  title={"total of users"} total={"21"}/>
+                            <TotalBox title={"total of success"} total={"32"}/>
                         </div>
                     </section>
                 </FadeInSection>

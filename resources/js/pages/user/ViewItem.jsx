@@ -170,9 +170,11 @@ const ViewItem = () => {
                                             </div>
                                         ))}
                                 </div>
-                                 {isOptionError && (
-                                        <li className="text-red-700 capitalize">fill up all option</li>
-                                    )}
+                                {isOptionError && (
+                                    <li className="text-red-700 capitalize">
+                                        fill up all option
+                                    </li>
+                                )}
 
                                 <div className="flex gap-4 items-center mt-10">
                                     <div className="flex items-center content-center border-1 rounded-lg font-bold">
