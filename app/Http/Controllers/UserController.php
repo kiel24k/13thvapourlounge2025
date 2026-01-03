@@ -53,6 +53,91 @@ class UserController extends Controller
         }
     }
 
+      public function staffList(Request $request)
+    {
+        $sortOrder = $request->query('sortOrder', 'ASC');
+        $sortName = $request->query('sortName', 'id');
+        if (isset($request->search)) {
+            $data = User::select(
+                'first_name',
+                'last_name',
+                'contact_number',
+                'date_of_birth',
+                'email',
+                'role'
+            )
+                ->where('role', 'staff')
+                ->where(function ($query) use ($request) {
+                    $query->where('first_name',  'LIKE', '%' . $request->search . '%')
+                        ->orWhere('last_name',  'LIKE', '%' . $request->search . '%')
+                        ->orWhere('contact_number',  'LIKE', '%' . $request->search . '%')
+                        ->orWhere('email',  'LIKE', '%' . $request->search . '%')
+                        ->orWhere('role',  'LIKE', '%' . $request->search . '%');
+                })
+
+                ->orderBy($sortName, $sortOrder)
+                ->paginate(2);
+            return $data;
+        } else {
+            $data = User::select(
+                'id',
+                'first_name',
+                'last_name',
+                'contact_number',
+                'date_of_birth',
+                'email',
+                'role'
+            )
+                ->where('role', 'staff')
+                ->orderBy($sortName, $sortOrder)
+                ->paginate(2);
+            return $data;
+        }
+    }
+
+      public function customerList(Request $request)
+    {
+        $sortOrder = $request->query('sortOrder', 'ASC');
+        $sortName = $request->query('sortName', 'id');
+        if (isset($request->search)) {
+            $data = User::select(
+                'first_name',
+                'last_name',
+                'contact_number',
+                'date_of_birth',
+                'email',
+                'role'
+            )
+                ->where('role', 'customer')
+                ->where(function ($query) use ($request) {
+                    $query->where('first_name',  'LIKE', '%' . $request->search . '%')
+                        ->orWhere('last_name',  'LIKE', '%' . $request->search . '%')
+                        ->orWhere('contact_number',  'LIKE', '%' . $request->search . '%')
+                        ->orWhere('email',  'LIKE', '%' . $request->search . '%')
+                        ->orWhere('role',  'LIKE', '%' . $request->search . '%');
+                })
+
+                ->orderBy($sortName, $sortOrder)
+                ->paginate(2);
+            return $data;
+        } else {
+            $data = User::select(
+                'id',
+                'first_name',
+                'last_name',
+                'contact_number',
+                'date_of_birth',
+                'email',
+                'role'
+            )
+                ->where('role', 'customer')
+                ->orderBy($sortName, $sortOrder)
+                ->paginate(2);
+            return $data;
+        }
+    }
+
+
     public function deleteUser(Request $request): JsonResponse
     {
         $user = User::findOrFail($request->id)->delete();

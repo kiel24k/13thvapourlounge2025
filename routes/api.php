@@ -23,6 +23,8 @@ route::controller(AuthController::class)->group(function () {
 
 route::controller(UserController::class)->group(function () {
   route::get('users-list', 'usersList');
+  route::get('staff-list', 'staffList');
+  route::get('customer-list', 'customerList');
   route::delete('delete-user/{id}', 'deleteUser');
   route::get('get-user/{id}', 'getUser');
   route::post('update-user/{id}', 'updateUser');
