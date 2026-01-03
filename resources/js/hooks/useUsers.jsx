@@ -13,6 +13,7 @@ import {
     getAuthUser,
     getUser,
     updateUser,
+    getCustomerList,
 } from "../api/users.api";
 import { useNavigate } from "react-router-dom";
 import SuccessAlert from "../components/Alerts/SuccessAlert";
@@ -73,6 +74,22 @@ export const useGetUsersList = (page, sortOrder, sortName, search) => {
     return useQuery({
         queryFn: () => getUsersList(page, sortOrder, sortName, search),
         queryKey: ["fetchUsersList", page, sortOrder, sortName, search],
+        placeholderData: keepPreviousData,
+    });
+};
+
+export const useGetStaffList = (page, sortOrder, sortName, search) => {
+    return useQuery({
+        queryFn: () => getStaffList(page, sortOrder, sortName, search),
+        queryKey: ["staffList", page, sortOrder, sortName, search],
+        placeholderData: keepPreviousData,
+    });
+};
+
+export const useGetCustomerList = (page, sortOrder, sortName, search) => {
+    return useQuery({
+        queryFn: () => getCustomerList(page, sortOrder, sortName, search),
+        queryKey: ["staffList", page, sortOrder, sortName, search],
         placeholderData: keepPreviousData,
     });
 };

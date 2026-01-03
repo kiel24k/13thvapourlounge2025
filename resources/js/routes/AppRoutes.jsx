@@ -26,6 +26,8 @@ import Orders from "../pages/admin/Orders";
 import CreateAddress from "../pages/user/CreateAddress";
 import Home from "../pages/Pos/Home";
 import PosLayout from "../layouts/PosLayout";
+import StaffList from "../pages/admin/StaffList";
+import CustomerList from "../pages/admin/CustomerList";
 
 const routes = createBrowserRouter([
     {
@@ -114,6 +116,22 @@ const routes = createBrowserRouter([
                 element: (
                     <ProtectedRoutes allowedRoles={["admin"]}>
                         <AdminList />
+                    </ProtectedRoutes>
+                ),
+            },
+             {
+                path: "admin-staff-list",
+                element: (
+                    <ProtectedRoutes allowedRoles={["admin"]}>
+                        <StaffList />
+                    </ProtectedRoutes>
+                ),
+            },
+            {
+                path: "admin-customer-list",
+                element: (
+                    <ProtectedRoutes allowedRoles={["admin"]}>
+                        <CustomerList />
                     </ProtectedRoutes>
                 ),
             },

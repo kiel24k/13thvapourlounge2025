@@ -120,13 +120,13 @@ const NAVIGATION = [
                 icon: <AdminPanelSettingsIcon />,
             },
             {
-                segment: "traffic",
+                segment: "admin-staff-list",
                 title: "Staff",
                 icon: <SupervisedUserCircleIcon />,
             },
 
             {
-                segment: "sales",
+                segment: "admin-customer-list",
                 title: "Customer",
                 icon: <HowToRegIcon />,
             },

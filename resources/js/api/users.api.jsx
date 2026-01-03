@@ -56,6 +56,30 @@ export const getUsersList = async (page, sortOrder, sortName, search) => {
     return response.data;
 };
 
+export const getStaffList = async (page, sortOrder, sortName, search) => {
+    const response = await axios.get(`/api/staff-list?page=${page}`, {
+        headers: { "content-type": "application/json" },
+        params: {
+            sortOrder: sortOrder,
+            sortName: sortName,
+            search: search,
+        },
+    });
+    return response.data;
+};
+
+export const getCustomerList = async (page, sortOrder, sortName, search) => {
+    const response = await axios.get(`/api/customer-list?page=${page}`, {
+        headers: { "content-type": "application/json" },
+        params: {
+            sortOrder: sortOrder,
+            sortName: sortName,
+            search: search,
+        },
+    });
+    return response.data;
+};
+
 export const deleteUser = async (id) => {
     const response = await axios.delete(`/api/delete-user/${id}`, {
         headers: { "content-type": "application/json" },
