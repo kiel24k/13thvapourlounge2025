@@ -138,13 +138,17 @@ class ProductController extends Controller
         return $this->product->getProducts();
     }
 
-    public function showProduct ($id) {
-        return $this->product->getProduct($id);
+    public function showProduct ($product_category) {
+        return $this->product->getProduct($product_category);
 
     }
 
     public function storeProduct(StoreProductRequest $request)
     {
         return $this->product->createProduct($request);
+    }
+
+    public function getProductCategory () {
+        return $this->product->getProductCategory();
     }
 }

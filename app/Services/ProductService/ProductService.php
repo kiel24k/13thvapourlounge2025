@@ -29,9 +29,9 @@ class ProductService
         return response()->json($product);
     }
 
-    public function getProduct($id)
+    public function getProduct($product_category)
     {
-        $product = Product::findOrFail($id);
+        $product = Product::where('product_category',  $product_category)->first();
         return response()->json($product);
     }
 
@@ -59,5 +59,10 @@ class ProductService
 
 
         return response()->json($product);
+    }
+
+    public function getProductCategory(){
+        $categories = Product::select("product_category")->distinct()->get();
+        return response()->json($categories);
     }
 }

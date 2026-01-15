@@ -28,6 +28,8 @@ import Home from "../pages/Pos/Home";
 import PosLayout from "../layouts/PosLayout";
 import StaffList from "../pages/admin/StaffList";
 import CustomerList from "../pages/admin/CustomerList";
+import Profile from "../pages/user/Profile";
+import Purchase from "../pages/user/Purchase";
 
 const routes = createBrowserRouter([
     {
@@ -59,13 +61,13 @@ const routes = createBrowserRouter([
                 element: <Items />,
             },
             {
-                path: "view-item/:id",
+                path: "view-item/:product_category",
                 element: <ViewItem />,
             },
             {
                 path: "shopping-cart",
                 element: (
-                    <ProtectedRoutes allowedRoles={["staff"]}>
+                    <ProtectedRoutes allowedRoles={["customer"]}>
                         <ShoppingCart />
                     </ProtectedRoutes>
                 ),
@@ -81,7 +83,7 @@ const routes = createBrowserRouter([
             {
                 path: "create-address",
                 element: (
-                    <ProtectedRoutes allowedRoles={["staff"]}>
+                    <ProtectedRoutes allowedRoles={["customer"]}>
                         <CreateAddress />
                     </ProtectedRoutes>
                 ),
@@ -89,6 +91,23 @@ const routes = createBrowserRouter([
             {
                 path: "testing",
                 element: <Testing />,
+            },
+
+            {
+                path: "profile",
+                element: (
+                    <ProtectedRoutes allowedRoles={["customer"]}>
+                        <Profile />
+                    </ProtectedRoutes>
+                ),
+            },
+             {
+                path: "purchase",
+                element: (
+                    <ProtectedRoutes allowedRoles={["customer"]}>
+                        <Purchase />
+                    </ProtectedRoutes>
+                ),
             },
         ],
     },
@@ -119,7 +138,7 @@ const routes = createBrowserRouter([
                     </ProtectedRoutes>
                 ),
             },
-             {
+            {
                 path: "admin-staff-list",
                 element: (
                     <ProtectedRoutes allowedRoles={["admin"]}>

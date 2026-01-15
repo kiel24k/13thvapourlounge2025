@@ -171,11 +171,16 @@ export const showProducts = async () => {
     }
 };
 
-export const showProduct = async (id) => {
+export const showProduct = async (product_category) => {
     try {
-        const response = await axios.get(`/api/show-product/${id}`);
+        const response = await axios.get(`/api/show-product/${product_category}`);
         return response.data;
     } catch (error) {
         throw error;
     }
+};
+
+export const getProductCategory = async () => {
+    const response = await axios.get("/api/get-product-category");
+    return response.data;
 };

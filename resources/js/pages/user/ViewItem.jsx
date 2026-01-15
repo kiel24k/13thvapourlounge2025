@@ -7,34 +7,26 @@ import { Button, CircularProgress } from "@mui/material";
 import { FaCartArrowDown } from "react-icons/fa";
 import { useStoreCart } from "../../hooks/useCart";
 import { useGetAuthUser } from "../../hooks/useUsers";
+
 const ViewItem = () => {
     const [quantity, setQuantity] = useState(1);
     const [selectedOptions, setSelectedOptions] = useState({});
     const [isOptionError, setIsOptionError] = useState(false);
-    const { id } = useParams();
-    const { data, isFetching } = useShowProduct(id);
+    const { product_category } = useParams();
+    const { data, isFetching } = useShowProduct(product_category);
     const { data: user } = useGetAuthUser();
-
     const { mutate } = useStoreCart();
 
     const handleAddQuantity = () => {
-        if (quantity < data?.product_quantity) {
-            setQuantity((prev) => (prev += 1));
-        }
+        if (quantity < data?.product_quantity) setQuantity((prev) => prev + 1);
     };
 
     const handleReduceQuantity = () => {
-        if (quantity <= data?.product_quantity) {
-            setQuantity((prev) => (prev -= 1));
-        }
-        if (quantity === 1) {
-            setQuantity(1);
-        }
+        if (quantity > 1) setQuantity((prev) => prev - 1);
     };
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        console.log(user);
 
         if (
             JSON.parse(data.product_details).option_title.length !==
@@ -42,7 +34,6 @@ const ViewItem = () => {
             Object.values(selectedOptions).some((v) => v === "")
         ) {
             setIsOptionError(true);
-            console.log(isOptionError);
         } else {
             setIsOptionError(false);
             mutate(
@@ -53,172 +44,132 @@ const ViewItem = () => {
                     quantity: quantity,
                     total: quantity * data.product_price,
                 },
-                {
-                    onSuccess: () => {
-                        setQuantity(1);
-                    },
-                },
+                { onSuccess: () => setQuantity(1) }
             );
         }
     };
 
     const handleSelectChange = (title, value) => {
-        setSelectedOptions((prev) => ({
-            ...prev,
-            [title]: value, // e.g. { Color: "Red", Size: "Medium" }
-        }));
+        setSelectedOptions((prev) => ({ ...prev, [title]: value }));
     };
 
     if (isFetching) {
         return (
-            <div className="flex items-center justify-center">
-                <CircularProgress size={40} />
-                <b>Loading...</b>
+            <div className="flex flex-col items-center justify-center mt-20 gap-3">
+                <CircularProgress size={50} />
+                <span className="font-semibold">Loading...</span>
             </div>
         );
     }
 
     return (
-        <>
-            <FadeInSection>
-                <section className="w-300 m-auto">
-                    <div className="grid grid-cols-2 items-start content-start">
-                        <div className="">
-                            {data && (
-                                <ProductImageGallery
-                                    data={JSON.parse(data.image)}
-                                />
-                            )}
-                        </div>
-                        <form onSubmit={handleSubmit}>
-                            <div className="grid">
-                                <div className="grid gap-5 ">
-                                    <span className="text-3xl">
-                                        {data?.product_name}
-                                    </span>
-                                    <b className="font-bold text-2xl text-green-600">
-                                        ₱
-                                        {parseInt(
-                                            data?.product_price,
-                                        ).toLocaleString()}
-                                        .00
-                                    </b>
-                                </div>
-                                <div className="pt-4 pb-4 ">
-                                    <p className="text-gray-700">
-                                        {data &&
-                                            JSON.parse(data?.product_details)
-                                                ?.description_body}
-                                    </p>
-                                </div>
-                                <div className="text-gray-700">
-                                    <ul className="grid gap-3">
-                                        {data &&
-                                            JSON.parse(
-                                                data?.product_details,
-                                            ).description_content.map(
-                                                (data) => <li>• {data}</li>,
-                                            )}
-                                    </ul>
-                                </div>
-                                <div className="grid gap-2">
-                                    {data &&
-                                        JSON.parse(
-                                            data?.product_details,
-                                        ).option_title.map((data) => (
-                                            <div className="flex gap-3 items-center mt-5">
-                                                <label htmlFor="">
-                                                    <b>{data.title}:</b>
-                                                </label>
-                                                <select
-                                                    name=""
-                                                    id=""
-                                                    className="border-1 p-2 rounded-2xl border-gray-400"
-                                                    value={
-                                                        selectedOptions[
-                                                            data.title
-                                                        ]
-                                                    }
-                                                    onChange={(e) =>
-                                                        handleSelectChange(
-                                                            data.title,
-                                                            e.target.value,
-                                                        )
-                                                    }
-                                                >
-                                                    <option
-                                                        value=""
-                                                        disabled
-                                                        selected
-                                                    >
-                                                        Select option
-                                                    </option>
-                                                    {data.labels &&
-                                                        data.labels.map(
-                                                            (label) => (
-                                                                <option
-                                                                    value={
-                                                                        label
-                                                                    }
-                                                                    key={label}
-                                                                >
-                                                                    {label}
-                                                                </option>
-                                                            ),
-                                                        )}
-                                                </select>
-                                            </div>
-                                        ))}
-                                </div>
-                                {isOptionError && (
-                                    <li className="text-red-700 capitalize">
-                                        fill up all option
-                                    </li>
-                                )}
-
-                                <div className="flex gap-4 items-center mt-10">
-                                    <div className="flex items-center content-center border-1 rounded-lg font-bold">
-                                        <button
-                                            type="button"
-                                            className="w-6 border-gray-400 cursor-pointer"
-                                            onClick={handleReduceQuantity}
-                                        >
-                                            -
-                                        </button>
-                                        <input
-                                            type="number"
-                                            className="border-1 w-20 border-gray-400 p-1"
-                                            min={1}
-                                            max={data?.product_quantity}
-                                            value={quantity}
-                                            onChange={(e) =>
-                                                setQuantity(e.target.value)
-                                            }
-                                        />
-                                        <button
-                                            type="button"
-                                            className="w-6 border-gray-400 cursor-pointer font-bold"
-                                            onClick={handleAddQuantity}
-                                        >
-                                            +
-                                        </button>
-                                    </div>
-                                    <Button
-                                        variant="contained"
-                                        color="success"
-                                        sx={{ textTransform: "none" }}
-                                        startIcon={<FaCartArrowDown />}
-                                        type="submit"
-                                    >
-                                        Add to cart
-                                    </Button>
-                                </div>
-                            </div>
-                        </form>
+        <FadeInSection>
+            <section className="max-w-7xl mx-auto px-4 py-6">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    {/* Product Images */}
+                    <div className="w-full">
+                        {data && <ProductImageGallery data={JSON.parse(data.image)} />}
                     </div>
-                </section>
-            </FadeInSection>
-        </>
+
+                    {/* Product Details Form */}
+                    <form onSubmit={handleSubmit} className="w-full">
+                        <div className="flex flex-col gap-4">
+                            {/* Title & Price */}
+                            <div className="flex flex-col gap-2">
+                                <h1 className="text-2xl md:text-3xl font-semibold">
+                                    {data?.product_name}
+                                </h1>
+                                <span className="text-green-600 font-bold text-xl md:text-2xl">
+                                    ₱{parseInt(data?.product_price).toLocaleString()}.00
+                                </span>
+                            </div>
+
+                            {/* Description */}
+                            <p className="text-gray-700">{data && JSON.parse(data?.product_details)?.description_body}</p>
+
+                            <ul className="list-disc list-inside text-gray-700 space-y-1">
+                                {data &&
+                                    JSON.parse(data?.product_details).description_content.map((item, idx) => (
+                                        <li key={idx}>{item}</li>
+                                    ))}
+                            </ul>
+
+                            {/* Options */}
+                            <div className="grid gap-3 mt-4">
+                                {data &&
+                                    JSON.parse(data?.product_details).option_title.map((option) => (
+                                        <div
+                                            key={option.title}
+                                            className="flex flex-col sm:flex-row sm:items-center gap-2"
+                                        >
+                                            <label className="font-semibold w-full sm:w-32">{option.title}:</label>
+                                            <select
+                                                className="border border-gray-300 rounded-xl p-2 w-full sm:w-auto flex-1"
+                                                value={selectedOptions[option.title] || ""}
+                                                onChange={(e) => handleSelectChange(option.title, e.target.value)}
+                                            >
+                                                <option value="" disabled>
+                                                    Select option
+                                                </option>
+                                                {option.labels &&
+                                                    option.labels.map((label) => (
+                                                        <option key={label} value={label}>
+                                                            {label}
+                                                        </option>
+                                                    ))}
+                                            </select>
+                                        </div>
+                                    ))}
+                                {isOptionError && (
+                                    <span className="text-red-600 font-medium">Please fill all options</span>
+                                )}
+                            </div>
+
+                            {/* Quantity & Add to Cart */}
+                            <div className="flex flex-col sm:flex-row sm:items-center gap-4 mt-6">
+                                {/* Quantity */}
+                                <div className="flex items-center border border-gray-300 rounded-lg overflow-hidden">
+                                    <button
+                                        type="button"
+                                        className="px-3 py-1 bg-gray-100 hover:bg-gray-200 font-bold"
+                                        onClick={handleReduceQuantity}
+                                    >
+                                        -
+                                    </button>
+                                    <input
+                                        type="number"
+                                        className="w-16 text-center border-l border-r border-gray-300 outline-none"
+                                        min={1}
+                                        max={data?.product_quantity}
+                                        value={quantity}
+                                        onChange={(e) => setQuantity(Number(e.target.value))}
+                                    />
+                                    <button
+                                        type="button"
+                                        className="px-3 py-1 bg-gray-100 hover:bg-gray-200 font-bold"
+                                        onClick={handleAddQuantity}
+                                    >
+                                        +
+                                    </button>
+                                </div>
+
+                                {/* Add to Cart Button */}
+                                <Button
+                                    type="submit"
+                                    variant="contained"
+                                    color="success"
+                                    startIcon={<FaCartArrowDown />}
+                                    sx={{ textTransform: "none", whiteSpace: "nowrap" }}
+                                    className="flex-1 sm:flex-none"
+                                >
+                                    Add to Cart
+                                </Button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </section>
+        </FadeInSection>
     );
 };
 

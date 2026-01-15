@@ -92,7 +92,7 @@ const ProcessProduct = ({ products, isFetching }) => {
         setIsOpen(true);
     };
 
-    const handleSubmit = () => {
+    const handleSubmit = (id) => {
         alert("data restored");
     };
 

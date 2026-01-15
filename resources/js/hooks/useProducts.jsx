@@ -12,6 +12,7 @@ import {
     getCategories,
     getDescriptions,
     getOptionList,
+    getProductCategory,
     showOption,
     showProduct,
     showProducts,
@@ -196,9 +197,16 @@ export const useShowProducts = () => {
     });
 };
 
-export const useShowProduct = (id) => {
+export const useShowProduct = (product_category) => {
     return useQuery({
-        queryFn: () => showProduct(id),
+        queryFn: () => showProduct(product_category),
         queryKey: ["showProduct"],
     });
 };
+
+export const useGetProductCategory = () => {
+    return useQuery({
+        queryFn: getProductCategory,
+        queryKey: ['getProductCategory']
+    }) 
+}

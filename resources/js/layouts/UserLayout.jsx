@@ -3,45 +3,28 @@ import { Link, NavLink, Outlet } from "react-router-dom";
 import SearchIcon from "@mui/icons-material/Search";
 import PersonIcon from "@mui/icons-material/Person";
 import Badge from "@mui/material/Badge";
-
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
-
 import Input from "@mui/material/Input";
-
 import InputAdornment from "@mui/material/InputAdornment";
 import FormControl from "@mui/material/FormControl";
 
 import UserFooter from "../components/UserFooter";
-import FadeInSection from "../components/FadeInSection";
 import MenuRoundedIcon from "@mui/icons-material/MenuRounded";
 import UserSidebar from "../components/UserSidebar";
-import DropdownMenu from "../components/DropdownMenu";
 import CartBox from "../components/CartBox";
-import { cookieName } from "../cookies/GetCookies";
-
-import { useShowCartById } from "../hooks/useCart";
-import { useGetAuthUser } from "../hooks/useUsers";
 import ScrollToTop from "../components/scrolltotop";
 import AccountMenu from "../pages/user/components/Menu/AccountMenu";
+import { cookieName } from "../cookies/GetCookies";
+import { useGetProductCategory } from "../hooks/useProducts";
 
 const RootLayout = () => {
     const [isLogin, setIsLogin] = useState(false);
     const [isSidebarOpen, setIsSidebarOpen] = useState(false);
     const [isCartBox, setIsCartBox] = useState(false);
-    // const {data:user} = useGetAuthUser()
-    // const {data:cart} = useShowCartById(user.id)
+    const { data: product_category } = useGetProductCategory();
 
-    const handleSidebar = () => {
-        setIsSidebarOpen(true);
-    };
-
-    const handleCartBox = () => {
-        if (!isCartBox) {
-            setIsCartBox(true);
-        } else {
-            setIsCartBox(false);
-        }
-    };
+    const handleSidebar = () => setIsSidebarOpen(true);
+    const handleCartBox = () => setIsCartBox((prev) => !prev);
 
     useEffect(() => {
         const cookieInterval = setInterval(() => {
@@ -53,165 +36,123 @@ const RootLayout = () => {
                 setIsLogin(false);
             }
         }, 2000);
-
-        //  return () => clearInterval(cookieInterval);
     }, []);
 
     return (
         <>
-        <ScrollToTop/>
-            <header>
-                <div className="border-b-3 p-2 text-center">
-                    <h1 className="font-semibold text-md">
-                        Warning: This product contains nicotine. Nicotine is an
-                        addictive chemical.
-                    </h1>
-                </div>
+            <ScrollToTop />
+
+            {/* Warning Header */}
+            <header className="bg-yellow-100 text-center py-2 border-b">
+                <h1 className="font-semibold text-sm sm:text-md px-2">
+                    Warning: This product contains nicotine. Nicotine is an addictive chemical.
+                </h1>
             </header>
 
-            <nav className="hidden md:block sticky top-0 z-99  bg-white">
-                <div className="flex justify-center items-center border-b-2 p-5">
-                    <div className="">
-                        <Link to={"/"}>
-                            <img
-                                src="/image/ShopIcon.png"
-                                width={30}
-                                height={30}
-                                alt=""
-                            />
-                        </Link>
-                    </div>
+            {/* Desktop Navbar */}
+            <nav className="hidden md:block sticky top-0 z-50 bg-white shadow">
+                <div className="flex justify-between items-center px-6 py-4 border-b">
+                    {/* Logo */}
+                    <Link to="/">
+                        <img src="/images/1764533481_lost_vape_centaurus_b80_aio_kit_-_default.png" alt="logo" className="w-8 h-8" />
+                    </Link>
 
-                    <div className="flex gap-5 absolute right-0 mr-4">
-                        <span>
-                            <FormControl variant="standard">
-                                <Input
-                                    id="input-with-icon-adornment"
-                                    placeholder="Search item"
-                                    startAdornment={
-                                        <InputAdornment position="start">
-                                            <SearchIcon />
-                                        </InputAdornment>
-                                    }
-                                />
-                            </FormControl>
-                        </span>
+                    {/* Search */}
+                    <FormControl variant="standard" className="w-1/3">
+                        <Input
+                            placeholder="Search item"
+                            startAdornment={
+                                <InputAdornment position="start">
+                                    <SearchIcon />
+                                </InputAdornment>
+                            }
+                            className="rounded bg-gray-100 px-2 py-1 w-full"
+                        />
+                    </FormControl>
+
+                    {/* User & Cart */}
+                    <div className="flex items-center gap-4">
                         {!isLogin ? (
-                            <span>
-                                <NavLink to={"login"}>
-                                    <PersonIcon fontSize="large" />
-                                </NavLink>
-                            </span>
-                        ) : (
-                            <AccountMenu/>
-                        )}
-                     <span
-                            className="cursor-pointer"
-                            onClick={handleCartBox}
-                        >
-                            <Badge badgeContent={2} color="warning">
-                                <ShoppingCartIcon
-                                    color="action"
-                                    fontSize="large"
-                                />
-                            </Badge>
-                        </span>
-
-                        {isCartBox && <CartBox />}
-                    </div>
-                </div>
-                <div className="flex flex-wrap justify-center uppercase gap-2 font-bold p-5 ">
-                    <span>
-                        <DropdownMenu title={"vapekit"} />
-                    </span>
-                    <span>
-                        <DropdownMenu title={"brands"} />
-                    </span>
-                    <span>
-                        <DropdownMenu title={"vapekits"} />
-                    </span>
-                    <span>
-                        <DropdownMenu title={"disposable"} />
-                    </span>
-                    <span>
-                        <DropdownMenu title={"e-liquids"} />
-                    </span>
-                    <span>
-                        <DropdownMenu title={"nic pouches"} />
-                    </span>
-                    <span>
-                        <DropdownMenu title={"hemp"} />
-                    </span>
-                    <span>
-                        <DropdownMenu title={"vaporizers"} />
-                    </span>
-                    <span>
-                        <DropdownMenu title={"glass"} />
-                    </span>
-                    <span>
-                        <DropdownMenu title={"accessories"} />
-                    </span>
-                </div>
-            </nav>
-            {/* mobile phone navbar */}
-            <nav className="block md:hidden sticky top-0 z-99  backdrop-blur-2xl bg-white/90">
-                <div className="flex justify-center gap-10 content-center items-center border-b-2 p-5">
-                    <div className="flex ">
-                        <span onClick={handleSidebar}>
-                            <MenuRoundedIcon />
-                        </span>
-                        {isSidebarOpen && (
-                            <UserSidebar
-                                closeSidebar={() => setIsSidebarOpen(false)}
-                            />
-                        )}
-                        <span className="">
-                            <SearchIcon />
-                        </span>
-                    </div>
-                    <div className="">
-                        <Link to={"/"}>
-                            <img
-                                src="/image/ShopIcon.png"
-                                width={100}
-                                height={100}
-                                alt=""
-                            />
-                        </Link>
-                    </div>
-
-                    <div className="flex gap-5">
-                        <span>
-                            <NavLink to={"login"}>
-                                <PersonIcon fontSize="medium" />
+                            <NavLink to="login">
+                                <PersonIcon fontSize="large" className="text-gray-700 hover:text-gray-900" />
                             </NavLink>
-                        </span>
-                        <span
-                            className="cursor-pointer"
-                            onClick={handleCartBox}
-                        >
-                            <Badge badgeContent={4} color="warning">
-                                <ShoppingCartIcon
-                                    color="action"
-                                    fontSize="large"
-                                />
+                        ) : (
+                            <AccountMenu />
+                        )}
+                        <span className="cursor-pointer" onClick={handleCartBox}>
+                            <Badge badgeContent={2} color="warning">
+                                <ShoppingCartIcon fontSize="large" className="text-gray-700" />
                             </Badge>
                         </span>
-
                         {isCartBox && <CartBox />}
                     </div>
                 </div>
+
+                {/* Product Categories */}
+                <div className="flex overflow-x-auto gap-4 px-6 py-3 bg-gray-50 uppercase font-bold text-sm justify-center">
+                    {product_category?.map((category) => (
+                        <Link
+                            key={category.id}
+                            to={`/view-item/${category.product_category}/`}
+                            className="whitespace-nowrap hover:text-blue-600 transition"
+                            reloadDocument
+                        >
+                            {category.product_category}
+                        </Link>
+                    ))}
+                </div>
             </nav>
 
-            <div className="main">
+            {/* Mobile Navbar */}
+            <nav className="block md:hidden sticky top-0 z-50 bg-white/90 backdrop-blur-md shadow">
+                <div className="flex justify-between items-center px-4 py-3">
+                    <div className="flex items-center gap-3">
+                        <MenuRoundedIcon className="cursor-pointer" onClick={handleSidebar} />
+                        {isSidebarOpen && <UserSidebar closeSidebar={() => setIsSidebarOpen(false)} />}
+                        <SearchIcon className="text-gray-700" />
+                    </div>
+
+                    <Link to="/">
+                        <img src="/images/ShopIcon.png" alt="logo" className="w-16 h-16 object-contain" />
+                    </Link>
+
+                    <div className="flex items-center gap-3">
+                        <NavLink to="login">
+                            <PersonIcon fontSize="medium" className="text-gray-700" />
+                        </NavLink>
+                        <span className="cursor-pointer" onClick={handleCartBox}>
+                            <Badge badgeContent={4} color="warning">
+                                <ShoppingCartIcon fontSize="large" className="text-gray-700" />
+                            </Badge>
+                        </span>
+                        {isCartBox && <CartBox />}
+                    </div>
+                </div>
+
+                {/* Mobile Categories */}
+                <div className="flex overflow-x-auto gap-3 px-4 py-2 bg-gray-50 font-bold text-sm">
+                    {product_category?.map((category) => (
+                        <Link
+                            key={category.id}
+                            to={`/view-item/${category.product_category}/`}
+                            className="whitespace-nowrap hover:text-blue-600 transition"
+                            reloadDocument
+                        >
+                            {category.product_category}
+                        </Link>
+                    ))}
+                </div>
+            </nav>
+
+            {/* Main Content */}
+            <main className="px-4 py-6">
                 <Outlet />
-            </div>
+            </main>
 
-            {/* footer */}
-
-            <nav>
+            {/* Footer */}
+            <footer>
                 <UserFooter />
-            </nav>
+            </footer>
         </>
     );
 };
