@@ -1,9 +1,14 @@
-ADMIN:::
-ORDER MODULE => DONE
-POS MODULE => 
-SETTINGS MODULE => 
+CUSTOMER:
+dynamic navbar for selecting items page => done
+profile page
+my purchase page
+settings page
+logout
+can search item
+shopping cart number
 
-
-USERS/
-STAFF MODULE
-CUSTOMER MODULE => 
+ADMIN:
+New product -  dapat nagana na ung choose category, choose category description etc
+settings page
+restore page
+low stocks on navbar

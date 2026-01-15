@@ -101,11 +101,6 @@ const CartBox = () => {
                                     VIEW CART
                                 </Button>
                             </Link>
-                          <Link to={"checkout"}>
-                            <Button variant="outlined" color="error">
-                                CHECKOUT
-                            </Button>
-                          </Link>
                         </div>
                     </div>
                 </section>

@@ -9,9 +9,9 @@ import {
     TextField,
     Typography,
 } from "@mui/material";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
-import { useStoreProduct } from "../../../hooks/useProducts";
+import { useGetCategories, useGetDescriptions, useGetOptionList, useStoreProduct } from "../../../hooks/useProducts";
 import HistoryBackButton from "../../../components/HistoryBackButton";
 
 const NewProduct = () => {
@@ -29,8 +29,14 @@ const NewProduct = () => {
     const [isDisabled, setIsDisabled] = useState(false);
     const [imagePreview, setImagePreview] = useState([]);
     const [imageFile, setImageFile] = useState([]);
+    const [prevCategory, setPrevCategory] = useState("");
+    const [prevDescription, setPrevDescription] = useState("")
+    const [prevOption, setPrevOption] = useState("")
 
     const { mutate, error } = useStoreProduct();
+    const { data: categories } = useGetCategories();
+    const {data:descriptions} = useGetDescriptions()
+    const {data:options} = useGetOptionList()
 
     const handleAddContent = () => {
         setContentObj((prev) => [...prev, content]);
@@ -78,8 +84,8 @@ const NewProduct = () => {
             },
             {
                 onSuccess: () => {
-                    setImageFile(null)
-                    setImagePreview([])
+                    setImageFile(null);
+                    setImagePreview([]);
                     setProductName("");
                     setPrice("");
                     setQuantity("");
@@ -88,9 +94,8 @@ const NewProduct = () => {
                     setContentObj("");
                     setOption("");
 
-                    document.getElementById("image").value = null
-                  
-                 },
+                    document.getElementById("image").value = null;
+                },
             },
         );
     };
@@ -104,6 +109,13 @@ const NewProduct = () => {
         setImageFile(selectedFiles);
         setImagePreview(previewUrls);
     };
+
+    useEffect(() => {
+        setCategory(prevCategory);
+        setDescriptionBody(prevDescription)
+        setOptionTitle(prevOption)
+        
+    }, [prevCategory, prevDescription,prevOption]);
 
     return (
         <section>
@@ -153,14 +165,24 @@ const NewProduct = () => {
                                 <span className="text-blue-500 font-bold">
                                     Category:{" "}
                                 </span>
+                                {prevCategory}
                                 <select
                                     name=""
                                     id=""
                                     className="border-1 border-gray-400"
+                                    value={prevCategory}
+                                    onChange={(e) =>
+                                        setPrevCategory(e.target.value)
+                                    }
                                 >
-                                    <option value="" selected disabled>
-                                        Choose category
-                                    </option>
+                                    {categories &&
+                                        categories?.data?.map((category) => (
+                                            <option
+                                                value={category.category_name}
+                                            >
+                                                {category.category_name}
+                                            </option>
+                                        ))}
                                 </select>
                             </div>
                             <TextField
@@ -181,10 +203,14 @@ const NewProduct = () => {
                                     name=""
                                     id=""
                                     className="border-1 border-gray-400"
+                                    value={prevDescription}
+                                    onChange={(e) => setPrevDescription(e.target.value)}
                                 >
-                                    <option value="" selected disabled>
-                                        Choose description
+                                    {descriptions?.data.map((desc) => (
+                                        <option value={desc.description_body} selected>
+                                        {desc.description_body}
                                     </option>
+                                    ))}
                                 </select>
                             </div>
 
@@ -216,6 +242,7 @@ const NewProduct = () => {
                                     Add
                                 </Button>
                             </div>
+                           
                             <div className="flex gap-2 flex-wrap">
                                 {contentObj &&
                                     contentObj.map((data) => (
@@ -240,11 +267,16 @@ const NewProduct = () => {
                                     name=""
                                     id=""
                                     className="border-1 border-gray-400"
+                                    value={prevOption}
+                                    onChange={(e) => setPrevOption(e.target.value)}
                                 >
-                                    <option value="" selected disabled>
-                                        Choose option
+                                  {options.map((option) => (
+                                      <option value={option.option_title} selected>
+                                        {option.option_title}
                                     </option>
+                                  ))}
                                 </select>
+                             
                             </div>
                             <TextField
                                 label="Title"

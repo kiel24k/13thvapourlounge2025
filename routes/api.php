@@ -52,7 +52,8 @@ route::controller(ProductController::class)->group(function () {
 
   route::post('store-product', 'storeProduct');
   route::get('show-products', 'showProducts');
-  route::get('show-product/{id}', 'showProduct');
+  route::get('show-product/{product_category}', 'showProduct');
+    route::get('/get-product-category', 'getProductCategory');
 });
 
 route::controller(AnalyticController::class)->group(function () {
@@ -75,6 +76,7 @@ route::controller(OrderController::class)->group(function () {
   route::post('/store-order', 'storeOrder');
   route::get('/show-orders', 'showOrders');
   route::post('/update-status', 'updateStatusById');
+
 });
 
 route::controller(PosController::class)->group(function () {

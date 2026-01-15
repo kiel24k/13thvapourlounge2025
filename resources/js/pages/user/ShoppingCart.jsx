@@ -7,7 +7,7 @@ import {
     TextField,
 } from "@mui/material";
 import React, { useEffect, useState } from "react";
-import { data, Link } from "react-router-dom";
+import { Link } from "react-router-dom";
 import {
     useDeleteCart,
     useShowCartById,
@@ -30,14 +30,9 @@ const ShoppingCart = () => {
     const { mutate: deleteCart } = useDeleteCart();
 
     const handleCheckBox = (item) => {
-        let updateCheckbox;
-
-        if (checkbox.includes(item.id)) {
-            updateCheckbox = checkbox.filter((el) => el !== item.id); //remove id in array to make it false and uncheck the checkbox
-        } else {
-            updateCheckbox = [...checkbox, item.id]; // add the id in array to make it true and check the checkbox
-        }
-
+        const updateCheckbox = checkbox.includes(item.id)
+            ? checkbox.filter((el) => el !== item.id)
+            : [...checkbox, item.id];
         setCheckBox(updateCheckbox);
     };
 
@@ -45,49 +40,33 @@ const ShoppingCart = () => {
         const getCheck = checkbox.map((el) => {
             const findCheck = cart.find((cartEl) => cartEl.id === el);
             const total = parseInt(findCheck.total);
-            if (total) {
-                return total;
-            }
+            if (total) return total;
         });
 
         setCartPrices(
-            getCheck.reduce(
-                (accumulator, currentValue) => accumulator + currentValue,
-                0,
-            ),
+            getCheck.reduce((acc, curr) => acc + curr, 0)
         );
     }, [checkbox]);
 
     useEffect(() => {
-        if (cart) {
-            setCarts(cart);
-        }
+        if (cart) setCarts(cart);
     }, [cart]);
 
     const handleQuantityChange = (maxQty, id, field, value) => {
         const updateCart = carts.map((cart) =>
-            cart.id === id ? { ...cart, [field]: Number(value) } : cart,
+            cart.id === id ? { ...cart, [field]: Number(value) } : cart
         );
         setCarts(updateCart);
 
         if (Number(value) >= maxQty) {
             const maxCart = carts.map((cart) =>
-                cart.id === id ? { ...cart, [field]: Number(maxQty) } : cart,
+                cart.id === id ? { ...cart, [field]: Number(maxQty) } : cart
             );
             setCarts(maxCart);
         }
-
-        // if (Number(value) <= 0) {
-        //     const minimumCart = carts.map((cart) =>
-        //         cart.id === id ? { ...cart, [field]: 0 } : cart,
-        //     );
-        //     setCarts(minimumCart);
-        // }
     };
 
-    const handleUpdateCart = () => {
-        updateCart(carts);
-    };
+    const handleUpdateCart = () => updateCart(carts);
 
     const deleteCarts = () => {
         Swal.fire({
@@ -122,8 +101,8 @@ const ShoppingCart = () => {
                                   ? cart.quantity + 1
                                   : maxQty,
                       }
-                    : cart,
-            ),
+                    : cart
+            )
         );
     };
 
@@ -135,207 +114,193 @@ const ShoppingCart = () => {
                           ...cart,
                           quantity: cart.quantity > 1 ? cart.quantity - 1 : 1,
                       }
-                    : cart,
-            ),
+                    : cart
+            )
         );
     };
 
     if (isFetching) {
         return (
-            <div className="flex gap-5 items-center justify-center">
-                <CircularProgress size={100} />
-                <b>Loading . . .</b>
+            <div className="flex flex-col items-center justify-center mt-20 gap-5">
+                <CircularProgress size={80} />
+                <span className="text-lg font-semibold">Loading . . .</span>
             </div>
         );
     }
-    return (
-        <>
-            <section className="md:w-300 m-auto">
-                <div className="flex justify-center gap-2 mb-2">
-                    {carts.length > 0 && (
-                        <Button
-                            variant="outlined"
-                            color="info"
-                            size="small"
-                            startIcon={<RxUpdate />}
-                            sx={{ textTransform: "none" }}
-                            onClick={handleUpdateCart}
-                        >
-                            Update Cart
-                        </Button>
-                    )}
-                    {checkbox.length > 0 && (
-                        <IconButton sx={{ color: "red" }} onClick={deleteCarts}>
-                            <MdDeleteOutline />
-                        </IconButton>
-                    )}
-                </div>
-                <div className="flex flex-wrap md:flex-nowrap gap-5 md:gap-0">
-                    <div className="max-h-100 overflow-y-scroll gap-5 md:gap-2">
-                        <table className="border border-gray-200  mt-5 ">
-                            <thead>
-                                <tr>
-                                    <th className="border border-b-1 border-gray-200">
-                                        <Checkbox />
-                                    </th>
-                                    <th className="border border-b-1 border-gray-200">
-                                        Item
-                                    </th>
-                                    <th className="border border-b-1 border-gray-200">
-                                        Price
-                                    </th>
-                                    <th className="border border-b-1 border-gray-200">
-                                        Qty
-                                    </th>
-                                    <th className="border border-b-1 border-gray-200">
-                                        Subtotal
-                                    </th>
-                                </tr>
-                            </thead>
 
-                            <tbody>
-                                {carts &&
-                                    carts.map((data, key) => (
-                                        <tr key={key}>
-                                            <td>
-                                                <Checkbox
-                                                    disabled={
-                                                        data.quantity <= 0
+    return (
+        <section className="max-w-7xl mx-auto p-4">
+            {/* Action Buttons */}
+            <div className="flex flex-wrap gap-3 justify-center md:justify-start mb-4">
+                {carts.length > 0 && (
+                    <Button
+                        variant="contained"
+                        color="info"
+                        size="medium"
+                        startIcon={<RxUpdate />}
+                        sx={{ textTransform: "none" }}
+                        onClick={handleUpdateCart}
+                    >
+                        Update Cart
+                    </Button>
+                )}
+                {checkbox.length > 0 && (
+                    <IconButton
+                        sx={{ color: "red" }}
+                        onClick={deleteCarts}
+                        size="large"
+                    >
+                        <MdDeleteOutline />
+                    </IconButton>
+                )}
+            </div>
+
+            {/* Cart + Summary */}
+            <div className="flex flex-col md:flex-row gap-6">
+                {/* Cart Table */}
+                <div className="flex-1 overflow-x-auto rounded-lg shadow bg-white p-4">
+                    <table className="w-full min-w-[600px] border-collapse">
+                        <thead className="bg-gray-100">
+                            <tr>
+                                <th className="p-2 border-b border-gray-300">
+                                    <Checkbox />
+                                </th>
+                                <th className="p-2 border-b border-gray-300 text-left">
+                                    Item
+                                </th>
+                                <th className="p-2 border-b border-gray-300 text-right">
+                                    Price
+                                </th>
+                                <th className="p-2 border-b border-gray-300 text-center">
+                                    Qty
+                                </th>
+                                <th className="p-2 border-b border-gray-300 text-right">
+                                    Subtotal
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {carts &&
+                                carts.map((data, key) => (
+                                    <tr
+                                        key={key}
+                                        className="hover:bg-gray-50 transition"
+                                    >
+                                        <td className="p-2 text-center">
+                                            <Checkbox
+                                                disabled={data.quantity <= 0}
+                                                checked={checkbox.includes(
+                                                    data.id
+                                                )}
+                                                onChange={() =>
+                                                    handleCheckBox(data)
+                                                }
+                                            />
+                                        </td>
+                                        <td className="p-2">
+                                            <div className="flex items-center gap-4">
+                                                <img
+                                                    src={`/images/${JSON.parse(
+                                                        data.products.image
+                                                    )[0]}`}
+                                                    alt="cart item"
+                                                    className="w-20 h-20 object-cover rounded"
+                                                />
+                                                <span className="font-medium">
+                                                    {
+                                                        data.products
+                                                            .product_name
                                                     }
-                                                    checked={checkbox.includes(
-                                                        data.id,
-                                                    )}
-                                                    onChange={() =>
-                                                        handleCheckBox(data)
+                                                </span>
+                                            </div>
+                                        </td>
+                                        <td className="p-2 text-right font-semibold">
+                                            ₱
+                                            {Number(
+                                                data.products.product_price
+                                            ).toLocaleString()}
+                                            .00
+                                        </td>
+                                        <td className="p-2 text-center">
+                                            <div className="flex items-center justify-center gap-2">
+                                                <button
+                                                    className="bg-red-100 text-red-600 px-2 rounded hover:bg-red-200 transition"
+                                                    onClick={() =>
+                                                        handleDecrement(
+                                                            data.products
+                                                                .product_quantity,
+                                                            data.id
+                                                        )
+                                                    }
+                                                >
+                                                    -
+                                                </button>
+                                                <input
+                                                    type="number"
+                                                    value={data.quantity}
+                                                    max={
+                                                        data.products
+                                                            .product_quantity
+                                                    }
+                                                    min={1}
+                                                    className="w-12 text-center border rounded py-1"
+                                                    onChange={(e) =>
+                                                        handleQuantityChange(
+                                                            data.products
+                                                                .product_quantity,
+                                                            data.id,
+                                                            "quantity",
+                                                            e.target.value
+                                                        )
                                                     }
                                                 />
-                                            </td>
-                                            <td className="p-2">
-                                                <figure className="flex gap-5">
-                                                    <div className="">
-                                                        <img
-                                                            src={`/images/${JSON.parse(data.products.image)[0]}`}
-                                                            alt="cart image"
-                                                            width={150}
-                                                            height={150}
-                                                        />
-                                                    </div>
-                                                    <figcaption>
-                                                        <span>
-                                                            {
-                                                                data.products
-                                                                    .product_name
-                                                            }
-                                                        </span>
-                                                    </figcaption>
-                                                </figure>
-                                            </td>
-                                            <td className="p-5">
-                                                <div className="grid">
-                                                    <b className="font-bold">
-                                                        ₱
-                                                        {Number(
+                                                <button
+                                                    className="bg-green-100 text-green-600 px-2 rounded hover:bg-green-200 transition"
+                                                    onClick={() =>
+                                                        handleIncrement(
                                                             data.products
-                                                                .product_price,
-                                                        ).toLocaleString()}
-                                                        .00
-                                                    </b>
-                                                </div>
-                                            </td>
-                                            <td className="p-5">
-                                                <div className="flex gap-2">
-                                                    <button
-                                                        className="border-1 border-green-500 w-5 rounded-1xl shadow-2xl font-bold"
-                                                        onClick={() =>
-                                                            handleIncrement(
-                                                                data.products
-                                                                    .product_quantity,
-                                                                data.id,
-                                                            )
-                                                        }
-                                                    >
-                                                        +
-                                                    </button>
-                                                    <input
-                                                        type="number"
-                                                        value={data.quantity}
-                                                        max={
-                                                            data.products
-                                                                .product_quantity
-                                                        }
-                                                        min={1}
-                                                        className="w-10 outline-1"
-                                                        onChange={(e) =>
-                                                            handleQuantityChange(
-                                                                data.products
-                                                                    .product_quantity,
-                                                                data.id,
-                                                                "quantity",
-                                                                e.target.value,
-                                                            )
-                                                        }
-                                                    />
-                                                    <button
-                                                        className="border-1 border-red-400 w-5 rounded-1xl shadow-2xl"
-                                                        onClick={() =>
-                                                            handleDecrement(
-                                                                data.products
-                                                                    .product_quantity,
-                                                                data.id,
-                                                            )
-                                                        }
-                                                    >
-                                                        -
-                                                    </button>
-                                                </div>
-                                            </td>
-                                            <td className="p-5">
-                                                <span className="font-bold text-green-600">
-                                                    ₱
-                                                    {Number(
-                                                        data.total,
-                                                    ).toLocaleString()}
-                                                    .00
-                                                </span>
-                                            </td>
-                                        </tr>
-                                    ))}
-                            </tbody>
-                        </table>
-                    </div>
-
-                    <div className="w-full md:w-150 bg-gray-50">
-                        <div className="grid gap-5 p-2">
-                            <div className="border-b-1 border-gray-300 pb-3 ">
-                                <span>SUMMARY</span>
-                            </div>
-
-                            {/* <div className="flex justify-between">
-                                <span>Sub Total</span>
-                                <span className="font-bold">
-                                    ₱{cartPrices.toLocaleString()}.00
-                                </span>
-                            </div> */}
-
-                            <div className="flex justify-between">
-                                <span>Total</span>
-                                <span className="font-bold text-green-600">
-                                    ₱{cartPrices.toLocaleString()}.00
-                                </span>
-                            </div>
-
-                            <div className="flex gap-3">
-                                <BillingDetails
-                                    checkBox={checkbox}
-                                    carts={carts}
-                                    total={cartPrices}
-                                />
-                            </div>
-                        </div>
-                    </div>
+                                                                .product_quantity,
+                                                            data.id
+                                                        )
+                                                    }
+                                                >
+                                                    +
+                                                </button>
+                                            </div>
+                                        </td>
+                                        <td className="p-2 text-right font-bold text-green-600">
+                                            ₱{Number(data.total).toLocaleString()}
+                                            .00
+                                        </td>
+                                    </tr>
+                                ))}
+                        </tbody>
+                    </table>
                 </div>
-            </section>
-        </>
+
+                {/* Summary Card */}
+                <div className="w-full md:w-80 bg-gray-50 p-4 rounded-lg shadow flex-shrink-0">
+                    <h3 className="font-semibold text-lg border-b border-gray-300 pb-2 mb-4">
+                        SUMMARY
+                    </h3>
+
+                    <div className="flex justify-between mb-3">
+                        <span className="font-medium">Total</span>
+                        <span className="font-bold text-green-600">
+                            ₱{cartPrices.toLocaleString()}.00
+                        </span>
+                    </div>
+
+                    {checkbox.length !== 0 && (
+                        <BillingDetails
+                            checkBox={checkbox}
+                            carts={carts}
+                            total={cartPrices}
+                        />
+                    )}
+                </div>
+            </div>
+        </section>
     );
 };
 
