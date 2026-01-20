@@ -16,12 +16,18 @@ import ScrollToTop from "../components/scrolltotop";
 import AccountMenu from "../pages/user/components/Menu/AccountMenu";
 import { cookieName } from "../cookies/GetCookies";
 import { useGetProductCategory } from "../hooks/useProducts";
+import { useGetAuthUser } from "../hooks/useUsers";
+import { showCartById } from "../api/cart.api";
+import { useShowCartById } from "../hooks/useCart";
 
 const RootLayout = () => {
     const [isLogin, setIsLogin] = useState(false);
     const [isSidebarOpen, setIsSidebarOpen] = useState(false);
     const [isCartBox, setIsCartBox] = useState(false);
     const { data: product_category } = useGetProductCategory();
+    const { data: user } = useGetAuthUser();
+
+    const { data: showCartById } = useShowCartById(user?.id);
 
     const handleSidebar = () => setIsSidebarOpen(true);
     const handleCartBox = () => setIsCartBox((prev) => !prev);
@@ -41,11 +47,11 @@ const RootLayout = () => {
     return (
         <>
             <ScrollToTop />
-
             {/* Warning Header */}
             <header className="bg-yellow-100 text-center py-2 border-b">
                 <h1 className="font-semibold text-sm sm:text-md px-2">
-                    Warning: This product contains nicotine. Nicotine is an addictive chemical.
+                    Warning: This product contains nicotine. Nicotine is an
+                    addictive chemical.
                 </h1>
             </header>
 
@@ -54,34 +60,33 @@ const RootLayout = () => {
                 <div className="flex justify-between items-center px-6 py-4 border-b">
                     {/* Logo */}
                     <Link to="/">
-                        <img src="/images/1764533481_lost_vape_centaurus_b80_aio_kit_-_default.png" alt="logo" className="w-8 h-8" />
-                    </Link>
-
-                    {/* Search */}
-                    <FormControl variant="standard" className="w-1/3">
-                        <Input
-                            placeholder="Search item"
-                            startAdornment={
-                                <InputAdornment position="start">
-                                    <SearchIcon />
-                                </InputAdornment>
-                            }
-                            className="rounded bg-gray-100 px-2 py-1 w-full"
+                        <img
+                            src="/images/1764533481_lost_vape_centaurus_b80_aio_kit_-_default.png"
+                            alt="logo"
+                            className="w-8 h-8"
                         />
-                    </FormControl>
-
+                    </Link>
                     {/* User & Cart */}
                     <div className="flex items-center gap-4">
                         {!isLogin ? (
                             <NavLink to="login">
-                                <PersonIcon fontSize="large" className="text-gray-700 hover:text-gray-900" />
+                                <PersonIcon
+                                    fontSize="large"
+                                    className="text-gray-700 hover:text-gray-900"
+                                />
                             </NavLink>
                         ) : (
                             <AccountMenu />
                         )}
-                        <span className="cursor-pointer" onClick={handleCartBox}>
-                            <Badge badgeContent={2} color="warning">
-                                <ShoppingCartIcon fontSize="large" className="text-gray-700" />
+                        <span
+                            className="cursor-pointer"
+                            onClick={handleCartBox}
+                        >
+                            <Badge badgeContent={showCartById?.length} color="warning">
+                                <ShoppingCartIcon
+                                    fontSize="large"
+                                    className="text-gray-700"
+                                />
                             </Badge>
                         </span>
                         {isCartBox && <CartBox />}
@@ -107,22 +112,42 @@ const RootLayout = () => {
             <nav className="block md:hidden sticky top-0 z-50 bg-white/90 backdrop-blur-md shadow">
                 <div className="flex justify-between items-center px-4 py-3">
                     <div className="flex items-center gap-3">
-                        <MenuRoundedIcon className="cursor-pointer" onClick={handleSidebar} />
-                        {isSidebarOpen && <UserSidebar closeSidebar={() => setIsSidebarOpen(false)} />}
+                        <MenuRoundedIcon
+                            className="cursor-pointer"
+                            onClick={handleSidebar}
+                        />
+                        {isSidebarOpen && (
+                            <UserSidebar
+                                closeSidebar={() => setIsSidebarOpen(false)}
+                            />
+                        )}
                         <SearchIcon className="text-gray-700" />
                     </div>
 
                     <Link to="/">
-                        <img src="/images/ShopIcon.png" alt="logo" className="w-16 h-16 object-contain" />
+                        <img
+                            src="/images/ShopIcon.png"
+                            alt="logo"
+                            className="w-16 h-16 object-contain"
+                        />
                     </Link>
 
                     <div className="flex items-center gap-3">
                         <NavLink to="login">
-                            <PersonIcon fontSize="medium" className="text-gray-700" />
+                            <PersonIcon
+                                fontSize="medium"
+                                className="text-gray-700"
+                            />
                         </NavLink>
-                        <span className="cursor-pointer" onClick={handleCartBox}>
+                        <span
+                            className="cursor-pointer"
+                            onClick={handleCartBox}
+                        >
                             <Badge badgeContent={4} color="warning">
-                                <ShoppingCartIcon fontSize="large" className="text-gray-700" />
+                                <ShoppingCartIcon
+                                    fontSize="large"
+                                    className="text-gray-700"
+                                />
                             </Badge>
                         </span>
                         {isCartBox && <CartBox />}

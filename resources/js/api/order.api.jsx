@@ -27,3 +27,9 @@ export const updateStatus = async (data) => {
         throw error;
     }
 };
+
+export const showOrderById = async (id) => {
+    const response = await axios.get(`/api/show-order-by-id/${id}`)
+    return response.data
+    
+}

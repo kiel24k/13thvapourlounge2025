@@ -98,7 +98,7 @@ export default function BillingDetails({ checkBox, carts, total }) {
                             variant="h6"
                             component="div"
                         >
-                            Billing Details {addressRadio}
+                            Billing Details 
                         </Typography>
                     </Toolbar>
                 </AppBar>
