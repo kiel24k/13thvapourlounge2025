@@ -1,10 +1,10 @@
-import React from "react";
+import React, { useState } from "react";
 import ImageSlider from "../../components/ImageSlider";
 import ItemCard from "./components/ItemCard";
 import { Button } from "@mui/material";
 import FadeInSection from "../../components/FadeInSection";
 import { useShowProducts } from "../../hooks/useProducts";
-import { useTrendingProduct } from "../../hooks/useAnalytic";
+import { useBestSeller, useTrendingProduct } from "../../hooks/useAnalytic";
 import { Link } from "react-router-dom";
 
 const SectionHeader = ({ label, title, description }) => (
@@ -15,9 +15,7 @@ const SectionHeader = ({ label, title, description }) => (
         <h1 className="font-bold text-2xl sm:text-3xl tracking-wide">
             {title}
         </h1>
-        <p className="text-sm sm:text-base text-gray-500">
-            {description}
-        </p>
+        <p className="text-sm sm:text-base text-gray-500">{description}</p>
         <div className="w-16 h-1 bg-blue-600 mx-auto mt-2 rounded-full" />
     </div>
 );
@@ -25,6 +23,12 @@ const SectionHeader = ({ label, title, description }) => (
 const Homepage = () => {
     const { data } = useShowProducts();
     const { data: trendingProducts } = useTrendingProduct();
+    const { data: bestSeller } = useBestSeller();
+
+    // Load More state for each section
+    const [visibleTrending, setVisibleTrending] = useState(5);
+    const [visibleNew, setVisibleNew] = useState(5);
+    const [visibleBestSeller, setVisibleBestSeller] = useState(5);
 
     return (
         <div className="bg-white">
@@ -42,9 +46,9 @@ const Homepage = () => {
                         description="Discover what’s popular and selling fast right now."
                     />
 
-                    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6">
+                    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6 justify-items-center">
                         {trendingProducts &&
-                            trendingProducts.slice(0, 5).map((item) => (
+                            trendingProducts.slice(0, visibleTrending).map((item) => (
                                 <Link
                                     key={item.id}
                                     to={`/view-item/${item.product_category}`}
@@ -60,11 +64,17 @@ const Homepage = () => {
                             ))}
                     </div>
 
-                    <div className="flex justify-center">
-                        <Button variant="outlined" className="w-full sm:w-auto">
-                            Load more
-                        </Button>
-                    </div>
+                    {trendingProducts && visibleTrending < trendingProducts.length && (
+                        <div className="flex justify-center">
+                            <Button
+                                variant="outlined"
+                                className="w-full sm:w-auto"
+                                onClick={() => setVisibleTrending(prev => prev + 5)}
+                            >
+                                Load more
+                            </Button>
+                        </div>
+                    )}
                 </section>
             </FadeInSection>
 
@@ -77,9 +87,9 @@ const Homepage = () => {
                         description="Fresh products added recently — don’t miss out."
                     />
 
-                    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6">
+                    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6 justify-items-center">
                         {data &&
-                            data.slice(0, 5).map((item) => (
+                            data.slice(0, visibleNew).map((item) => (
                                 <Link
                                     key={item.id}
                                     to={`/view-item/${item.product_category}`}
@@ -95,11 +105,17 @@ const Homepage = () => {
                             ))}
                     </div>
 
-                    <div className="flex justify-center">
-                        <Button variant="outlined" className="w-full sm:w-auto">
-                            View all
-                        </Button>
-                    </div>
+                    {data && visibleNew < data.length && (
+                        <div className="flex justify-center">
+                            <Button
+                                variant="outlined"
+                                className="w-full sm:w-auto"
+                                onClick={() => setVisibleNew(prev => prev + 5)}
+                            >
+                                Load more
+                            </Button>
+                        </div>
+                    )}
                 </section>
             </FadeInSection>
 
@@ -112,19 +128,35 @@ const Homepage = () => {
                         description="Our most loved and top-selling products."
                     />
 
-                    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6">
-                        <ItemCard />
-                        <ItemCard />
-                        <ItemCard />
-                        <ItemCard />
-                        <ItemCard />
+                    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6 justify-items-center">
+                        {bestSeller &&
+                            bestSeller.slice(0, visibleBestSeller).map((item) => (
+                                <Link
+                                    key={item.id}
+                                    to={`/view-item/${item.product_category}`}
+                                    className="flex justify-center"
+                                >
+                                    <ItemCard
+                                        productName={item.product_name}
+                                        productPrice={item.product_price}
+                                        image={JSON.parse(item.image)}
+                                        quantity={item.product_quantity}
+                                    />
+                                </Link>
+                            ))}
                     </div>
 
-                    <div className="flex justify-center">
-                        <Button variant="outlined" className="w-full sm:w-auto">
-                            Load more
-                        </Button>
-                    </div>
+                    {bestSeller && visibleBestSeller < bestSeller.length && (
+                        <div className="flex justify-center">
+                            <Button
+                                variant="outlined"
+                                className="w-full sm:w-auto"
+                                onClick={() => setVisibleBestSeller(prev => prev + 5)}
+                            >
+                                Load more
+                            </Button>
+                        </div>
+                    )}
                 </section>
             </FadeInSection>
         </div>

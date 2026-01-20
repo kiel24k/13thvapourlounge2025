@@ -2,10 +2,10 @@
 -- version 5.2.1
 -- https://www.phpmyadmin.net/
 --
--- Host: 127.0.0.1:3307
--- Generation Time: Dec 02, 2025 at 07:47 AM
--- Server version: 10.4.32-MariaDB
--- PHP Version: 8.2.12
+-- Host: localhost
+-- Generation Time: Jan 20, 2026 at 04:06 PM
+-- Server version: 10.4.28-MariaDB
+-- PHP Version: 8.2.4
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -49,7 +49,8 @@ CREATE TABLE `addresses` (
 --
 
 INSERT INTO `addresses` (`id`, `user_id`, `first_name`, `last_name`, `company_name`, `street_name`, `apartment`, `town`, `zip_code`, `contact_number`, `email`, `note`, `created_at`, `updated_at`) VALUES
-(1, 2, 'yftfg', 'hygy', 'fsdf', 'dsafasdf', 'sadfsad', 'fasdfs', 2131, '09193471522', 'user@gmail.com', NULL, '2025-11-28 14:45:26', '2025-11-28 14:45:26');
+(1, 2, 'yftfg', 'hygy', 'fsdf', 'dsafasdf', 'sadfsad', 'fasdfs', 2131, '09193471522', 'user@gmail.com', NULL, '2025-11-28 14:45:26', '2025-11-28 14:45:26'),
+(2, 3, 'kiel', 'bermudez', 'dos', 'blk 14 lot 10', 'Tanza', 'Cavite', 4108, '09193471522', 'haha@gmail.com', NULL, '2026-01-05 05:21:58', '2026-01-05 05:21:58');
 
 -- --------------------------------------------------------
 
@@ -91,13 +92,6 @@ CREATE TABLE `carts` (
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
---
--- Dumping data for table `carts`
---
-
-INSERT INTO `carts` (`id`, `user_id`, `product_id`, `quantity`, `option_type`, `total`, `created_at`, `updated_at`) VALUES
-(58, 1, 40, 2, '{\"Smok Xpro Flavors | Devices\":\"Fresh Burst\"}', 720.00, '2025-12-01 10:20:29', '2025-12-01 10:20:29');
 
 -- --------------------------------------------------------
 
@@ -202,6 +196,21 @@ CREATE TABLE `orders` (
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
+--
+-- Dumping data for table `orders`
+--
+
+INSERT INTO `orders` (`id`, `user_id`, `product_id`, `address_id`, `quantity`, `price`, `total`, `status`, `created_at`, `updated_at`) VALUES
+(15, 3, 42, 2, 3, 1000, 3000.00, 'preparing', '2026-01-05 05:22:26', '2026-01-05 05:22:26'),
+(16, 3, 41, 2, 1, 900, 1950.00, 'pending', '2026-01-14 08:38:29', '2026-01-14 08:38:29'),
+(17, 3, 39, 2, 3, 350, 1950.00, 'pending', '2026-01-14 08:38:29', '2026-01-14 08:38:29'),
+(18, 3, 40, 2, 7, 360, 3654.00, 'pending', '2026-01-20 05:31:51', '2026-01-20 05:31:51'),
+(19, 3, 44, 2, 4, 21, 3654.00, 'pending', '2026-01-20 05:31:51', '2026-01-20 05:31:51'),
+(20, 3, 39, 2, 3, 350, 3654.00, 'pending', '2026-01-20 05:31:51', '2026-01-20 05:31:51'),
+(21, 3, 39, 2, 3, 350, 1050.00, 'pending', '2026-01-20 05:35:39', '2026-01-20 05:35:39'),
+(22, 3, 42, 2, 3, 1000, 3700.00, 'pending', '2026-01-20 06:10:24', '2026-01-20 06:10:24'),
+(23, 3, 39, 2, 2, 350, 3700.00, 'pending', '2026-01-20 06:10:24', '2026-01-20 06:10:24');
+
 -- --------------------------------------------------------
 
 --
@@ -275,7 +284,28 @@ INSERT INTO `personal_access_tokens` (`id`, `tokenable_type`, `tokenable_id`, `n
 (35, 'App\\Models\\User', 1, 'token1', '973cd34ff820134f063183c4b3284b3e7ac4123737145c23548259436160443b', '[\"*\"]', NULL, NULL, '2025-11-30 09:04:36', '2025-11-30 09:04:36'),
 (36, 'App\\Models\\User', 2, 'token2', 'f4feb4b405db171661cd3cf7d9640d774096aab6c15582e61eae8db3a28634c5', '[\"*\"]', '2025-11-30 12:24:49', NULL, '2025-11-30 12:06:28', '2025-11-30 12:24:49'),
 (37, 'App\\Models\\User', 1, 'token1', 'e62b957ed7e50686b93013f97302004ef626728bbd1f53fbbdc9231e6379c242', '[\"*\"]', '2025-12-01 10:20:30', NULL, '2025-11-30 12:23:49', '2025-12-01 10:20:30'),
-(38, 'App\\Models\\User', 1, 'token1', '9357759366d9a79d26e360122adaf5d97f08e24008c4f1d325b9be2db0ce07df', '[\"*\"]', '2025-12-01 10:25:13', NULL, '2025-12-01 10:20:43', '2025-12-01 10:25:13');
+(38, 'App\\Models\\User', 1, 'token1', '9357759366d9a79d26e360122adaf5d97f08e24008c4f1d325b9be2db0ce07df', '[\"*\"]', '2025-12-01 10:25:13', NULL, '2025-12-01 10:20:43', '2025-12-01 10:25:13'),
+(39, 'App\\Models\\User', 1, 'token1', '64feb2cc063bc71411110a5a919799a4b0017367f2d4b1590ee588ab1123ab81', '[\"*\"]', NULL, NULL, '2026-01-05 04:55:45', '2026-01-05 04:55:45'),
+(40, 'App\\Models\\User', 3, 'token3', '57208fc68364613018a7171303a1f0dc9cc838ac6bfe53e0f35c17f32feb34ab', '[\"*\"]', NULL, NULL, '2026-01-05 05:13:21', '2026-01-05 05:13:21'),
+(41, 'App\\Models\\User', 3, 'token3', '28b99bb641404b7c24dd7da631e8ce5ef6768776c2815b26c79e4681caecd653', '[\"*\"]', NULL, NULL, '2026-01-05 05:15:18', '2026-01-05 05:15:18'),
+(42, 'App\\Models\\User', 3, 'token3', 'a7ae7f54a847ea23ffe05d54db0809b75187ec65a07f2402afd4879a304d378a', '[\"*\"]', NULL, NULL, '2026-01-05 05:16:13', '2026-01-05 05:16:13'),
+(43, 'App\\Models\\User', 3, 'token3', '9f7553071deef87d46dfe2ccf195aa5fb8e0d2afe32dd9ec5c6265d10ccdb2dd', '[\"*\"]', NULL, NULL, '2026-01-05 05:18:54', '2026-01-05 05:18:54'),
+(44, 'App\\Models\\User', 1, 'token1', '3a731966240bf66818dd3c627b29ead98e16b12252f54608fcda474e58206178', '[\"*\"]', NULL, NULL, '2026-01-14 06:41:28', '2026-01-14 06:41:28'),
+(45, 'App\\Models\\User', 3, 'token3', '1aef8e07c31fb1cc6700f6ef4ec27d2517ae849acc6750e2d2c2feb7df44a0a5', '[\"*\"]', NULL, NULL, '2026-01-14 07:24:13', '2026-01-14 07:24:13'),
+(46, 'App\\Models\\User', 3, 'token3', 'e01467681e75a8420abd9dbdad7f64eaa68cb9547647ac3676f2ff8ade010f2e', '[\"*\"]', NULL, NULL, '2026-01-20 05:15:27', '2026-01-20 05:15:27'),
+(47, 'App\\Models\\User', 3, 'token3', '0e71cc8eccf2f808e061a6610c096df3539db9b343ea06e4a8c6ced4bcaff386', '[\"*\"]', NULL, NULL, '2026-01-20 05:20:30', '2026-01-20 05:20:30'),
+(48, 'App\\Models\\User', 3, 'token3', 'c3efb875bd02e525c50e721f5bd1a17885727a69f0c6317d10d8a955c1921da9', '[\"*\"]', NULL, NULL, '2026-01-20 05:35:10', '2026-01-20 05:35:10'),
+(49, 'App\\Models\\User', 2, 'token2', 'd5c8bcd2648629c466bcee680fafec68965cf83d54a4b9f2a053d03191d5405b', '[\"*\"]', NULL, NULL, '2026-01-20 05:44:42', '2026-01-20 05:44:42'),
+(50, 'App\\Models\\User', 3, 'token3', 'a2ce8d32def8b535825a93ef1350717dc216c5f2767a7e9193d40bd4757645b7', '[\"*\"]', NULL, NULL, '2026-01-20 05:53:15', '2026-01-20 05:53:15'),
+(51, 'App\\Models\\User', 2, 'token2', '17dc0d96597f5a841aab53701e2ef9c18fdb2fcbdc6b3d22432f9d5fa1715a4c', '[\"*\"]', NULL, NULL, '2026-01-20 05:55:44', '2026-01-20 05:55:44'),
+(52, 'App\\Models\\User', 2, 'token2', '41cace8aa331b218a2a093782ccb2571289631ad00d59d1c635fa40dabbbf12c', '[\"*\"]', NULL, NULL, '2026-01-20 05:55:47', '2026-01-20 05:55:47'),
+(53, 'App\\Models\\User', 2, 'token2', 'be0fa96052b94a988c2191c3bc13585ab146bc93a94550a11a6bad8495123c52', '[\"*\"]', NULL, NULL, '2026-01-20 05:55:48', '2026-01-20 05:55:48'),
+(54, 'App\\Models\\User', 2, 'token2', '22b8655536effd29de7763e4e87826a1f73b955d068002bba741ed43b54683b1', '[\"*\"]', NULL, NULL, '2026-01-20 05:55:48', '2026-01-20 05:55:48'),
+(55, 'App\\Models\\User', 2, 'token2', 'db8b7d90aeb3acc6e3c2ef5b314ebc6a19984667ce68632fd20927e0b483486e', '[\"*\"]', NULL, NULL, '2026-01-20 05:55:48', '2026-01-20 05:55:48'),
+(56, 'App\\Models\\User', 2, 'token2', 'a2f0aa84fe92fda1ce14ab4852d8afa96ee08edb56d548937072f45d673c607d', '[\"*\"]', NULL, NULL, '2026-01-20 05:55:49', '2026-01-20 05:55:49'),
+(57, 'App\\Models\\User', 2, 'token2', '46bad9de3753ad6c4dccf80d49adf5b237f7054e96977ed9ff7a3c69be258e9b', '[\"*\"]', NULL, NULL, '2026-01-20 05:55:49', '2026-01-20 05:55:49'),
+(58, 'App\\Models\\User', 2, 'token2', '8eb246294b929e8328fe0c6aede7f59086c0cb51f19a3d7cf7c229f26e0fe491', '[\"*\"]', NULL, NULL, '2026-01-20 05:55:49', '2026-01-20 05:55:49'),
+(59, 'App\\Models\\User', 3, 'token3', '1a7f3931383d640ddf250037978376cfacc2127dfeef955dceaffb0781d29503', '[\"*\"]', NULL, NULL, '2026-01-20 05:57:48', '2026-01-20 05:57:48');
 
 -- --------------------------------------------------------
 
@@ -310,7 +340,10 @@ INSERT INTO `pos_orders` (`id`, `product_id`, `customer_name`, `quantity`, `pric
 (54, 40, 'POS Guy', '1', 360, 360, 'proceeded', '2025-12-01 14:11:53', '2025-12-01 14:11:53'),
 (55, 39, 'sige', '1', 350, 350, 'on-hold', '2025-12-01 14:35:58', '2025-12-01 14:35:58'),
 (56, 40, 'sige', '1', 360, 360, 'on-hold', '2025-12-01 14:35:58', '2025-12-01 14:35:58'),
-(57, 41, 'sige', '1', 900, 900, 'on-hold', '2025-12-01 14:35:58', '2025-12-01 14:35:58');
+(57, 41, 'sige', '1', 900, 900, 'on-hold', '2025-12-01 14:35:58', '2025-12-01 14:35:58'),
+(58, 40, 'kiel pogi', '2', 360, 720, 'on-hold', '2026-01-05 05:01:23', '2026-01-05 05:01:23'),
+(59, 41, 'kiel pogi', '2', 900, 1800, 'on-hold', '2026-01-05 05:01:23', '2026-01-05 05:01:23'),
+(60, 42, 'kiel pogi', '1', 1000, 1000, 'on-hold', '2026-01-05 05:01:23', '2026-01-05 05:01:23');
 
 -- --------------------------------------------------------
 
@@ -339,7 +372,8 @@ INSERT INTO `products` (`id`, `product_category`, `product_name`, `product_price
 (40, 'Smok', 'Smok XPRO Prefilled Pod Kit – 15K Puffs, 10 Flavors | Mesh Coil | 3 Output Modes', 360.00, 10, '{\"description_body\":\"Discover the Smok XPRO Prefilled Pod Kit, featuring 15,000 puffs, mesh coil technology, 10ml prefilled pods, and Type-C rechargeable battery. Experience rich flavor, massive vapor, and authentic Smok performance in every puff.\",\"description_content\":[],\"option_title\":[{\"title\":\"Smok Xpro Flavors | Devices\",\"labels\":[\"Tropical forest\",\"Fresh Burst\",\"Blue Burst\"]}],\"option\":[{\"title\":\"Smok Xpro Flavors | Devices\",\"labels\":[\"Tropical forest\",\"Fresh Burst\",\"Blue Burst\"]}]}', '[\"1764533481_lost_vape_centaurus_b80_aio_kit_-_default.png\"]', '2025-11-30 12:11:21', '2025-11-30 12:11:21'),
 (41, 'mosmo', 'Denkat Mosmo Stick (5PCS /PACK)', 900.00, 4, '{\"description_body\":\"The Denkat Mosmo Stick is a realistic-looking disposable vape with a shape and packaging perfectly similar to a cigarette, bringing the real feeling of smoking. Suitable for people who want to quit smoking or enjoy the pleasure of cigarettes. It comes with a 1ml e-liquid capacity with 20 mg of nicotine and a 1.8?? mesh coil that emits a rich vapor with each puff. The 150mAh battery can smoke more cigarettes than ordinary cigarettes and is easy to carry.\",\"description_content\":[\"E-liquid Capacity: 1ml\",\"Salt Nicotine: 20mg\",\"Battery Capacity:150mAh\",\"Resistance: 1.8\"],\"option_title\":[{\"title\":\"Flavors\",\"labels\":[\"Bubblegum\",\"Strong methalotic\",\"Lychee\",\"Sweet caramel RY4\"]}],\"option\":[{\"title\":\"Flavors\",\"labels\":[\"Bubblegum\",\"Strong methalotic\",\"Lychee\",\"Sweet caramel RY4\"]}]}', '[\"1764533608_fruitia_x_fifty_bar_20k_disposable_-_default.png\"]', '2025-11-30 12:13:28', '2025-11-30 12:13:28'),
 (42, 'Disposable vape', 'FLAVA GEEKBAR 10000 Puffs Disposable Vape', 1000.00, 12, '{\"description_body\":\"FLAVA GEEKBAR 10000 Puffs Disposable Vape is one of the most representative vape products that Flava innovates and designs, bringing users the ultimate e-cigarette experience. The Flava Geekbar boasts a simple and atmospheric exterior design and a durable 650mAh battery with a large capacity of 10,000 puffs. Exploring the future of e-cigarettes with Flava Disposable Vape.\",\"description_content\":[\"10000 puffs\",\"650mAh Battery\",\"Adjustable airflow\",\"Battery indicator\",\"Mesh coil\"],\"option_title\":[{\"title\":\"Flavors\",\"labels\":[\"Blueberry\",\"Lemonade\",\"Yacult ace\",\"Ice cola\",\"MIxed Beries\"]}],\"option\":[{\"title\":\"Flavors\",\"labels\":[\"Blueberry\",\"Lemonade\",\"Yacult ace\",\"Ice cola\",\"MIxed Beries\"]}]}', '[\"1764533996_adjust_mysour_40k_disposable_-_default.png\"]', '2025-11-30 12:19:56', '2025-11-30 12:19:56'),
-(43, 'Disposable vape', 'Aerogin Truez Prefilled Pod Vape Kit – 10ml E-Liquid, 600mAh |compatible black v1 |10 Flavors', 300.00, 9, '{\"description_body\":\"Battery & Charging: 600mAh rechargeable battery with USB-C fast charging\",\"description_content\":[\"E-Liquid Capacity: 10ml prefilled pods with 5% nicotine salt\",\"Coil Technology: Mesh Coil Technology for smooth vapor and strong flavor\",\"Design: Urban-inspired unibody design with premium PCTG material\",\"Compatibility: Prefilled pod system, battery sold separately\",\"Flavors: 10 bold flavor options\"],\"option_title\":[{\"title\":\"Aerogin Truez 10 Flavors\",\"labels\":[\"Black battery\",\"Fresh rad\",\"sunset vibes\",\"blue cypher\",\"purple haze\"]}],\"option\":[{\"title\":\"Aerogin Truez 10 Flavors\",\"labels\":[\"Black battery\",\"Fresh rad\",\"sunset vibes\",\"blue cypher\",\"purple haze\"]}]}', '[\"1764534129_fumi_24k_0_zero_nicotine_disposable_-_default.png\"]', '2025-11-30 12:22:09', '2025-11-30 12:22:09');
+(43, 'Disposable vape', 'Aerogin Truez Prefilled Pod Vape Kit – 10ml E-Liquid, 600mAh |compatible black v1 |10 Flavors', 300.00, 9, '{\"description_body\":\"Battery & Charging: 600mAh rechargeable battery with USB-C fast charging\",\"description_content\":[\"E-Liquid Capacity: 10ml prefilled pods with 5% nicotine salt\",\"Coil Technology: Mesh Coil Technology for smooth vapor and strong flavor\",\"Design: Urban-inspired unibody design with premium PCTG material\",\"Compatibility: Prefilled pod system, battery sold separately\",\"Flavors: 10 bold flavor options\"],\"option_title\":[{\"title\":\"Aerogin Truez 10 Flavors\",\"labels\":[\"Black battery\",\"Fresh rad\",\"sunset vibes\",\"blue cypher\",\"purple haze\"]}],\"option\":[{\"title\":\"Aerogin Truez 10 Flavors\",\"labels\":[\"Black battery\",\"Fresh rad\",\"sunset vibes\",\"blue cypher\",\"purple haze\"]}]}', '[\"1764534129_fumi_24k_0_zero_nicotine_disposable_-_default.png\"]', '2025-11-30 12:22:09', '2025-11-30 12:22:09'),
+(44, 'sda', 'Vape oner', 21.00, 21, '{\"description_body\":\"Bdy ist\",\"description_content\":[\"fsdfasd\",\"fsdfa\"],\"option_title\":[{\"title\":\"sdasfsadfasd\",\"labels\":[\"fsadfas\"]}],\"option\":[{\"title\":\"sdasfsadfasd\",\"labels\":[\"fsadfas\"]}]}', '[\"1768404159_Screenshot 2026-01-13 at 5.53.42\\u202fPM.png\"]', '2026-01-14 07:22:39', '2026-01-14 07:22:39');
 
 -- --------------------------------------------------------
 
@@ -360,7 +394,8 @@ CREATE TABLE `product_categories` (
 --
 
 INSERT INTO `product_categories` (`id`, `category_name`, `category_description`, `created_at`, `updated_at`) VALUES
-(1, 'sda', 'dasd', '2025-11-02 20:40:49', '2025-11-02 20:40:49');
+(1, 'sda', 'dasd', '2025-11-02 20:40:49', '2025-11-02 20:40:49'),
+(2, 'wow', 'fsdfsad', '2026-01-14 06:53:32', '2026-01-14 06:53:32');
 
 -- --------------------------------------------------------
 
@@ -425,6 +460,39 @@ CREATE TABLE `sessions` (
   `last_activity` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
+--
+-- Dumping data for table `sessions`
+--
+
+INSERT INTO `sessions` (`id`, `user_id`, `ip_address`, `user_agent`, `payload`, `last_activity`) VALUES
+('0cSAnnbBir5xWs0PDj84w4lOqh0vYz1E2KdbABrf', 2, '127.0.0.1', 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:147.0) Gecko/20100101 Firefox/147.0', 'YTo0OntzOjY6Il90b2tlbiI7czo0MDoiQmNkaGhZTXVIbkxIQk9Ib3YzUkhOUzhxajhFc3c4dkJOWjRjQVIxRyI7czo2OiJfZmxhc2giO2E6Mjp7czozOiJvbGQiO2E6MDp7fXM6MzoibmV3IjthOjA6e319czo1MDoibG9naW5fd2ViXzU5YmEzNmFkZGMyYjJmOTQwMTU4MGYwMTRjN2Y1OGVhNGUzMDk4OWQiO2k6MjtzOjE3OiJwYXNzd29yZF9oYXNoX3dlYiI7czo2MDoiJDJ5JDEyJG9lT1lOTkU1eEhpYkM5TlluWVYubXVJeXhHcVIyQWo3TzFTYzFTUXM0aEJLZUEzcjdHMlVpIjt9', 1768917349),
+('2aoSkEFZesX6a8w8vrvfReZmBSE03eeu3AvZWEap', 3, '127.0.0.1', 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:147.0) Gecko/20100101 Firefox/147.0', 'YTo1OntzOjY6Il90b2tlbiI7czo0MDoiNEIxd1JCdXQwWXpwa2RVcVl2MGJpYWpZMThablh4TXJ3MFJMWENPbSI7czo2OiJfZmxhc2giO2E6Mjp7czozOiJvbGQiO2E6MDp7fXM6MzoibmV3IjthOjA6e319czo1MDoibG9naW5fd2ViXzU5YmEzNmFkZGMyYjJmOTQwMTU4MGYwMTRjN2Y1OGVhNGUzMDk4OWQiO2k6MztzOjE3OiJwYXNzd29yZF9oYXNoX3dlYiI7czo2MDoiJDJ5JDEyJDU2TWVCNVVnN2JGOEVJbUNNL201Qi5XSlh5amx2R2tHT1NxQy9vcEhmWWh1WmlhdEZYMFVtIjtzOjk6Il9wcmV2aW91cyI7YToxOntzOjM6InVybCI7czo0MToiaHR0cDovLzEyNy4wLjAuMTo4MDAwL2ltYWdlcy9TaG9wSWNvbi5wbmciO319', 1768921573),
+('9jyoJ8DGoKp23bWfW4LVfD60RaXD8AdgYmra3Z2z', NULL, '127.0.0.1', 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:147.0) Gecko/20100101 Firefox/147.0', 'YTozOntzOjY6Il90b2tlbiI7czo0MDoiYllLSGtybGRvNm84OUY4ZEUzZUx2SUd1TUpHTVB1cDBIeVRHd1BvQyI7czo5OiJfcHJldmlvdXMiO2E6MTp7czozOiJ1cmwiO3M6NDE6Imh0dHA6Ly8xMjcuMC4wLjE6ODAwMC9pbWFnZXMvU2hvcEljb24ucG5nIjt9czo2OiJfZmxhc2giO2E6Mjp7czozOiJvbGQiO2E6MDp7fXM6MzoibmV3IjthOjA6e319fQ==', 1768914881),
+('bOf1UGHQEa9Uysk8LMCDNpHWKLumXvn6rBmrLUmS', NULL, '127.0.0.1', 'PostmanRuntime/7.51.0', 'YTozOntzOjY6Il90b2tlbiI7czo0MDoiNE9CZ200RjNicTVVS1RNOTZWdW0xV3RPUXd3RkVjSWczYkVXZGpnQiI7czo5OiJfcHJldmlvdXMiO2E6MTp7czozOiJ1cmwiO3M6NDU6Imh0dHA6Ly8xMjcuMC4wLjE6ODAwMC9hcGkvcHJvZHVjdC1iZXN0LXNlbGxlciI7fXM6NjoiX2ZsYXNoIjthOjI6e3M6Mzoib2xkIjthOjA6e31zOjM6Im5ldyI7YTowOnt9fX0=', 1768918713),
+('CGyY9ZMCrWWUZ1nFSgQ2WpCI7XzTMsNPEWP8jbfO', 2, '127.0.0.1', 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:147.0) Gecko/20100101 Firefox/147.0', 'YTo1OntzOjY6Il90b2tlbiI7czo0MDoibXlXdHBSS0xDdjhNRzQ3bEFLRlZFeWh5Nk1KM0U1WnFydGF5REpIRyI7czo5OiJfcHJldmlvdXMiO2E6MTp7czozOiJ1cmwiO3M6NDE6Imh0dHA6Ly8xMjcuMC4wLjE6ODAwMC9pbWFnZXMvU2hvcEljb24ucG5nIjt9czo2OiJfZmxhc2giO2E6Mjp7czozOiJvbGQiO2E6MDp7fXM6MzoibmV3IjthOjA6e319czo1MDoibG9naW5fd2ViXzU5YmEzNmFkZGMyYjJmOTQwMTU4MGYwMTRjN2Y1OGVhNGUzMDk4OWQiO2k6MjtzOjE3OiJwYXNzd29yZF9oYXNoX3dlYiI7czo2MDoiJDJ5JDEyJG9lT1lOTkU1eEhpYkM5TlluWVYubXVJeXhHcVIyQWo3TzFTYzFTUXM0aEJLZUEzcjdHMlVpIjt9', 1768917348),
+('X0J8smL7B2Sl0vnc6bTzvny8EDlAqfbNbgRuufLJ', NULL, '127.0.0.1', 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:147.0) Gecko/20100101 Firefox/147.0', 'YToyOntzOjY6Il90b2tlbiI7czo0MDoiSlhZbnpOa29PQmpjS2JtaHZBd1YxUEpWU3k3RWZHUWNucjZUcnRLbiI7czo2OiJfZmxhc2giO2E6Mjp7czozOiJvbGQiO2E6MDp7fXM6MzoibmV3IjthOjA6e319fQ==', 1768917349),
+('x3nlTu5nf4SLi6jlFXB3YzGlOztn31fUnFPiG0sP', 2, '127.0.0.1', 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:147.0) Gecko/20100101 Firefox/147.0', 'YTozOntzOjY6Il90b2tlbiI7czo0MDoiRkRaRzl2TUVUZmh4Uzg3aG4xT2RlSnl6anRSRlluWHNwNU5ubkJFWiI7czo2OiJfZmxhc2giO2E6Mjp7czozOiJvbGQiO2E6MDp7fXM6MzoibmV3IjthOjA6e319czo1MDoibG9naW5fd2ViXzU5YmEzNmFkZGMyYjJmOTQwMTU4MGYwMTRjN2Y1OGVhNGUzMDk4OWQiO2k6Mjt9', 1768917349);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `testing`
+--
+
+CREATE TABLE `testing` (
+  `id` int(11) NOT NULL,
+  `name` varchar(50) NOT NULL,
+  `email` varchar(50) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `testing`
+--
+
+INSERT INTO `testing` (`id`, `name`, `email`) VALUES
+(1, 'kiel', 'kiel@gmail.com'),
+(2, 'kiel', 'kiels@gmail.com');
+
 -- --------------------------------------------------------
 
 --
@@ -454,7 +522,7 @@ CREATE TABLE `users` (
 INSERT INTO `users` (`id`, `first_name`, `last_name`, `contact_number`, `date_of_birth`, `email`, `image`, `role`, `email_verified_at`, `password`, `remember_token`, `created_at`, `updated_at`) VALUES
 (1, 'Kiel', 'Bermudez', '09193471522', '2001-10-04', 'admin@gmail.com', NULL, 'admin', NULL, '$2y$12$ESnZeixQDIX3zrRSiZPQ6e4JjqCfKVz96daVBOovofg1rod/I0gI6', NULL, '2025-10-21 22:45:37', '2025-10-21 22:45:37'),
 (2, 'kielpogi', 'soryo', '09456023942', '2001-12-04', 'user@gmail.com', NULL, 'staff', NULL, '$2y$12$oeOYNNE5xHibC9NYnYV.muIyxGqR2Aj7O1Sc1SQs4hBKeA3r7G2Ui', NULL, '2025-11-05 16:24:42', '2025-11-05 16:24:42'),
-(3, 'yuser1', 'fdsafasd', '09193471522', '2004-11-06', 'user2@gmail.com', NULL, 'staff', NULL, '$2y$12$3NAZuJfO6bkcz9D2CT0A3.DwpV4gjB3F5tPhEEKcZrYc8HRRXhrTK', NULL, '2025-11-05 20:22:51', '2025-11-05 20:22:51');
+(3, 'yuser1', 'fdsafasd', '09193471522', '2004-11-06', 'user2@gmail.com', NULL, 'customer', NULL, '$2y$12$56MeB5Ug7bF8EImCM/m5B.WJXyjlvGkGOSqC/opHfYhuZiatFX0Um', NULL, '2025-11-05 20:22:51', '2026-01-05 05:18:54');
 
 --
 -- Indexes for dumped tables
@@ -576,6 +644,13 @@ ALTER TABLE `sessions`
   ADD KEY `sessions_last_activity_index` (`last_activity`);
 
 --
+-- Indexes for table `testing`
+--
+ALTER TABLE `testing`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `email` (`email`);
+
+--
 -- Indexes for table `users`
 --
 ALTER TABLE `users`
@@ -590,13 +665,13 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `addresses`
 --
 ALTER TABLE `addresses`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `carts`
 --
 ALTER TABLE `carts`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=59;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=69;
 
 --
 -- AUTO_INCREMENT for table `failed_jobs`
@@ -620,31 +695,31 @@ ALTER TABLE `migrations`
 -- AUTO_INCREMENT for table `orders`
 --
 ALTER TABLE `orders`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
 
 --
 -- AUTO_INCREMENT for table `personal_access_tokens`
 --
 ALTER TABLE `personal_access_tokens`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=39;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=60;
 
 --
 -- AUTO_INCREMENT for table `pos_orders`
 --
 ALTER TABLE `pos_orders`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=58;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=61;
 
 --
 -- AUTO_INCREMENT for table `products`
 --
 ALTER TABLE `products`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=44;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=45;
 
 --
 -- AUTO_INCREMENT for table `product_categories`
 --
 ALTER TABLE `product_categories`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `product_descriptions`
@@ -657,6 +732,12 @@ ALTER TABLE `product_descriptions`
 --
 ALTER TABLE `product_options`
   MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+
+--
+-- AUTO_INCREMENT for table `testing`
+--
+ALTER TABLE `testing`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `users`

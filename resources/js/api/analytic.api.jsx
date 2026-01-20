@@ -6,3 +6,8 @@ export const trendingProducts = async () => {
         throw error;
     }
 };
+
+export const bestSellerProduct = async  () => {
+    const response = await axios.get("/api/best-seller")
+    return response.data
+}

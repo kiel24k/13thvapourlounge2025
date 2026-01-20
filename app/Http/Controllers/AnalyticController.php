@@ -15,13 +15,16 @@ class AnalyticController extends Controller
     }
     public function ProductBestSeller()
     {
-        $order = Order::orderBy('product_id', 'desc') // highest first
-            ->take(4) 
+        $order = Order::orderBy('product_id', 'desc') // highest product_id first
+            ->take(4)
             ->get();
-         
 
-        $product = Product::where('id', $order->product_id)->get();
-        return response()->json($product);
+        // Get all product_ids from these orders
+        $productIds = $order->pluck('product_id'); // returns a collection of ids
+
+        // Get products with these ids
+        $products = Product::whereIn('id', $productIds)->get();
+        return response()->json($products);
     }
 
     public function bestSellers() {}
