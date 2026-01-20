@@ -26,4 +26,7 @@ class OrderController extends Controller
         return $this->order->updateStatusById($request);
 
     }
+    public function showOrderById ($id) {
+        return $this->order->getOrderById($id);
+    }
 }

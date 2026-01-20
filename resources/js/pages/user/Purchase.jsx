@@ -1,53 +1,55 @@
 // PurchasesPage.jsx
 import React from "react";
-import { Box, Tabs, Tab, Button, Typography, Divider } from "@mui/material";
-import { ChatBubbleOutline } from "@mui/icons-material";
+import { Box, Tabs, Tab, Typography, Divider } from "@mui/material";
+import { useShowOrderById } from "../../hooks/useOrder";
+import { useGetAuthUser } from "../../hooks/useUsers";
 
-const tabs = [
-  { label: "To Pay", count: 1 },
-  { label: "To Shipping" },
-  { label: "To Receive", count: 1 },
-  { label: "Completed" },
-  { label: "Cancelled" },
-  { label: "Return/Refund" },
+const STATUS_TABS = [
+  { label: "Pending", value: "pending" },
+  { label: "Preparing", value: "preparing" },
+  { label: "To Receive", value: "to-received" },
+  { label: "Completed", value: "completed" },
+  { label: "Cancelled", value: "cancelled" },
+  { label: "Failed", value: "failed" },
 ];
 
 export default function Purchase() {
   const [selectedTab, setSelectedTab] = React.useState(0);
+  const { data: user } = useGetAuthUser();
+  const { data: orders = [] } = useShowOrderById(user?.id);
+
+  // Compute counts per status
+  const statusCounts = STATUS_TABS.reduce((acc, tab) => {
+    acc[tab.value] = orders.filter((o) => o.status === tab.value).length;
+    return acc;
+  }, {});
+
+  const currentStatus = STATUS_TABS[selectedTab].value;
+  const filteredOrders = orders.filter((order) => order.status === currentStatus);
 
   return (
-    <Box className="min-h-screen flex items-start justify-center bg-gray-50 p-4">
+    <Box className="min-h-screen bg-gray-50 p-4 flex justify-center">
       <Box className="w-full max-w-4xl">
-        {/* Header */}
-        <Box className="flex flex-col md:flex-row md:justify-between md:items-center mb-4">
-          <Typography variant="h4" className="font-bold mb-2 md:mb-0 text-center md:text-left">
-            Purchases
-          </Typography>
-          <input
-            type="text"
-            placeholder="Search your product name, order id..."
-            className="border rounded-md px-3 py-2 w-full md:w-80 focus:outline-none focus:ring-2 focus:ring-purple-400"
-          />
-        </Box>
+        <Typography variant="h4" className="font-bold mb-4">
+          Purchases
+        </Typography>
 
-        {/* Tabs */}
+        {/* Tabs with counts */}
         <Tabs
           value={selectedTab}
-          onChange={(e, newVal) => setSelectedTab(newVal)}
-          className="border-b mb-6"
+          onChange={(e, v) => setSelectedTab(v)}
           variant="scrollable"
-          scrollButtons
-          allowScrollButtonsMobile
+          scrollButtons="auto"
         >
-          {tabs.map((tab, idx) => (
+          {STATUS_TABS.map((tab) => (
             <Tab
-              key={idx}
+              key={tab.value}
               label={
-                <Box className="flex items-center space-x-1">
+                <Box className="flex items-center gap-1">
                   <span>{tab.label}</span>
-                  {tab.count && (
-                    <span className="bg-red-500 text-white text-xs rounded-full px-1.5 py-0.5">
-                      {tab.count}
+                  {statusCounts[tab.value] > 0 && (
+                    <span className="bg-red-500 text-white text-xs rounded-full px-2 py-0.5">
+                      {statusCounts[tab.value]}
                     </span>
                   )}
                 </Box>
@@ -56,56 +58,57 @@ export default function Purchase() {
           ))}
         </Tabs>
 
-        {/* Order Card */}
-        <Box className="bg-white rounded-lg shadow p-4 md:p-6 flex flex-col md:flex-row items-center md:items-start justify-between">
-          {/* Left: Product */}
-          <Box className="flex items-center space-x-4 mb-4 md:mb-0">
-            <img
-              src="/path-to-your-image.png" // replace with actual image
-              alt="Sauvage Eau de Parfum"
-              className="w-24 h-24 object-contain"
-            />
-            <Box>
-              <Typography className="font-semibold text-lg">Sauvage Eau de Parfum</Typography>
-              <Typography className="text-gray-500 text-sm mb-1">1.0 oz — 60 ml</Typography>
-              <Typography className="text-gray-500 text-sm">1 item</Typography>
-              <Button
-                variant="text"
-                className="text-purple-600 mt-2 px-0 normal-case"
-              >
-                View order details
-              </Button>
+        {/* Orders */}
+        {filteredOrders.map((order) => (
+          <Box
+            key={order.id}
+            className="bg-white rounded-lg shadow p-4 mt-4 flex flex-col md:flex-row justify-between"
+          >
+            {/* Product */}
+            <Box className="flex gap-4">
+              <img
+                src={`/images/${JSON.parse(order.product.image)[0]}`}
+                className="w-24 h-24 object-contain"
+                alt={order.product.product_name}
+              />
+              <Box>
+                <Typography className="font-semibold">
+                  {order.product.product_name}
+                </Typography>
+                <Typography className="text-gray-500 text-sm">
+                  {order.quantity} item(s)
+                </Typography>
+                <Typography className="text-sm text-gray-400">
+                  Order #{order.id}
+                </Typography>
+              </Box>
+            </Box>
+
+            {/* Summary */}
+            <Box className="flex flex-col items-end mt-4 md:mt-0">
+              <Typography className="text-red-500 text-sm capitalize">
+                {order.status.replace("-", " ")}
+              </Typography>
+
+              <Typography className="font-semibold text-lg">
+                ₱{Number(order.total).toLocaleString()}
+              </Typography>
+
+              <Divider className="w-full my-2" />
+
+              <Typography className="text-sm font-semibold">
+                Order Total: ₱{Number(order.total).toLocaleString()}
+              </Typography>
             </Box>
           </Box>
+        ))}
 
-          {/* Right: Actions */}
-          <Box className="flex flex-col items-center md:items-end space-y-2">
-            <Typography className="text-red-500 text-sm">
-              Orders are pending payment !
-            </Typography>
-            <Typography className="font-semibold text-lg">P66.60</Typography>
-            <Button
-              variant="outlined"
-              startIcon={<ChatBubbleOutline />}
-              className="border-gray-400 text-gray-700 normal-case"
-            >
-              Chat with customer support
-            </Button>
-            <Button
-              variant="contained"
-              className="bg-purple-500 hover:bg-purple-600 text-white normal-case"
-            >
-              Pay Now
-            </Button>
-            <Typography className="text-gray-400 text-xs text-center md:text-right mt-1">
-              Pay your order now, before the product expires on sale
-            </Typography>
-            <Divider className="w-full my-2 md:hidden" />
-            <Typography className="font-semibold text-lg mt-2 md:mt-0">
-              Order Total: P68.60
-            </Typography>
-          </Box>
-        </Box>
+        {/* Empty state */}
+        {filteredOrders.length === 0 && (
+          <Typography className="text-center text-gray-400 mt-6">
+            No orders under “{STATUS_TABS[selectedTab].label}”.
+          </Typography>
+        )}
       </Box>
     </Box>
   );

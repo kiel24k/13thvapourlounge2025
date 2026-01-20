@@ -40,7 +40,6 @@ class Order
         return response()->json($order);
 
 
-        return response()->json($request);
     }
     public function getOrders(): JsonResponse
     {
@@ -55,5 +54,10 @@ class Order
         ]);
         return response()->json($order);
     }
-    public function getOrderById(): void {}
+    public function getOrderById($id)
+    {
+        $orders =  ModelsOrder::with(['user', 'product', 'address'])->where('user_id', $id)->get();
+        return response()->json($orders);
+    }
+    
 }

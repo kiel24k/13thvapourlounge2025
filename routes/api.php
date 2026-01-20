@@ -58,6 +58,7 @@ route::controller(ProductController::class)->group(function () {
 
 route::controller(AnalyticController::class)->group(function () {
   route::get('/product-trending', 'ProductTrending');
+  route::get('/best-seller', "ProductBestSeller");
 });
 
 route::controller(CartController::class)->group(function () {
@@ -76,6 +77,7 @@ route::controller(OrderController::class)->group(function () {
   route::post('/store-order', 'storeOrder');
   route::get('/show-orders', 'showOrders');
   route::post('/update-status', 'updateStatusById');
+  route::get('/show-order-by-id/{id}', "showOrderById");
 
 });
 
