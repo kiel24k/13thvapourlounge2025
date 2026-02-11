@@ -40,7 +40,6 @@ const Login = () => {
                             <span className="text-sm">Invalid username or password</span>
                         </div>
                       )}
-
                         <div className="grid">
                             <form
                                 onSubmit={handleSubmit}

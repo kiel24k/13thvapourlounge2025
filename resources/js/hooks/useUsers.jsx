@@ -57,9 +57,11 @@ export const useUserSignup = () => {
 
 export const useUserLogin = () => {
     const navigate = useNavigate();
+    const query = useQueryClient()
     return useMutation({
         mutationFn: userLogin,
         onSuccess: (data) => {
+            query.invalidateQueries(['getAuthUser'])
             document.cookie = `rl=${data.role}`;
             if (data.role === "customer") {
                 navigate("/");

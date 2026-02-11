@@ -22,6 +22,7 @@ const CreateAdmin = () => {
     const [formData, setFormData] = useState({
         first_name: "",
         last_name: "",
+        middle_name: "",
         email: "",
         contact_number: "",
         image: "",
@@ -56,6 +57,7 @@ const CreateAdmin = () => {
                 setFormData({
                     first_name: "",
                     last_name: "",
+                    middle_name: "",
                     email: "",
                     contact_number: "",
                     password: "",
@@ -78,11 +80,11 @@ const CreateAdmin = () => {
                         Back
                     </Button>
                 </div>
-                <div className="grid gap-2 sm:w-max pl-15 pr-15 mt-5 ">
+                <div className="grid gap- sm:w-max pl-15 pr-15 mt-5 ">
                     <Typography variant="h5" sx={{ marginTop: "1rem" }}>
                         Fill up information
                     </Typography>
-                    <form onSubmit={handleSubmit}>
+                    <form onSubmit={handleSubmit} >
                         <div className="flex flex-wrap items-center justify-center sm:justify-start gap-5 mb-5">
                             <figure>
                                 {imagePreview === "" ? (
@@ -99,7 +101,7 @@ const CreateAdmin = () => {
                                     />
                                 )}
                             </figure>
-                            <div className="grid gap-2">
+                            <div className="grid ">
                                 <label htmlFor="">Upload image:</label>
                                 {imagePreview == "" && (
                                     <input
@@ -122,7 +124,7 @@ const CreateAdmin = () => {
                                 )}
                             </div>
                         </div>
-                        <Box sx={{ display: "grid", gap: "5px" }}>
+                        <Box sx={{ display: "grid", gap: "20px" }}>
                             <div className="flex flex-wrap gap-5 justify-center sm:justify-center">
                                 <TextField
                                     error={error?.errors?.first_name}
@@ -143,6 +145,18 @@ const CreateAdmin = () => {
                                 />
                             </div>
 
+                            <div className="">
+                                <TextField
+                                    fullWidth
+                                    error={error?.errors?.middle_name}
+                                    label="Middle Name"
+                                    helperText={error?.errors?.middle_name}
+                                    name="middle_name"
+                                    value={formData.middle_name}
+                                    onChange={handleChange}
+                                />
+                            </div>
+
                             <div className="flex flex-wrap gap-5 justify-center sm:justify-center">
                                 <TextField
                                     fullWidth
@@ -158,7 +172,7 @@ const CreateAdmin = () => {
                                 <TextField
                                     fullWidth
                                     error={error?.errors?.contact_number}
-                                    type="number"
+                                    type="tel"
                                     label="Contact number"
                                     helperText={error?.errors?.contact_number}
                                     name="contact_number"
@@ -168,6 +182,7 @@ const CreateAdmin = () => {
                             </div>
                             <div className="flex flex-wrap gap-5 justify-center sm:justify-center">
                                 <TextField
+                                type="password"
                                     error={error?.errors?.password}
                                     label="password"
                                     helperText={error?.errors?.password}
