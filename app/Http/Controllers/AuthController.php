@@ -18,7 +18,7 @@ class AuthController extends Controller
             'first_name' => 'required|string',
             'last_name' => 'required|string',
             'contact_number' => 'required|string|max:11|min:10',
-            'date_of_birth' => ['required', 'date', function ($attribute, $value, $fail) {
+            'date_of_birth' => [ 'date', function ($attribute, $value, $fail) {
                 $birthday = Carbon::parse($value);
                 $age = $birthday->age;
                 if ($age < 18) {
@@ -32,6 +32,7 @@ class AuthController extends Controller
         User::create([
             'first_name' => $request->first_name,
             'last_name' => $request->last_name,
+             'middle_name' => $request->middle_name,
             'contact_number' => $request->contact_number,
             'date_of_birth' => $request->date_of_birth,
             'role' => $request->role,

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Link, NavLink, Outlet } from "react-router-dom";
+import { Link, Navigate, NavLink, Outlet, useNavigate } from "react-router-dom";
 import SearchIcon from "@mui/icons-material/Search";
 import PersonIcon from "@mui/icons-material/Person";
 import Badge from "@mui/material/Badge";
@@ -21,11 +21,12 @@ import { showCartById } from "../api/cart.api";
 import { useShowCartById } from "../hooks/useCart";
 
 const RootLayout = () => {
+    const navigate = useNavigate();
     const [isLogin, setIsLogin] = useState(false);
     const [isSidebarOpen, setIsSidebarOpen] = useState(false);
     const [isCartBox, setIsCartBox] = useState(false);
     const { data: product_category } = useGetProductCategory();
-    const { data: user } = useGetAuthUser();
+    const { data: user, isLoading } = useGetAuthUser();
 
     const { data: showCartById } = useShowCartById(user?.id);
 
@@ -33,17 +34,10 @@ const RootLayout = () => {
     const handleCartBox = () => setIsCartBox((prev) => !prev);
 
     useEffect(() => {
-        const cookieInterval = setInterval(() => {
-            const cookie = cookieName("rl");
-            if (cookie === "customer") {
-                setIsLogin(true);
-                clearInterval(cookieInterval);
-            } else {
-                setIsLogin(false);
-            }
-        }, 2000);
-    }, []);
-
+        if (!isLoading && !user) {
+            navigate("/login");
+        }
+    }, [isLoading, user]);
     return (
         <>
             <ScrollToTop />
@@ -56,57 +50,54 @@ const RootLayout = () => {
             </header>
 
             {/* Desktop Navbar */}
-            <nav className="hidden md:block sticky top-0 z-50 bg-white shadow">
-                <div className="flex justify-between items-center px-6 py-4 border-b">
-                    {/* Logo */}
-                    <Link to="/">
-                        <img
-                            src="/images/1764533481_lost_vape_centaurus_b80_aio_kit_-_default.png"
-                            alt="logo"
-                            className="w-8 h-8"
-                        />
-                    </Link>
-                    {/* User & Cart */}
-                    <div className="flex items-center gap-4">
-                        {!isLogin ? (
-                            <NavLink to="login">
-                                <PersonIcon
-                                    fontSize="large"
-                                    className="text-gray-700 hover:text-gray-900"
-                                />
-                            </NavLink>
-                        ) : (
-                            <AccountMenu />
-                        )}
-                        <span
-                            className="cursor-pointer"
-                            onClick={handleCartBox}
-                        >
-                            <Badge badgeContent={showCartById?.length} color="warning">
-                                <ShoppingCartIcon
-                                    fontSize="large"
-                                    className="text-gray-700"
-                                />
-                            </Badge>
-                        </span>
-                        {isCartBox && <CartBox />}
-                    </div>
-                </div>
-
-                {/* Product Categories */}
-                <div className="flex overflow-x-auto gap-4 px-6 py-3 bg-gray-50 uppercase font-bold text-sm justify-center">
-                    {product_category?.map((category) => (
-                        <Link
-                            key={category.id}
-                            to={`/view-item/${category.product_category}/`}
-                            className="whitespace-nowrap hover:text-blue-600 transition"
-                            reloadDocument
-                        >
-                            {category.product_category}
+            {user && (
+                <nav className="hidden md:block sticky top-0 z-50 bg-white shadow">
+                    <div className="flex justify-between items-center px-6 py-4 border-b">
+                        {/* Logo */}
+                        <Link to="/">
+                            <img
+                                src="/images/1764533481_lost_vape_centaurus_b80_aio_kit_-_default.png"
+                                alt="logo"
+                                className="w-8 h-8"
+                            />
                         </Link>
-                    ))}
-                </div>
-            </nav>
+                        {/* User & Cart */}
+                        <div className="flex items-center gap-4">
+                            <AccountMenu />
+
+                            <span
+                                className="cursor-pointer"
+                                onClick={handleCartBox}
+                            >
+                                <Badge
+                                    badgeContent={showCartById?.length}
+                                    color="warning"
+                                >
+                                    <ShoppingCartIcon
+                                        fontSize="large"
+                                        className="text-gray-700"
+                                    />
+                                </Badge>
+                            </span>
+                            {isCartBox && <CartBox />}
+                        </div>
+                    </div>
+
+                    {/* Product Categories */}
+                    <div className="flex overflow-x-auto gap-4 px-6 py-3 bg-gray-50 uppercase font-bold text-sm justify-center">
+                        {product_category?.map((category) => (
+                            <Link
+                                key={category.id}
+                                to={`/view-item/${category.product_category}/`}
+                                className="whitespace-nowrap hover:text-blue-600 transition"
+                                reloadDocument
+                            >
+                                {category.product_category}
+                            </Link>
+                        ))}
+                    </div>
+                </nav>
+            )}
 
             {/* Mobile Navbar */}
             <nav className="block md:hidden sticky top-0 z-50 bg-white/90 backdrop-blur-md shadow">

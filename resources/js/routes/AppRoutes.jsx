@@ -1,7 +1,6 @@
 import { createBrowserRouter } from "react-router-dom";
 import UserLayout from "../layouts/UserLayout";
 import Homepage from "../pages/user/Homepage";
-import Login from "../pages/user/Login";
 import Signup from "../pages/user/Signup";
 import Items from "../pages/user/Items";
 import ViewItem from "../pages/user/ViewItem";
@@ -30,6 +29,7 @@ import StaffList from "../pages/admin/StaffList";
 import CustomerList from "../pages/admin/CustomerList";
 import Profile from "../pages/user/Profile";
 import Purchase from "../pages/user/Purchase";
+import Login from "../pages/auth/login";
 
 const routes = createBrowserRouter([
     {
@@ -48,7 +48,7 @@ const routes = createBrowserRouter([
                 path: "login",
                 element: (
                     <GuestRoutes>
-                        <Login />
+                       <Login/>
                     </GuestRoutes>
                 ),
             },
